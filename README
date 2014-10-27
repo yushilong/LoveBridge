@@ -1,0 +1,5 @@
+1.所有Activity请继承与YARBaseActivity
+2.所有Fragment请继承与YARBaseFragment
+3.所有实体类请继承与YARModel
+4.统一用国际化标准引用资源ID
+5.全局只存在一个Activity，其他全部为Fragment
