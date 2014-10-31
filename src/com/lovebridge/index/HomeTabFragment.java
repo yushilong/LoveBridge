@@ -11,14 +11,14 @@ import android.widget.RadioGroup;
 
 import com.lovebridge.R;
 import com.lovebridge.library.FragmentTabAdapter;
-import com.lovebridge.library.YARBaseFragment;
+import com.lovebridge.library.YARFragment;
 
 /**
  * @author yushilong
  * @date 2014-10-27 上午10:06:58
  * @version 1.0
  */
-public class HomeTabFragment extends YARBaseFragment
+public class HomeTabFragment extends YARFragment
 {
     private RadioGroup rgs;
     public List<Fragment> fragments = new ArrayList<Fragment>();

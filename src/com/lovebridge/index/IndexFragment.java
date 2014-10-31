@@ -13,13 +13,17 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 
 import com.lovebridge.MainActivity;
 import com.lovebridge.R;
-import com.lovebridge.library.YARBaseFragment;
+import com.lovebridge.bean.User;
+import com.lovebridge.library.YARFragment;
 import com.lovebridge.library.api.YARApiListenerImpl;
+import com.lovebridge.library.api.YARImageLoader;
 import com.lovebridge.library.api.YARRequest;
 import com.lovebridge.library.api.YARRequestParamsFactory;
+import com.lovebridge.library.api.YARResponseParser;
 import com.lovebridge.library.tools.notificationcompat.AppNotification;
 import com.lovebridge.library.tools.notificationcompat.NotificationCompat;
 
@@ -28,10 +32,11 @@ import com.lovebridge.library.tools.notificationcompat.NotificationCompat;
  * @date 2014-9-30 下午4:07:02
  * @version 1.0
  */
-public class IndexFragment extends YARBaseFragment implements OnClickListener
+public class IndexFragment extends YARFragment implements OnClickListener
 {
     private NotificationManager mNotifyManager;
     protected NotificationCompat.Builder mBuilder;
+    private ImageView iv_photo;
 
     @Override
     public int doGetContentViewId()
@@ -45,6 +50,7 @@ public class IndexFragment extends YARBaseFragment implements OnClickListener
     {
         // TODO Auto-generated method stub
         containerView.findViewById(R.id.button).setOnClickListener(this);
+        iv_photo = (ImageView) containerView.findViewById(R.id.iv_photo);
     }
 
     @Override
@@ -70,8 +76,10 @@ public class IndexFragment extends YARBaseFragment implements OnClickListener
             {
                 // TODO Auto-generated method stub
                 super.onSuccess(response);
+                User user = YARResponseParser.parseModel(response, User.class);
             }
         }, mProgressView).start();
+        YARImageLoader.newInstance().get(iv_photo, "http://b.hiphotos.baidu.com/image/pic/item/eac4b74543a9822606bd2a3a8882b9014a90ebab.jpg");
     }
 
     @Override

@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.lovebridge.bean.YARUser;
+import com.lovebridge.bean.User;
 
 /**
  * @author yushilong
@@ -15,7 +15,7 @@ import com.lovebridge.bean.YARUser;
  */
 public class YARUserManager
 {
-    private YARUser YARUser;
+    private User YARUser;
     private boolean isLogined;
     private static YARUserManager _instance;
 
@@ -29,7 +29,7 @@ public class YARUserManager
         if (!TextUtils.isEmpty(userString))
         {
             isLogined = true;
-            YARUser = new Gson().fromJson(userString, YARUser.class);
+            YARUser = new Gson().fromJson(userString, User.class);
             // B5MPreferenceHelper.saveStringValue(MainApplication.getInstance(),
             // B5MPreferenceKeys.USERNAME, YARUser.username);
             YARCacheManager.getInstance().saveObject(userString, "");
@@ -49,7 +49,7 @@ public class YARUserManager
         isLogined = false;
     }
 
-    public YARUser getUser()
+    public User getUser()
     {
         if (isLogined)
         {
@@ -58,7 +58,7 @@ public class YARUserManager
                 String userString = YARCacheManager.getInstance().readObject("");
                 if (!TextUtils.isEmpty(userString))
                 {
-                    return new Gson().fromJson(userString, YARUser.class);
+                    return new Gson().fromJson(userString, User.class);
                 }
             }
             else

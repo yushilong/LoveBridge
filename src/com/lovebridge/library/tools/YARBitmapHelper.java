@@ -1,4 +1,4 @@
-
+/*
 package com.lovebridge.library.tools;
 
 import java.io.IOException;
@@ -24,11 +24,11 @@ import com.nostra13.universalimageloader.core.display.BitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
-/**
+*//**
  * @author yushilong
  * @date 2014-9-30
  * @version 1.0
- */
+ *//*
 public class YARBitmapHelper
 {
     public static int DEFAULT_IMG_SIZE = 150;
@@ -117,56 +117,56 @@ public class YARBitmapHelper
         ImageLoader.getInstance().displayImage(getImagePath(imgUrl, DEFAULT_IMG_SIZE), imageView, displayImageOptions, new AnimateFirstDisplayListener());
     }
 
-    /**
+    *//**
      * 显示人物的圆角图片
      * 
      * @param imgUrl
      * @param imageView
-     */
+     *//*
     public static void displayDefaultPeopleRoundImage(String imgUrl , ImageView imageView)
     {
         displayDefaultRoundImage(imgUrl, imageView, getDefaultRoundImgOptions(getDefaultPeopleImgResId()));
     }
 
-    /**
+    *//**
      * 显示人物的非圆角图片
      * 
      * @param imgUrl
      * @param imageView
-     */
+     *//*
     public static void displayDefaultPeopleNotRoundImage(String imgUrl , ImageView imageView)
     {
         displayDefaultNotRoundImage(imgUrl, imageView, getDefaultNotRoundImgOptions(getDefaultPeopleImgResId()));
     }
 
-    /**
+    *//**
      * 显示非人物的圆角图片
      * 
      * @param imgUrl
      * @param imageView
-     */
+     *//*
     public static void displayDefaultNotPeopleRoundImage(String imgUrl , ImageView imageView)
     {
         displayDefaultNotRoundImage(imgUrl, imageView, getDefaultRoundImgOptions(getDefaultNotPeopleImgResId()));
     }
 
-    /**
+    *//**
      * 显示非人物的非圆角图片
      * 
      * @param imgUrl
      * @param imageView
-     */
+     *//*
     public static void displayDefaultNotPeopleNotRoundImage(String imgUrl , ImageView imageView)
     {
         displayDefaultNotRoundImage(imgUrl, imageView, getDefaultNotRoundImgOptions(getDefaultNotPeopleImgResId()));
     }
 
-    /**
+    *//**
      * 显示非人物的非圆角非缓存图片
      * 
      * @param imgUrl
      * @param imageView
-     */
+     *//*
     public static void displayDefaultNotPeopleNotRoundNoCacheImage(String imgUrl , ImageView imageView)
     {
         displayDefaultNotRoundImage(imgUrl, imageView, getDefaultNotRoundImgAndNoCacheOptions(getDefaultNotPeopleImgResId()));
@@ -220,3 +220,4 @@ public class YARBitmapHelper
         return bitmap;
     }
 }
+*/

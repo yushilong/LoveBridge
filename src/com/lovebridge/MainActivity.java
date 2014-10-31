@@ -15,8 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lovebridge.index.HomeTabFragment;
-import com.lovebridge.library.YARBaseActivity;
-import com.lovebridge.library.YARBaseFragment;
+import com.lovebridge.library.YARActivity;
+import com.lovebridge.library.YARFragment;
 import com.lovebridge.library.tools.YARAppManager;
 
 /**
@@ -25,7 +25,7 @@ import com.lovebridge.library.tools.YARAppManager;
  * @version 1.0
  */
 @SuppressLint("InflateParams")
-public class MainActivity extends YARBaseActivity
+public class MainActivity extends YARActivity
 {
     private ViewGroup navigationViewGroup;//导航栏容器
     private View defaultNavigationView;//默认的导航栏
@@ -62,7 +62,7 @@ public class MainActivity extends YARBaseActivity
     public void replaceNavigationView()
     {
         navigationViewGroup.removeAllViews();
-        View navigationView = ((YARBaseFragment) currentFragment).getNavigationView();
+        View navigationView = ((YARFragment) currentFragment).getNavigationView();
         navigationViewGroup.addView(navigationView == null ? defaultNavigationView : navigationView);
         changeNavigationTitle(0);
     }
@@ -76,7 +76,7 @@ public class MainActivity extends YARBaseActivity
         TextView titleTextView = (TextView) navigationViewGroup.findViewById(R.id.tv_navigation_title);
         if (resId == 0)
         {
-            YARBaseFragment yarBaseFragment = (YARBaseFragment) currentFragment;
+            YARFragment yarBaseFragment = (YARFragment) currentFragment;
             if (yarBaseFragment.getNavigationTitle() instanceof String)
             {
                 titleTextView.setText(yarBaseFragment.getNavigationTitle() == null ? null : yarBaseFragment.getNavigationTitle().toString());

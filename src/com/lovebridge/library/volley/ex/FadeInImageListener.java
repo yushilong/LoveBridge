@@ -18,11 +18,10 @@ package com.lovebridge.library.volley.ex;
 
 import java.lang.ref.WeakReference;
 
-import android.content.Context;
-import android.view.animation.AnimationUtils;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 
-import com.lovebridge.R;
 import com.lovebridge.library.volley.VolleyError;
 import com.lovebridge.library.volley.toolbox.ImageLoader;
 import com.lovebridge.library.volley.toolbox.ImageLoader.ImageContainer;
@@ -35,12 +34,13 @@ import com.lovebridge.library.volley.toolbox.ImageLoader.ImageContainer;
 public class FadeInImageListener implements ImageLoader.ImageListener
 {
     WeakReference<ImageView> mImageView;
-    Context mContext;
+    int loadErrorResId;
+    private long durationMillis = 500l;
 
-    public FadeInImageListener(ImageView image, Context context)
+    public FadeInImageListener(ImageView image, int loadErrorResId)
     {
         mImageView = new WeakReference<ImageView>(image);
-        mContext = context;
+        this.loadErrorResId = loadErrorResId;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class FadeInImageListener implements ImageLoader.ImageListener
     {
         if (mImageView.get() != null)
         {
-            mImageView.get().setImageResource(R.drawable.ic_launcher);
+            mImageView.get().setImageResource(loadErrorResId);
         }
     }
 
@@ -60,12 +60,15 @@ public class FadeInImageListener implements ImageLoader.ImageListener
             ImageView image = mImageView.get();
             if (response.getBitmap() != null)
             {
-                image.startAnimation(AnimationUtils.loadAnimation(mContext, android.R.anim.fade_in));
+                AlphaAnimation fadeImage = new AlphaAnimation(0, 1);
+                fadeImage.setDuration(durationMillis);
+                fadeImage.setInterpolator(new DecelerateInterpolator());
+                image.startAnimation(fadeImage);
                 image.setImageBitmap(response.getBitmap());
             }
             else
             {
-                image.setImageResource(R.drawable.ic_launcher);
+                image.setImageResource(loadErrorResId);
             }
         }
     }
