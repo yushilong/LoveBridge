@@ -1,7 +1,6 @@
 
 package com.lovebridge.library.api;
 
-import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -11,6 +10,8 @@ import android.view.View;
 import com.lovebridge.application.MainApplication;
 import com.lovebridge.library.tools.YARToast;
 import com.lovebridge.library.view.pulltorefresh.PullToRefreshBase;
+import com.lovebridge.library.volley.NetworkError;
+import com.lovebridge.library.volley.VolleyError;
 
 /**
  * @author yushilong
@@ -33,24 +34,32 @@ public class YARApiListenerImpl implements YARApiListener
     }
 
     @Override
-    public void onSuccess(int statusCode , Header[] headers , JSONObject response)
+    public void onSuccess(JSONObject response)
     {
         // TODO Auto-generated method stub
     }
 
     @Override
-    public void onSuccess(int statusCode , Header[] headers , JSONArray response)
+    public void onSuccess(JSONArray response)
     {
         // TODO Auto-generated method stub
     }
 
     @Override
-    public void onFailure(int statusCode , Header[] headers , String responseString , Throwable throwable)
+    public void onFailure(VolleyError volleyError)
     {
         // TODO Auto-generated method stub
-        if (!TextUtils.isEmpty(responseString))
+        if (volleyError == null)
         {
-            YARToast.showDefault(MainApplication.getInstance(), responseString);
+            return;
+        }
+        String errorStr = volleyError.getMessage();
+        if (volleyError instanceof NetworkError)
+        {
+        }
+        if (!TextUtils.isEmpty(errorStr))
+        {
+            YARToast.showDefault(MainApplication.getInstance(), errorStr);
         }
     }
 

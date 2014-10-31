@@ -4,11 +4,12 @@ package com.lovebridge.application;
 import android.app.Application;
 import android.content.Context;
 
+import com.lovebridge.library.api.YARVolley;
+import com.lovebridge.library.tools.YARNetUtils;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.lovebridge.library.tools.YARNetUtils;
 
 /**
  * @author yushilong
@@ -25,8 +26,14 @@ public class MainApplication extends Application
         // TODO Auto-generated method stub
         super.onCreate();
         _instance = this;
+        init();
+    }
+
+    public void init()
+    {
         YARNetUtils.setCurrentNetState(_instance);
         initImageLoader(this);
+        YARVolley.init(this);
     }
 
     public static MainApplication getInstance()

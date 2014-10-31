@@ -1,9 +1,10 @@
 
 package com.lovebridge.library.api;
 
-import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import com.lovebridge.library.volley.VolleyError;
 
 /**
  * @author yushilong
@@ -12,11 +13,11 @@ import org.json.JSONObject;
  */
 interface YARApiListener
 {
-    void onSuccess(int statusCode , Header[] headers , JSONObject response);
+    void onSuccess(JSONObject response);
 
-    void onSuccess(int statusCode , Header[] headers , JSONArray response);
+    void onSuccess(JSONArray response);
 
-    void onFailure(int statusCode , Header[] headers , String responseString , Throwable throwable);
+    void onFailure(VolleyError volleyError);
 
     void onStart();
 

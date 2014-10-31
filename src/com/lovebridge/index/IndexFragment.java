@@ -1,7 +1,7 @@
 
 package com.lovebridge.index;
 
-import org.apache.http.Header;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.NotificationManager;
@@ -18,9 +18,8 @@ import com.lovebridge.MainActivity;
 import com.lovebridge.R;
 import com.lovebridge.library.YARBaseFragment;
 import com.lovebridge.library.api.YARApiListenerImpl;
-import com.lovebridge.library.api.YARBaseRequest;
+import com.lovebridge.library.api.YARRequest;
 import com.lovebridge.library.api.YARRequestParamsFactory;
-import com.lovebridge.library.api.asynchttpclient.RequestParams;
 import com.lovebridge.library.tools.notificationcompat.AppNotification;
 import com.lovebridge.library.tools.notificationcompat.NotificationCompat;
 
@@ -52,16 +51,25 @@ public class IndexFragment extends YARBaseFragment implements OnClickListener
     public void doInitDataes()
     {
         // TODO Auto-generated method stub
-        RequestParams requestParams = YARRequestParamsFactory.createRequestParams();
-        requestParams.put("email", "yuziya@b5m.com");
-        requestParams.put("password", "123456");
-        new YARBaseRequest("tuan/index", requestParams, new YARApiListenerImpl()
+        JSONObject requestParams = YARRequestParamsFactory.createRequestParams();
+        try
+        {
+            requestParams.put("email", "yuziya@b5m.com");
+            requestParams.put("password", "yushilong0921");
+            requestParams.put("encrypted", true);
+        }
+        catch (JSONException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        new YARRequest("appserver.do?m=login", requestParams, new YARApiListenerImpl()
         {
             @Override
-            public void onSuccess(int statusCode , Header[] headers , JSONObject response)
+            public void onSuccess(JSONObject response)
             {
                 // TODO Auto-generated method stub
-                super.onSuccess(statusCode, headers, response);
+                super.onSuccess(response);
             }
         }, mProgressView).start();
     }

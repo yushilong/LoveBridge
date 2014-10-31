@@ -1,7 +1,8 @@
 
 package com.lovebridge.library.api;
 
-import com.lovebridge.library.api.asynchttpclient.RequestParams;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * @author yushilong
@@ -10,9 +11,18 @@ import com.lovebridge.library.api.asynchttpclient.RequestParams;
  */
 public class YARRequestParamsFactory
 {
-    public static RequestParams createRequestParams()
+    public static JSONObject createRequestParams()
     {
-        RequestParams requestParams = new RequestParams();
-        return requestParams;
+        JSONObject jsonObject = new JSONObject();
+        try
+        {
+            jsonObject.put("userId", "123456");
+        }
+        catch (JSONException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 }

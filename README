@@ -3,3 +3,10 @@
 3.所有实体类请继承与YARModel
 4.统一用国际化标准引用资源ID
 5.全局只存在一个Activity，其他全部为Fragment
+6.加边框的ImageView请使用StrokeImageView
+7.长按弹出复制框的TextView请使用CopyTextView
+8.右边有删除icon的EditText请使用DelIconEditText
+9.HTTP异步请求基类YARRequest
+10.HTTP异步分页请求基类YARPageRequest
+11.请求参数工具类YARRequestParamsFactory
+12.请求返回结果解析基类YARResponseParser
