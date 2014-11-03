@@ -35,7 +35,7 @@ public class HomeTabFragment extends YARFragment
     {
         // TODO Auto-generated method stub
         fragments.add(new IndexFragment());
-        fragments.add(new IndexFragment());
+        fragments.add(new RecommendListFragment());
         fragments.add(new IndexFragment());
         rgs = (RadioGroup) containerView.findViewById(R.id.tabs_rg);
         FragmentTabAdapter tabAdapter = new FragmentTabAdapter((FragmentActivity) mActivity, fragments, R.id.tab_content, rgs);

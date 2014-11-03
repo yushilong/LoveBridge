@@ -10,4 +10,7 @@ import com.lovebridge.library.api.YARModel;
  */
 public class User extends YARModel
 {
+    public String name;
+    public int age;
+    public String avatar;
 }
