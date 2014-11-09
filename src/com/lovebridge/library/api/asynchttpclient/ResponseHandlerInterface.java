@@ -10,15 +10,12 @@ import java.net.URI;
 /**
  * Interface to standardize implementations
  */
-public interface ResponseHandlerInterface
-{
+public interface ResponseHandlerInterface {
     /**
      * Returns data whether request completed successfully
      * 
-     * @param response
-     *            HttpResponse object with data
-     * @throws java.io.IOException
-     *             if retrieving data from response fails
+     * @param response HttpResponse object with data
+     * @throws java.io.IOException if retrieving data from response fails
      */
     void sendResponseMessage(HttpResponse response) throws IOException;
 
@@ -36,12 +33,10 @@ public interface ResponseHandlerInterface
     /**
      * Notifies callback, that request (mainly uploading) has progressed
      * 
-     * @param bytesWritten
-     *            number of written bytes
-     * @param bytesTotal
-     *            number of total bytes to be written
+     * @param bytesWritten number of written bytes
+     * @param bytesTotal number of total bytes to be written
      */
-    void sendProgressMessage(int bytesWritten , int bytesTotal);
+    void sendProgressMessage(int bytesWritten, int bytesTotal);
 
     /**
      * Notifies callback, that request was cancelled
@@ -51,35 +46,27 @@ public interface ResponseHandlerInterface
     /**
      * Notifies callback, that request was handled successfully
      * 
-     * @param statusCode
-     *            HTTP status code
-     * @param headers
-     *            returned headers
-     * @param responseBody
-     *            returned data
+     * @param statusCode HTTP status code
+     * @param headers returned headers
+     * @param responseBody returned data
      */
-    void sendSuccessMessage(int statusCode , Header[] headers , byte[] responseBody);
+    void sendSuccessMessage(int statusCode, Header[] headers, byte[] responseBody);
 
     /**
      * Returns if request was completed with error code or failure of
      * implementation
      * 
-     * @param statusCode
-     *            returned HTTP status code
-     * @param headers
-     *            returned headers
-     * @param responseBody
-     *            returned data
-     * @param error
-     *            cause of request failure
+     * @param statusCode returned HTTP status code
+     * @param headers returned headers
+     * @param responseBody returned data
+     * @param error cause of request failure
      */
-    void sendFailureMessage(int statusCode , Header[] headers , byte[] responseBody , Throwable error);
+    void sendFailureMessage(int statusCode, Header[] headers, byte[] responseBody, Throwable error);
 
     /**
      * Notifies callback of retrying request
      * 
-     * @param retryNo
-     *            number of retry within one request
+     * @param retryNo number of retry within one request
      */
     void sendRetryMessage(int retryNo);
 
@@ -100,25 +87,22 @@ public interface ResponseHandlerInterface
     /**
      * Helper for handlers to receive Request URI info
      * 
-     * @param requestURI
-     *            claimed request URI
+     * @param requestURI claimed request URI
      */
     public void setRequestURI(URI requestURI);
 
     /**
      * Helper for handlers to receive Request Header[] info
      * 
-     * @param requestHeaders
-     *            Headers, claimed to be from original request
+     * @param requestHeaders Headers, claimed to be from original request
      */
     public void setRequestHeaders(Header[] requestHeaders);
 
     /**
      * Can set, whether the handler should be asynchronous or synchronous
      * 
-     * @param useSynchronousMode
-     *            whether data should be handled on background Thread on UI
-     *            Thread
+     * @param useSynchronousMode whether data should be handled on background
+     *            Thread on UI Thread
      */
     void setUseSynchronousMode(boolean useSynchronousMode);
 

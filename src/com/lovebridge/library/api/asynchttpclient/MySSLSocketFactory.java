@@ -42,31 +42,26 @@ import javax.net.ssl.X509TrustManager;
  * Warning! This omits SSL certificate validation on every device, use with
  * caution
  */
-public class MySSLSocketFactory extends SSLSocketFactory
-{
+public class MySSLSocketFactory extends SSLSocketFactory {
     SSLContext sslContext = SSLContext.getInstance("TLS");
 
     /**
      * Creates a new SSL Socket Factory with the given KeyStore.
      * 
-     * @param truststore
-     *            A KeyStore to create the SSL Socket Factory in context of
+     * @param truststore A KeyStore to create the SSL Socket Factory in context
+     *            of
      */
-    public MySSLSocketFactory(KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException, KeyStoreException, UnrecoverableKeyException
-    {
+    public MySSLSocketFactory(KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException,
+                    KeyStoreException, UnrecoverableKeyException {
         super(truststore);
-        X509TrustManager tm = new X509TrustManager()
-        {
-            public void checkClientTrusted(X509Certificate[] chain , String authType) throws CertificateException
-            {
+        X509TrustManager tm = new X509TrustManager() {
+            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
             }
 
-            public void checkServerTrusted(X509Certificate[] chain , String authType) throws CertificateException
-            {
+            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
             }
 
-            public X509Certificate[] getAcceptedIssuers()
-            {
+            public X509Certificate[] getAcceptedIssuers() {
                 return null;
             }
         };
@@ -74,14 +69,12 @@ public class MySSLSocketFactory extends SSLSocketFactory
     }
 
     @Override
-    public Socket createSocket(Socket socket , String host , int port , boolean autoClose) throws IOException
-    {
+    public Socket createSocket(Socket socket, String host, int port, boolean autoClose) throws IOException {
         return sslContext.getSocketFactory().createSocket(socket, host, port, autoClose);
     }
 
     @Override
-    public Socket createSocket() throws IOException
-    {
+    public Socket createSocket() throws IOException {
         return sslContext.getSocketFactory().createSocket();
     }
 
@@ -89,58 +82,43 @@ public class MySSLSocketFactory extends SSLSocketFactory
      * Makes HttpsURLConnection trusts a set of certificates specified by the
      * KeyStore
      */
-    public void fixHttpsURLConnection()
-    {
+    public void fixHttpsURLConnection() {
         HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
     }
 
     /**
      * Gets a KeyStore containing the Certificate
      * 
-     * @param cert
-     *            InputStream of the Certificate
+     * @param cert InputStream of the Certificate
      * @return KeyStore
      */
-    public static KeyStore getKeystoreOfCA(InputStream cert)
-    {
+    public static KeyStore getKeystoreOfCA(InputStream cert) {
         // Load CAs from an InputStream
         InputStream caInput = null;
         Certificate ca = null;
-        try
-        {
+        try {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             caInput = new BufferedInputStream(cert);
             ca = cf.generateCertificate(caInput);
-        }
-        catch (CertificateException e1)
-        {
+        } catch (CertificateException e1) {
             e1.printStackTrace();
-        }
-        finally
-        {
-            try
-            {
-                if (caInput != null)
-                {
+        } finally {
+            try {
+                if (caInput != null) {
                     caInput.close();
                 }
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         // Create a KeyStore containing our trusted CAs
         String keyStoreType = KeyStore.getDefaultType();
         KeyStore keyStore = null;
-        try
-        {
+        try {
             keyStore = KeyStore.getInstance(keyStoreType);
             keyStore.load(null, null);
             keyStore.setCertificateEntry("ca", ca);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return keyStore;
@@ -151,16 +129,12 @@ public class MySSLSocketFactory extends SSLSocketFactory
      * 
      * @return KeyStore
      */
-    public static KeyStore getKeystore()
-    {
+    public static KeyStore getKeystore() {
         KeyStore trustStore = null;
-        try
-        {
+        try {
             trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
             trustStore.load(null, null);
-        }
-        catch (Throwable t)
-        {
+        } catch (Throwable t) {
             t.printStackTrace();
         }
         return trustStore;
@@ -171,16 +145,12 @@ public class MySSLSocketFactory extends SSLSocketFactory
      * 
      * @return SSLSocketFactory
      */
-    public static SSLSocketFactory getFixedSocketFactory()
-    {
+    public static SSLSocketFactory getFixedSocketFactory() {
         SSLSocketFactory socketFactory;
-        try
-        {
+        try {
             socketFactory = new MySSLSocketFactory(getKeystore());
             socketFactory.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-        }
-        catch (Throwable t)
-        {
+        } catch (Throwable t) {
             t.printStackTrace();
             socketFactory = SSLSocketFactory.getSocketFactory();
         }
@@ -191,14 +161,11 @@ public class MySSLSocketFactory extends SSLSocketFactory
      * Gets a DefaultHttpClient which trusts a set of certificates specified by
      * the KeyStore
      * 
-     * @param keyStore
-     *            custom provided KeyStore instance
+     * @param keyStore custom provided KeyStore instance
      * @return DefaultHttpClient
      */
-    public static DefaultHttpClient getNewHttpClient(KeyStore keyStore)
-    {
-        try
-        {
+    public static DefaultHttpClient getNewHttpClient(KeyStore keyStore) {
+        try {
             SSLSocketFactory sf = new MySSLSocketFactory(keyStore);
             SchemeRegistry registry = new SchemeRegistry();
             registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
@@ -208,9 +175,7 @@ public class MySSLSocketFactory extends SSLSocketFactory
             HttpProtocolParams.setContentCharset(params, HTTP.UTF_8);
             ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
             return new DefaultHttpClient(ccm, params);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             return new DefaultHttpClient();
         }
     }

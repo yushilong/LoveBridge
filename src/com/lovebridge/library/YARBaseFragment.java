@@ -18,17 +18,14 @@ import com.lovebridge.R;
  * @date 2014-9-30
  * @version 1.0
  */
-public abstract class YARBaseFragment extends Fragment
-{
+public abstract class YARBaseFragment extends Fragment {
     protected View containerView;
     public Context mContext;
     public Activity mActivity;
     protected ProgressBar mProgressView;
 
-    public View onCreateView(LayoutInflater inflater , ViewGroup container , Bundle savedInstanceState)
-    {
-        if (containerView == null)
-        {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (containerView == null) {
             containerView = inflater.inflate(doGetContentViewId(), container, false);
             doBefore(savedInstanceState);
             init(containerView);
@@ -36,22 +33,19 @@ public abstract class YARBaseFragment extends Fragment
             doInitDataes();
             doAfter();
         }
-        ViewGroup parent = (ViewGroup) containerView.getParent();
-        if (parent != null)
-        {
+        ViewGroup parent = (ViewGroup)containerView.getParent();
+        if (parent != null) {
             parent.removeView(containerView);
         }
         return containerView;
     }
 
-    private void init(View containerView)
-    {
+    protected void init(View containerView) {
         // TODO Auto-generated method stub
         mActivity = getActivity();
         mContext = getActivity();
-        if (mActivity instanceof YARBaseActivity)
-        {
-            mProgressView = (ProgressBar) mActivity.findViewById(R.id.pb_navigation);
+        if (mActivity instanceof YARActivity) {
+            mProgressView = (ProgressBar)mActivity.findViewById(R.id.pb_navigation);
         }
     }
 
@@ -63,49 +57,48 @@ public abstract class YARBaseFragment extends Fragment
 
     public abstract void doAfter();
 
-    private void doBefore(Bundle savedInstanceState)
-    {
+    private void doBefore(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        ((MainActivity) mActivity).onFragmentResume(this);
+        ((YARActivity)mActivity).onFragmentResume(this);
     }
 
     /**
      * 设置导航栏，返回为null时使用默认view
+     * 
      * @return
      */
-    public View getNavigationView()
-    {
+    public View getNavigationView() {
         return null;
     }
 
     /**
      * 设置导航栏标题,支持String和int类型
+     * 
      * @return
      */
     public abstract Object getNavigationTitle();
 
     /**
      * 启动不带参数的fragment
+     * 
      * @param clazz
      */
-    public void startFragment(Class<?> clazz)
-    {
-        ((MainActivity) mActivity).startFragment(clazz);
+    public void startFragment(Class<?> clazz) {
+        ((MainActivity)mActivity).startFragment(clazz);
     }
 
     /**
      * 启动带参数的fragment
+     * 
      * @param clazz
      */
-    public void startFragment(Class<?> clazz , Bundle bundle)
-    {
-        ((MainActivity) mActivity).startFragment(clazz, bundle);
+    public void startFragment(Class<?> clazz, Bundle bundle) {
+        ((MainActivity)mActivity).startFragment(clazz, bundle);
     }
 }

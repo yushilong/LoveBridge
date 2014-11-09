@@ -33,8 +33,7 @@ import java.net.UnknownHostException;
 /**
  * Internal class, representing the HttpRequest, done in asynchronous manner
  */
-public class AsyncHttpRequest implements Runnable
-{
+public class AsyncHttpRequest implements Runnable {
     private final AbstractHttpClient client;
     private final HttpContext context;
     private final HttpUriRequest request;
@@ -44,8 +43,8 @@ public class AsyncHttpRequest implements Runnable
     private boolean cancelIsNotified = false;
     private boolean isFinished = false;
 
-    public AsyncHttpRequest(AbstractHttpClient client, HttpContext context, HttpUriRequest request, ResponseHandlerInterface responseHandler)
-    {
+    public AsyncHttpRequest(AbstractHttpClient client, HttpContext context, HttpUriRequest request,
+                    ResponseHandlerInterface responseHandler) {
         this.client = client;
         this.context = context;
         this.request = request;
@@ -53,81 +52,59 @@ public class AsyncHttpRequest implements Runnable
     }
 
     @Override
-    public void run()
-    {
-        if (isCancelled())
-        {
+    public void run() {
+        if (isCancelled()) {
             return;
         }
-        if (responseHandler != null)
-        {
+        if (responseHandler != null) {
             responseHandler.sendStartMessage();
         }
-        if (isCancelled())
-        {
+        if (isCancelled()) {
             return;
         }
-        try
-        {
+        try {
             makeRequestWithRetries();
-        }
-        catch (IOException e)
-        {
-            if (!isCancelled() && responseHandler != null)
-            {
+        } catch (IOException e) {
+            if (!isCancelled() && responseHandler != null) {
                 responseHandler.sendFailureMessage(0, null, null, e);
-            }
-            else
-            {
+            } else {
                 Log.e("AsyncHttpRequest", "makeRequestWithRetries returned error, but handler is null", e);
             }
         }
-        if (isCancelled())
-        {
+        if (isCancelled()) {
             return;
         }
-        if (responseHandler != null)
-        {
+        if (responseHandler != null) {
             responseHandler.sendFinishMessage();
         }
         isFinished = true;
     }
 
-    private void makeRequest() throws IOException
-    {
-        if (isCancelled())
-        {
+    private void makeRequest() throws IOException {
+        if (isCancelled()) {
             return;
         }
         // Fixes #115
-        if (request.getURI().getScheme() == null)
-        {
+        if (request.getURI().getScheme() == null) {
             // subclass of IOException so processed in the caller
             throw new MalformedURLException("No valid URI scheme was provided");
         }
         HttpResponse response = client.execute(request, context);
-        if (!isCancelled() && responseHandler != null)
-        {
+        if (!isCancelled() && responseHandler != null) {
             responseHandler.sendResponseMessage(response);
         }
     }
 
-    private void makeRequestWithRetries() throws IOException
-    {
+    private void makeRequestWithRetries() throws IOException {
         boolean retry = true;
         IOException cause = null;
         HttpRequestRetryHandler retryHandler = client.getHttpRequestRetryHandler();
-        try
-        {
-            while (retry)
-            {
-                try
-                {
+        try {
+            while (retry) {
+                try {
                     makeRequest();
                     return;
-                }
-                catch (UnknownHostException e)
-                {
+                } catch (UnknownHostException e) {
                     // switching between WI-FI and mobile data networks can
                     // cause a retry which then results in an
                     // UnknownHostException
@@ -137,34 +114,26 @@ public class AsyncHttpRequest implements Runnable
                     // better than outright failure
                     cause = new IOException("UnknownHostException exception: " + e.getMessage());
                     retry = (executionCount > 0) && retryHandler.retryRequest(cause, ++executionCount, context);
-                }
-                catch (NullPointerException e)
-                {
+                } catch (NullPointerException e) {
                     // there's a bug in HttpClient 4.0.x that on some occasions
                     // causes
                     // DefaultRequestExecutor to throw an NPE, see
                     // http://code.google.com/p/android/issues/detail?id=5255
                     cause = new IOException("NPE in HttpClient: " + e.getMessage());
                     retry = retryHandler.retryRequest(cause, ++executionCount, context);
-                }
-                catch (IOException e)
-                {
-                    if (isCancelled())
-                    {
+                } catch (IOException e) {
+                    if (isCancelled()) {
                         // Eating exception, as the request was cancelled
                         return;
                     }
                     cause = e;
                     retry = retryHandler.retryRequest(cause, ++executionCount, context);
                 }
-                if (retry && (responseHandler != null))
-                {
+                if (retry && (responseHandler != null)) {
                     responseHandler.sendRetryMessage(executionCount);
                 }
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             // catch anything else to ensure failure message is propagated
             Log.e("AsyncHttpRequest", "Unhandled exception origin cause", e);
             cause = new IOException("Unhandled exception: " + e.getMessage());
@@ -173,32 +142,26 @@ public class AsyncHttpRequest implements Runnable
         throw (cause);
     }
 
-    public boolean isCancelled()
-    {
-        if (isCancelled)
-        {
+    public boolean isCancelled() {
+        if (isCancelled) {
             sendCancelNotification();
         }
         return isCancelled;
     }
 
-    private synchronized void sendCancelNotification()
-    {
-        if (!isFinished && isCancelled && !cancelIsNotified)
-        {
+    private synchronized void sendCancelNotification() {
+        if (!isFinished && isCancelled && !cancelIsNotified) {
             cancelIsNotified = true;
             if (responseHandler != null)
                 responseHandler.sendCancelMessage();
         }
     }
 
-    public boolean isDone()
-    {
+    public boolean isDone() {
         return isCancelled() || isFinished;
     }
 
-    public boolean cancel(boolean mayInterruptIfRunning)
-    {
+    public boolean cancel(boolean mayInterruptIfRunning) {
         isCancelled = true;
         request.abort();
         return isCancelled();

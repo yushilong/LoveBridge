@@ -19,8 +19,7 @@ import android.widget.CheckBox;
 
 import com.lovebridge.R;
 
-public class SwitchButton extends CheckBox
-{
+public class SwitchButton extends CheckBox {
     private Paint mPaint;
     private ViewParent mParent;
     private Bitmap mBottom;
@@ -59,24 +58,20 @@ public class SwitchButton extends CheckBox
     private float mAnimationPosition;
     private float mAnimatedVelocity;
 
-    public SwitchButton(Context context, AttributeSet attrs)
-    {
+    public SwitchButton(Context context, AttributeSet attrs) {
         this(context, attrs, android.R.attr.checkboxStyle);
     }
 
-    public SwitchButton(Context context)
-    {
+    public SwitchButton(Context context) {
         this(context, null);
     }
 
-    public SwitchButton(Context context, AttributeSet attrs, int defStyle)
-    {
+    public SwitchButton(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initView(context);
     }
 
-    private void initView(Context context)
-    {
+    private void initView(Context context) {
         mPaint = new Paint();
         mPaint.setColor(Color.WHITE);
         Resources resources = context.getResources();
@@ -98,26 +93,23 @@ public class SwitchButton extends CheckBox
         mBtnPos = mChecked ? mBtnOnPos : mBtnOffPos;
         mRealPos = getRealPos(mBtnPos);
         final float density = getResources().getDisplayMetrics().density;
-        mVelocity = (int) (VELOCITY * density + 0.5f);
-        mExtendOffsetY = (int) (EXTENDED_OFFSET_Y * density + 0.5f);
+        mVelocity = (int)(VELOCITY * density + 0.5f);
+        mExtendOffsetY = (int)(EXTENDED_OFFSET_Y * density + 0.5f);
         mSaveLayerRectF = new RectF(0, mExtendOffsetY, mMask.getWidth(), mMask.getHeight() + mExtendOffsetY);
         mXfermode = new PorterDuffXfermode(PorterDuff.Mode.SRC_IN);
     }
 
     @Override
-    public void setEnabled(boolean enabled)
-    {
+    public void setEnabled(boolean enabled) {
         mAlpha = enabled ? MAX_ALPHA : MAX_ALPHA / 2;
         super.setEnabled(enabled);
     }
 
-    public boolean isChecked()
-    {
+    public boolean isChecked() {
         return mChecked;
     }
 
-    public void toggle()
-    {
+    public void toggle() {
         setChecked(!mChecked);
     }
 
@@ -126,13 +118,10 @@ public class SwitchButton extends CheckBox
      * 
      * @param checked
      */
-    private void setCheckedDelayed(final boolean checked)
-    {
-        this.postDelayed(new Runnable()
-        {
+    private void setCheckedDelayed(final boolean checked) {
+        this.postDelayed(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 setChecked(checked);
             }
         }, 10);
@@ -143,30 +132,24 @@ public class SwitchButton extends CheckBox
      * Changes the checked state of this button.
      * </p>
      * 
-     * @param checked
-     *            true to check the button, false to uncheck it
+     * @param checked true to check the button, false to uncheck it
      */
-    public void setChecked(boolean checked)
-    {
-        if (mChecked != checked)
-        {
+    public void setChecked(boolean checked) {
+        if (mChecked != checked) {
             mChecked = checked;
             mBtnPos = checked ? mBtnOnPos : mBtnOffPos;
             mRealPos = getRealPos(mBtnPos);
             invalidate();
             // Avoid infinite recursions if setChecked() is called from a
             // listener
-            if (mBroadcasting)
-            {
+            if (mBroadcasting) {
                 return;
             }
             mBroadcasting = true;
-            if (mOnCheckedChangeListener != null)
-            {
+            if (mOnCheckedChangeListener != null) {
                 mOnCheckedChangeListener.onCheckedChanged(SwitchButton.this, mChecked);
             }
-            if (mOnCheckedChangeWidgetListener != null)
-            {
+            if (mOnCheckedChangeWidgetListener != null) {
                 mOnCheckedChangeWidgetListener.onCheckedChanged(SwitchButton.this, mChecked);
             }
             mBroadcasting = false;
@@ -177,11 +160,9 @@ public class SwitchButton extends CheckBox
      * Register a callback to be invoked when the checked state of this button
      * changes.
      * 
-     * @param listener
-     *            the callback to call on checked state change
+     * @param listener the callback to call on checked state change
      */
-    public void setOnCheckedChangeListener(OnCheckedChangeListener listener)
-    {
+    public void setOnCheckedChangeListener(OnCheckedChangeListener listener) {
         mOnCheckedChangeListener = listener;
     }
 
@@ -189,25 +170,21 @@ public class SwitchButton extends CheckBox
      * Register a callback to be invoked when the checked state of this button
      * changes. This callback is used for internal purpose only.
      * 
-     * @param listener
-     *            the callback to call on checked state change
+     * @param listener the callback to call on checked state change
      * @hide
      */
-    void setOnCheckedChangeWidgetListener(OnCheckedChangeListener listener)
-    {
+    void setOnCheckedChangeWidgetListener(OnCheckedChangeListener listener) {
         mOnCheckedChangeWidgetListener = listener;
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
+    public boolean onTouchEvent(MotionEvent event) {
         int action = event.getAction();
         float x = event.getX();
         float y = event.getY();
         float deltaX = Math.abs(x - mFirstDownX);
         float deltaY = Math.abs(y - mFirstDownY);
-        switch (action)
-        {
+        switch (action) {
             case MotionEvent.ACTION_DOWN:
                 attemptClaimDrag();
                 mFirstDownX = x;
@@ -218,12 +195,10 @@ public class SwitchButton extends CheckBox
             case MotionEvent.ACTION_MOVE:
                 float time = event.getEventTime() - event.getDownTime();
                 mBtnPos = mBtnInitPos + event.getX() - mFirstDownX;
-                if (mBtnPos >= mBtnOffPos)
-                {
+                if (mBtnPos >= mBtnOffPos) {
                     mBtnPos = mBtnOffPos;
                 }
-                if (mBtnPos <= mBtnOnPos)
-                {
+                if (mBtnPos <= mBtnOnPos) {
                     mBtnPos = mBtnOnPos;
                 }
                 mTurningOn = mBtnPos > (mBtnOffPos - mBtnOnPos) / 2 + mBtnOnPos;
@@ -232,19 +207,14 @@ public class SwitchButton extends CheckBox
             case MotionEvent.ACTION_UP:
                 mCurBtnPic = mBtnNormal;
                 time = event.getEventTime() - event.getDownTime();
-                if (deltaY < mTouchSlop && deltaX < mTouchSlop && time < mClickTimeout)
-                {
-                    if (mPerformClick == null)
-                    {
+                if (deltaY < mTouchSlop && deltaX < mTouchSlop && time < mClickTimeout) {
+                    if (mPerformClick == null) {
                         mPerformClick = new PerformClick();
                     }
-                    if (!post(mPerformClick))
-                    {
+                    if (!post(mPerformClick)) {
                         performClick();
                     }
-                }
-                else
-                {
+                } else {
                     startAnimation(!mTurningOn);
                 }
                 break;
@@ -253,17 +223,14 @@ public class SwitchButton extends CheckBox
         return isEnabled();
     }
 
-    private final class PerformClick implements Runnable
-    {
-        public void run()
-        {
+    private final class PerformClick implements Runnable {
+        public void run() {
             performClick();
         }
     }
 
     @Override
-    public boolean performClick()
-    {
+    public boolean performClick() {
         startAnimation(!mChecked);
         return true;
     }
@@ -272,11 +239,9 @@ public class SwitchButton extends CheckBox
      * Tries to claim the user's drag motion, and requests disallowing any
      * ancestors from stealing events in the drag.
      */
-    private void attemptClaimDrag()
-    {
+    private void attemptClaimDrag() {
         mParent = getParent();
-        if (mParent != null)
-        {
+        if (mParent != null) {
             mParent.requestDisallowInterceptTouchEvent(true);
         }
     }
@@ -287,15 +252,15 @@ public class SwitchButton extends CheckBox
      * @param btnPos
      * @return
      */
-    private float getRealPos(float btnPos)
-    {
+    private float getRealPos(float btnPos) {
         return btnPos - mBtnWidth / 2;
     }
 
     @Override
-    protected void onDraw(Canvas canvas)
-    {
-        canvas.saveLayerAlpha(mSaveLayerRectF, mAlpha, Canvas.MATRIX_SAVE_FLAG | Canvas.CLIP_SAVE_FLAG | Canvas.HAS_ALPHA_LAYER_SAVE_FLAG | Canvas.FULL_COLOR_LAYER_SAVE_FLAG | Canvas.CLIP_TO_LAYER_SAVE_FLAG);
+    protected void onDraw(Canvas canvas) {
+        canvas.saveLayerAlpha(mSaveLayerRectF, mAlpha, Canvas.MATRIX_SAVE_FLAG | Canvas.CLIP_SAVE_FLAG
+                        | Canvas.HAS_ALPHA_LAYER_SAVE_FLAG | Canvas.FULL_COLOR_LAYER_SAVE_FLAG
+                        | Canvas.CLIP_TO_LAYER_SAVE_FLAG);
         // 绘制蒙板
         canvas.drawBitmap(mMask, 0, mExtendOffsetY, mPaint);
         mPaint.setXfermode(mXfermode);
@@ -310,31 +275,25 @@ public class SwitchButton extends CheckBox
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec , int heightMeasureSpec)
-    {
-        setMeasuredDimension((int) mMaskWidth, (int) (mMaskHeight + 2 * mExtendOffsetY));
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        setMeasuredDimension((int)mMaskWidth, (int)(mMaskHeight + 2 * mExtendOffsetY));
     }
 
-    private void startAnimation(boolean turnOn)
-    {
+    private void startAnimation(boolean turnOn) {
         mAnimating = true;
         mAnimatedVelocity = turnOn ? -mVelocity : mVelocity;
         mAnimationPosition = mBtnPos;
         new SwitchAnimation().run();
     }
 
-    private void stopAnimation()
-    {
+    private void stopAnimation() {
         mAnimating = false;
     }
 
-    private final class SwitchAnimation implements Runnable
-    {
+    private final class SwitchAnimation implements Runnable {
         @Override
-        public void run()
-        {
-            if (!mAnimating)
-            {
+        public void run() {
+            if (!mAnimating) {
                 return;
             }
             doAnimation();
@@ -342,17 +301,13 @@ public class SwitchButton extends CheckBox
         }
     }
 
-    private void doAnimation()
-    {
+    private void doAnimation() {
         mAnimationPosition += mAnimatedVelocity * FrameAnimationController.ANIMATION_FRAME_DURATION / 1000;
-        if (mAnimationPosition <= mBtnOnPos)
-        {
+        if (mAnimationPosition <= mBtnOnPos) {
             stopAnimation();
             mAnimationPosition = mBtnOnPos;
             setCheckedDelayed(true);
-        }
-        else if (mAnimationPosition >= mBtnOffPos)
-        {
+        } else if (mAnimationPosition >= mBtnOffPos) {
             stopAnimation();
             mAnimationPosition = mBtnOffPos;
             setCheckedDelayed(false);
@@ -360,8 +315,7 @@ public class SwitchButton extends CheckBox
         moveView(mAnimationPosition);
     }
 
-    private void moveView(float position)
-    {
+    private void moveView(float position) {
         mBtnPos = position;
         mRealPos = getRealPos(mBtnPos);
         invalidate();

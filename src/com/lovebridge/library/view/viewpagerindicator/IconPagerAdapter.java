@@ -1,3 +1,4 @@
+
 package com.lovebridge.library.view.viewpagerindicator;
 
 public interface IconPagerAdapter {

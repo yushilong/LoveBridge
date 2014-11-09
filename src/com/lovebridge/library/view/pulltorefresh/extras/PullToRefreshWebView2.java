@@ -61,33 +61,29 @@ import com.lovebridge.library.view.pulltorefresh.PullToRefreshWebView;
  * 
  * @author Chris Banes
  */
-public class PullToRefreshWebView2 extends PullToRefreshWebView
-{
+public class PullToRefreshWebView2 extends PullToRefreshWebView {
     static final String JS_INTERFACE_PKG = "ptr";
     static final String DEF_JS_READY_PULL_DOWN_CALL = "javascript:isReadyForPullDown();";
     static final String DEF_JS_READY_PULL_UP_CALL = "javascript:isReadyForPullUp();";
 
-    public PullToRefreshWebView2(Context context)
-    {
+    public PullToRefreshWebView2(Context context) {
         super(context);
     }
 
-    public PullToRefreshWebView2(Context context, AttributeSet attrs)
-    {
+    public PullToRefreshWebView2(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public PullToRefreshWebView2(Context context, Mode mode)
-    {
+    public PullToRefreshWebView2(Context context, Mode mode) {
         super(context, mode);
     }
+
     private JsValueCallback mJsCallback;
     private final AtomicBoolean mIsReadyForPullDown = new AtomicBoolean(false);
     private final AtomicBoolean mIsReadyForPullUp = new AtomicBoolean(false);
 
     @Override
-    protected WebView createRefreshableView(Context context , AttributeSet attrs)
-    {
+    protected WebView createRefreshableView(Context context, AttributeSet attrs) {
         WebView webView = super.createRefreshableView(context, attrs);
         // Need to add JS Interface so we can get the response back
         mJsCallback = new JsValueCallback();
@@ -96,8 +92,7 @@ public class PullToRefreshWebView2 extends PullToRefreshWebView
     }
 
     @Override
-    protected boolean isReadyForPullStart()
-    {
+    protected boolean isReadyForPullStart() {
         // Call Javascript...
         getRefreshableView().loadUrl(DEF_JS_READY_PULL_DOWN_CALL);
         // Response will be given to JsValueCallback, which will update
@@ -106,8 +101,7 @@ public class PullToRefreshWebView2 extends PullToRefreshWebView
     }
 
     @Override
-    protected boolean isReadyForPullEnd()
-    {
+    protected boolean isReadyForPullEnd() {
         // Call Javascript...
         getRefreshableView().loadUrl(DEF_JS_READY_PULL_UP_CALL);
         // Response will be given to JsValueCallback, which will update
@@ -120,15 +114,12 @@ public class PullToRefreshWebView2 extends PullToRefreshWebView
      * 
      * @author Chris Banes
      */
-    final class JsValueCallback
-    {
-        public void isReadyForPullUpResponse(boolean response)
-        {
+    final class JsValueCallback {
+        public void isReadyForPullUpResponse(boolean response) {
             mIsReadyForPullUp.set(response);
         }
 
-        public void isReadyForPullDownResponse(boolean response)
-        {
+        public void isReadyForPullDownResponse(boolean response) {
             mIsReadyForPullDown.set(response);
         }
     }

@@ -12,35 +12,29 @@ import android.widget.ImageView;
 /**
  * @author yushilong
  * @date 2014-9-30
- * @version 1.0
- * 加边框的imageView
+ * @version 1.0 加边框的imageView
  */
-public class StrokeImageView extends ImageView
-{
-    public StrokeImageView(Context context, AttributeSet attrs)
-    {
+public class StrokeImageView extends ImageView {
+    public StrokeImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         // TODO Auto-generated constructor stub
     }
 
-    public StrokeImageView(Context context, AttributeSet attrs, int defStyle)
-    {
+    public StrokeImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         // TODO Auto-generated constructor stub
     }
 
-    public StrokeImageView(Context context)
-    {
+    public StrokeImageView(Context context) {
         super(context);
         // TODO Auto-generated constructor stub
     }
 
     @Override
-    protected void onDraw(Canvas canvas)
-    {
+    protected void onDraw(Canvas canvas) {
         // TODO Auto-generated method stub
         super.onDraw(canvas);
-        //获取控件需要重新绘制的区域
+        // 获取控件需要重新绘制的区域
         Rect rect = canvas.getClipBounds();
         rect.bottom--;
         rect.right--;

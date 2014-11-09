@@ -35,8 +35,7 @@ import android.view.animation.Interpolator;
  * 
  * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2013-12-30
  */
-public class AutoScrollViewPager extends ViewPager
-{
+public class AutoScrollViewPager extends ViewPager {
     public static final int DEFAULT_INTERVAL = 1500;
     public static final int LEFT = 0;
     public static final int RIGHT = 1;
@@ -71,20 +70,17 @@ public class AutoScrollViewPager extends ViewPager
     private CustomDurationScroller scroller = null;
     public static final int SCROLL_WHAT = 0;
 
-    public AutoScrollViewPager(Context paramContext)
-    {
+    public AutoScrollViewPager(Context paramContext) {
         super(paramContext);
         init();
     }
 
-    public AutoScrollViewPager(Context paramContext, AttributeSet paramAttributeSet)
-    {
+    public AutoScrollViewPager(Context paramContext, AttributeSet paramAttributeSet) {
         super(paramContext, paramAttributeSet);
         init();
     }
 
-    private void init()
-    {
+    private void init() {
         handler = new MyHandler();
         setViewPagerScroller();
     }
@@ -92,8 +88,7 @@ public class AutoScrollViewPager extends ViewPager
     /**
      * start auto scroll, first scroll delay time is {@link #getInterval()}
      */
-    public void startAutoScroll()
-    {
+    public void startAutoScroll() {
         isAutoScroll = true;
         sendScrollMessage(interval);
     }
@@ -101,11 +96,9 @@ public class AutoScrollViewPager extends ViewPager
     /**
      * start auto scroll
      * 
-     * @param delayTimeInMills
-     *            first scroll delay time
+     * @param delayTimeInMills first scroll delay time
      */
-    public void startAutoScroll(int delayTimeInMills)
-    {
+    public void startAutoScroll(int delayTimeInMills) {
         isAutoScroll = true;
         sendScrollMessage(delayTimeInMills);
     }
@@ -113,8 +106,7 @@ public class AutoScrollViewPager extends ViewPager
     /**
      * stop auto scroll
      */
-    public void stopAutoScroll()
-    {
+    public void stopAutoScroll() {
         isAutoScroll = false;
         handler.removeMessages(SCROLL_WHAT);
     }
@@ -122,13 +114,11 @@ public class AutoScrollViewPager extends ViewPager
     /**
      * set the factor by which the duration of sliding animation will change
      */
-    public void setScrollDurationFactor(double scrollFactor)
-    {
+    public void setScrollDurationFactor(double scrollFactor) {
         scroller.setScrollDurationFactor(scrollFactor);
     }
 
-    private void sendScrollMessage(long delayTimeInMills)
-    {
+    private void sendScrollMessage(long delayTimeInMills) {
         /** remove messages before, keeps one message is running at most **/
         handler.removeMessages(SCROLL_WHAT);
         handler.sendEmptyMessageDelayed(SCROLL_WHAT, delayTimeInMills);
@@ -137,19 +127,15 @@ public class AutoScrollViewPager extends ViewPager
     /**
      * set ViewPager scroller to change animation duration when sliding
      */
-    private void setViewPagerScroller()
-    {
-        try
-        {
+    private void setViewPagerScroller() {
+        try {
             Field scrollerField = ViewPager.class.getDeclaredField("mScroller");
             scrollerField.setAccessible(true);
             Field interpolatorField = ViewPager.class.getDeclaredField("sInterpolator");
             interpolatorField.setAccessible(true);
-            scroller = new CustomDurationScroller(getContext(), (Interpolator) interpolatorField.get(null));
+            scroller = new CustomDurationScroller(getContext(), (Interpolator)interpolatorField.get(null));
             scrollerField.set(this, scroller);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -157,32 +143,23 @@ public class AutoScrollViewPager extends ViewPager
     /**
      * scroll only once
      */
-    public void scrollOnce()
-    {
+    public void scrollOnce() {
         PagerAdapter adapter = getAdapter();
         int currentItem = getCurrentItem();
         int totalCount;
-        if (adapter == null || (totalCount = adapter.getCount()) <= 1)
-        {
+        if (adapter == null || (totalCount = adapter.getCount()) <= 1) {
             return;
         }
         int nextItem = (direction == LEFT) ? --currentItem : ++currentItem;
-        if (nextItem < 0)
-        {
-            if (isCycle)
-            {
+        if (nextItem < 0) {
+            if (isCycle) {
                 setCurrentItem(totalCount - 1, isBorderAnimation);
             }
-        }
-        else if (nextItem == totalCount)
-        {
-            if (isCycle)
-            {
+        } else if (nextItem == totalCount) {
+            if (isCycle) {
                 setCurrentItem(0, isBorderAnimation);
             }
-        }
-        else
-        {
+        } else {
             setCurrentItem(nextItem, true);
         }
     }
@@ -195,25 +172,18 @@ public class AutoScrollViewPager extends ViewPager
      * </ul>
      */
     @Override
-    public boolean onTouchEvent(MotionEvent ev)
-    {
-        if (stopScrollWhenTouch)
-        {
-            if (ev.getAction() == MotionEvent.ACTION_DOWN && isAutoScroll)
-            {
+    public boolean onTouchEvent(MotionEvent ev) {
+        if (stopScrollWhenTouch) {
+            if (ev.getAction() == MotionEvent.ACTION_DOWN && isAutoScroll) {
                 isStopByTouch = true;
                 stopAutoScroll();
-            }
-            else if (ev.getAction() == MotionEvent.ACTION_UP && isStopByTouch)
-            {
+            } else if (ev.getAction() == MotionEvent.ACTION_UP && isStopByTouch) {
                 startAutoScroll();
             }
         }
-        if (slideBorderMode == SLIDE_BORDER_MODE_TO_PARENT || slideBorderMode == SLIDE_BORDER_MODE_CYCLE)
-        {
+        if (slideBorderMode == SLIDE_BORDER_MODE_TO_PARENT || slideBorderMode == SLIDE_BORDER_MODE_CYCLE) {
             touchX = ev.getX();
-            if (ev.getAction() == MotionEvent.ACTION_DOWN)
-            {
+            if (ev.getAction() == MotionEvent.ACTION_DOWN) {
                 downX = touchX;
             }
             int currentItem = getCurrentItem();
@@ -227,16 +197,11 @@ public class AutoScrollViewPager extends ViewPager
              * else scroll to last one when current item is first one, scroll to
              * first one when current item is last one.
              */
-            if ((currentItem == 0 && downX <= touchX) || (currentItem == pageCount - 1 && downX >= touchX))
-            {
-                if (slideBorderMode == SLIDE_BORDER_MODE_TO_PARENT)
-                {
+            if ((currentItem == 0 && downX <= touchX) || (currentItem == pageCount - 1 && downX >= touchX)) {
+                if (slideBorderMode == SLIDE_BORDER_MODE_TO_PARENT) {
                     getParent().requestDisallowInterceptTouchEvent(false);
-                }
-                else
-                {
-                    if (pageCount > 1)
-                    {
+                } else {
+                    if (pageCount > 1) {
                         setCurrentItem(pageCount - currentItem - 1, isBorderAnimation);
                     }
                     getParent().requestDisallowInterceptTouchEvent(true);
@@ -248,14 +213,11 @@ public class AutoScrollViewPager extends ViewPager
         return super.onTouchEvent(ev);
     }
 
-    private class MyHandler extends Handler
-    {
+    private class MyHandler extends Handler {
         @Override
-        public void handleMessage(Message msg)
-        {
+        public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what)
-            {
+            switch (msg.what) {
                 case SCROLL_WHAT:
                     scrollOnce();
                     sendScrollMessage(interval);
@@ -271,8 +233,7 @@ public class AutoScrollViewPager extends ViewPager
      * 
      * @return the interval
      */
-    public long getInterval()
-    {
+    public long getInterval() {
         return interval;
     }
 
@@ -280,11 +241,9 @@ public class AutoScrollViewPager extends ViewPager
      * set auto scroll time in milliseconds, default is
      * {@link #DEFAULT_INTERVAL}
      * 
-     * @param interval
-     *            the interval to set
+     * @param interval the interval to set
      */
-    public void setInterval(long interval)
-    {
+    public void setInterval(long interval) {
         this.interval = interval;
     }
 
@@ -293,19 +252,17 @@ public class AutoScrollViewPager extends ViewPager
      * 
      * @return {@link #LEFT} or {@link #RIGHT}, default is {@link #RIGHT}
      */
-    public int getDirection()
-    {
+    public int getDirection() {
         return (direction == LEFT) ? LEFT : RIGHT;
     }
 
     /**
      * set auto scroll direction
      * 
-     * @param direction
-     *            {@link #LEFT} or {@link #RIGHT}, default is {@link #RIGHT}
+     * @param direction {@link #LEFT} or {@link #RIGHT}, default is
+     *            {@link #RIGHT}
      */
-    public void setDirection(int direction)
-    {
+    public void setDirection(int direction) {
         this.direction = direction;
     }
 
@@ -315,8 +272,7 @@ public class AutoScrollViewPager extends ViewPager
      * 
      * @return the isCycle
      */
-    public boolean isCycle()
-    {
+    public boolean isCycle() {
         return isCycle;
     }
 
@@ -324,11 +280,9 @@ public class AutoScrollViewPager extends ViewPager
      * set whether automatic cycle when auto scroll reaching the last or first
      * item, default is true
      * 
-     * @param isCycle
-     *            the isCycle to set
+     * @param isCycle the isCycle to set
      */
-    public void setCycle(boolean isCycle)
-    {
+    public void setCycle(boolean isCycle) {
         this.isCycle = isCycle;
     }
 
@@ -337,8 +291,7 @@ public class AutoScrollViewPager extends ViewPager
      * 
      * @return the stopScrollWhenTouch
      */
-    public boolean isStopScrollWhenTouch()
-    {
+    public boolean isStopScrollWhenTouch() {
         return stopScrollWhenTouch;
     }
 
@@ -347,8 +300,7 @@ public class AutoScrollViewPager extends ViewPager
      * 
      * @param stopScrollWhenTouch
      */
-    public void setStopScrollWhenTouch(boolean stopScrollWhenTouch)
-    {
+    public void setStopScrollWhenTouch(boolean stopScrollWhenTouch) {
         this.stopScrollWhenTouch = stopScrollWhenTouch;
     }
 
@@ -360,22 +312,19 @@ public class AutoScrollViewPager extends ViewPager
      *         {@link #SLIDE_BORDER_MODE_CYCLE}, default is
      *         {@link #SLIDE_BORDER_MODE_NONE}
      */
-    public int getSlideBorderMode()
-    {
+    public int getSlideBorderMode() {
         return slideBorderMode;
     }
 
     /**
      * set how to process when sliding at the last or first item
      * 
-     * @param slideBorderMode
-     *            {@link #SLIDE_BORDER_MODE_NONE},
+     * @param slideBorderMode {@link #SLIDE_BORDER_MODE_NONE},
      *            {@link #SLIDE_BORDER_MODE_TO_PARENT},
      *            {@link #SLIDE_BORDER_MODE_CYCLE}, default is
      *            {@link #SLIDE_BORDER_MODE_NONE}
      */
-    public void setSlideBorderMode(int slideBorderMode)
-    {
+    public void setSlideBorderMode(int slideBorderMode) {
         this.slideBorderMode = slideBorderMode;
     }
 
@@ -385,8 +334,7 @@ public class AutoScrollViewPager extends ViewPager
      * 
      * @return
      */
-    public boolean isBorderAnimation()
-    {
+    public boolean isBorderAnimation() {
         return isBorderAnimation;
     }
 
@@ -396,8 +344,7 @@ public class AutoScrollViewPager extends ViewPager
      * 
      * @param isBorderAnimation
      */
-    public void setBorderAnimation(boolean isBorderAnimation)
-    {
+    public void setBorderAnimation(boolean isBorderAnimation) {
         this.isBorderAnimation = isBorderAnimation;
     }
 }

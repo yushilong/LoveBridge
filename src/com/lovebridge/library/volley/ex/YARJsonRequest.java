@@ -1,4 +1,3 @@
-
 /**
  * Copyright 2013 Mani Selvaraj
  *
@@ -28,54 +27,52 @@ import com.lovebridge.library.volley.Response.Listener;
 import com.lovebridge.library.volley.toolbox.JsonObjectRequest;
 
 /**
- * Custom Implementation of com.android.volley.toolbox.JsonObjectRequest 
- * to handle the headers.
+ * Custom Implementation of com.android.volley.toolbox.JsonObjectRequest to
+ * handle the headers.
+ * 
  * @author Mani Selvaraj
- *
  */
-public class YARJsonRequest extends JsonObjectRequest{
+public class YARJsonRequest extends JsonObjectRequest {
 
-	private Map<String, String> headers = new HashMap<String, String>();
-	private Priority priority = null;
-	
-	public YARJsonRequest(int method, String url, JSONObject jsonRequest,
-			Listener<JSONObject> listener, ErrorListener errorListener) {
-		super(method, url, jsonRequest, listener, errorListener);
-		// TODO Auto-generated constructor stub
-	}
+    private Map<String, String> headers = new HashMap<String, String>();
+    private Priority priority = null;
 
-    public YARJsonRequest(String url, JSONObject jsonRequest, Listener<JSONObject> listener,
-            ErrorListener errorListener) {
-    	super(url,jsonRequest,listener,errorListener);
+    public YARJsonRequest(int method, String url, JSONObject jsonRequest, Listener<JSONObject> listener,
+                    ErrorListener errorListener) {
+        super(method, url, jsonRequest, listener, errorListener);
+        // TODO Auto-generated constructor stub
     }
-    
-	@Override
-	public Map<String, String> getHeaders() throws AuthFailureError {
-		return headers;
-	}
-	
-	public void setHeader(String title, String content) {
-		 headers.put(title, content);
-	}
-	
-	public void setPriority(Priority priority) {
-		this.priority = priority;
-	}
-	
-	/*
-	 * If prioirty set use it,else returned NORMAL
-	 * @see com.android.volley.Request#getPriority()
-	 */
+
+    public YARJsonRequest(String url, JSONObject jsonRequest, Listener<JSONObject> listener, ErrorListener errorListener) {
+        super(url, jsonRequest, listener, errorListener);
+    }
+
+    @Override
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        return headers;
+    }
+
+    public void setHeader(String title, String content) {
+        headers.put(title, content);
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
+
+    /*
+     * If prioirty set use it,else returned NORMAL
+     * @see com.android.volley.Request#getPriority()
+     */
     public Priority getPriority() {
-    	if( this.priority != null) {
-    		return priority;
-    	} else {
-    		return Priority.NORMAL;	
-    	}
+        if (this.priority != null) {
+            return priority;
+        } else {
+            return Priority.NORMAL;
+        }
     }
-    
-    public void setHeaders()
-    {
-        //        heads.put(key, value);
+
+    public void setHeaders() {
+        // heads.put(key, value);
     }
 }

@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.lovebridge.library.view.viewpagerindicator;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
@@ -45,7 +46,7 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
     public interface OnTabReselectedListener {
         /**
          * Callback when the selected tab has been reselected.
-         *
+         * 
          * @param position Position of the current center item.
          */
         void onTabReselected(int position);
@@ -272,8 +273,7 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
 
             // Re-measure if we went beyond our maximum size.
             if (mMaxTabWidth > 0 && getMeasuredWidth() > mMaxTabWidth) {
-                super.onMeasure(MeasureSpec.makeMeasureSpec(mMaxTabWidth, MeasureSpec.EXACTLY),
-                        heightMeasureSpec);
+                super.onMeasure(MeasureSpec.makeMeasureSpec(mMaxTabWidth, MeasureSpec.EXACTLY), heightMeasureSpec);
             }
         }
 

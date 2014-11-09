@@ -27,44 +27,34 @@ import android.widget.GridView;
 import com.lovebridge.R;
 import com.lovebridge.library.view.pulltorefresh.internal.EmptyViewMethodAccessor;
 
-public class PullToRefreshGridView extends PullToRefreshAdapterViewBase<GridView>
-{
-    public PullToRefreshGridView(Context context)
-    {
+public class PullToRefreshGridView extends PullToRefreshAdapterViewBase<GridView> {
+    public PullToRefreshGridView(Context context) {
         super(context);
     }
 
-    public PullToRefreshGridView(Context context, AttributeSet attrs)
-    {
+    public PullToRefreshGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public PullToRefreshGridView(Context context, Mode mode)
-    {
+    public PullToRefreshGridView(Context context, Mode mode) {
         super(context, mode);
     }
 
-    public PullToRefreshGridView(Context context, Mode mode, AnimationStyle style)
-    {
+    public PullToRefreshGridView(Context context, Mode mode, AnimationStyle style) {
         super(context, mode, style);
     }
 
     @Override
-    public final Orientation getPullToRefreshScrollDirection()
-    {
+    public final Orientation getPullToRefreshScrollDirection() {
         return Orientation.VERTICAL;
     }
 
     @Override
-    protected final GridView createRefreshableView(Context context , AttributeSet attrs)
-    {
+    protected final GridView createRefreshableView(Context context, AttributeSet attrs) {
         final GridView gv;
-        if (VERSION.SDK_INT >= VERSION_CODES.GINGERBREAD)
-        {
+        if (VERSION.SDK_INT >= VERSION_CODES.GINGERBREAD) {
             gv = new InternalGridViewSDK9(context, attrs);
-        }
-        else
-        {
+        } else {
             gv = new InternalGridView(context, attrs);
         }
         // Use Generated ID (from res/values/ids.xml)
@@ -72,38 +62,33 @@ public class PullToRefreshGridView extends PullToRefreshAdapterViewBase<GridView
         return gv;
     }
 
-    class InternalGridView extends GridView implements EmptyViewMethodAccessor
-    {
-        public InternalGridView(Context context, AttributeSet attrs)
-        {
+    class InternalGridView extends GridView implements EmptyViewMethodAccessor {
+        public InternalGridView(Context context, AttributeSet attrs) {
             super(context, attrs);
         }
 
         @Override
-        public void setEmptyView(View emptyView)
-        {
+        public void setEmptyView(View emptyView) {
             PullToRefreshGridView.this.setEmptyView(emptyView);
         }
 
         @Override
-        public void setEmptyViewInternal(View emptyView)
-        {
+        public void setEmptyViewInternal(View emptyView) {
             super.setEmptyView(emptyView);
         }
     }
 
     @TargetApi(9)
-    final class InternalGridViewSDK9 extends InternalGridView
-    {
-        public InternalGridViewSDK9(Context context, AttributeSet attrs)
-        {
+    final class InternalGridViewSDK9 extends InternalGridView {
+        public InternalGridViewSDK9(Context context, AttributeSet attrs) {
             super(context, attrs);
         }
 
         @Override
-        protected boolean overScrollBy(int deltaX , int deltaY , int scrollX , int scrollY , int scrollRangeX , int scrollRangeY , int maxOverScrollX , int maxOverScrollY , boolean isTouchEvent)
-        {
-            final boolean returnValue = super.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
+        protected boolean overScrollBy(int deltaX, int deltaY, int scrollX, int scrollY, int scrollRangeX,
+                                       int scrollRangeY, int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
+            final boolean returnValue = super.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX,
+                            scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
             // Does all of the hard work...
             OverscrollHelper.overScrollBy(PullToRefreshGridView.this, deltaX, scrollX, deltaY, scrollY, isTouchEvent);
             return returnValue;

@@ -26,8 +26,8 @@ import android.os.Bundle;
 import com.lovebridge.library.volley.AuthFailureError;
 
 /**
- * An Authenticator that uses {@link AccountManager} to get auth
- * tokens of a specified type for a specified account.
+ * An Authenticator that uses {@link AccountManager} to get auth tokens of a
+ * specified type for a specified account.
  */
 public class AndroidAuthenticator implements Authenticator {
     private final Context mContext;
@@ -37,6 +37,7 @@ public class AndroidAuthenticator implements Authenticator {
 
     /**
      * Creates a new authenticator.
+     * 
      * @param context Context for accessing AccountManager
      * @param account Account to authenticate as
      * @param authTokenType Auth token type passed to AccountManager
@@ -47,13 +48,14 @@ public class AndroidAuthenticator implements Authenticator {
 
     /**
      * Creates a new authenticator.
+     * 
      * @param context Context for accessing AccountManager
      * @param account Account to authenticate as
      * @param authTokenType Auth token type passed to AccountManager
-     * @param notifyAuthFailure Whether to raise a notification upon auth failure
+     * @param notifyAuthFailure Whether to raise a notification upon auth
+     *            failure
      */
-    public AndroidAuthenticator(Context context, Account account, String authTokenType,
-            boolean notifyAuthFailure) {
+    public AndroidAuthenticator(Context context, Account account, String authTokenType, boolean notifyAuthFailure) {
         mContext = context;
         mAccount = account;
         mAuthTokenType = authTokenType;
@@ -72,8 +74,8 @@ public class AndroidAuthenticator implements Authenticator {
     @Override
     public String getAuthToken() throws AuthFailureError {
         final AccountManager accountManager = AccountManager.get(mContext);
-        AccountManagerFuture<Bundle> future = accountManager.getAuthToken(mAccount,
-                mAuthTokenType, mNotifyAuthFailure, null, null);
+        AccountManagerFuture<Bundle> future = accountManager.getAuthToken(mAccount, mAuthTokenType, mNotifyAuthFailure,
+                        null, null);
         Bundle result;
         try {
             result = future.getResult();

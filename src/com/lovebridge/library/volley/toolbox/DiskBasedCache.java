@@ -38,14 +38,13 @@ import com.lovebridge.library.volley.Cache.Entry;
 import com.lovebridge.library.volley.VolleyLog;
 
 /**
- * Cache implementation that caches files directly onto the hard disk in the specified
- * directory. The default disk usage size is 5MB, but is configurable.
+ * Cache implementation that caches files directly onto the hard disk in the
+ * specified directory. The default disk usage size is 5MB, but is configurable.
  */
 public class DiskBasedCache implements Cache {
 
     /** Map of the Key, CacheHeader pairs */
-    private final Map<String, CacheHeader> mEntries =
-            new LinkedHashMap<String, CacheHeader>(16, .75f, true);
+    private final Map<String, CacheHeader> mEntries = new LinkedHashMap<String, CacheHeader>(16, .75f, true);
 
     /** Total amount of space currently used by the cache in bytes. */
     private long mTotalSize = 0;
@@ -67,6 +66,7 @@ public class DiskBasedCache implements Cache {
 
     /**
      * Constructs an instance of the DiskBasedCache at the specified directory.
+     * 
      * @param rootDirectory The root directory of the cache.
      * @param maxCacheSizeInBytes The maximum size of the cache in bytes.
      */
@@ -76,8 +76,9 @@ public class DiskBasedCache implements Cache {
     }
 
     /**
-     * Constructs an instance of the DiskBasedCache at the specified directory using
-     * the default maximum cache size of 5MB.
+     * Constructs an instance of the DiskBasedCache at the specified directory
+     * using the default maximum cache size of 5MB.
+     * 
      * @param rootDirectory The root directory of the cache.
      */
     public DiskBasedCache(File rootDirectory) {
@@ -101,7 +102,8 @@ public class DiskBasedCache implements Cache {
     }
 
     /**
-     * Returns the cache entry with the specified key if it exists, null otherwise.
+     * Returns the cache entry with the specified key if it exists, null
+     * otherwise.
      */
     @Override
     public synchronized Entry get(String key) {
@@ -116,7 +118,7 @@ public class DiskBasedCache implements Cache {
         try {
             cis = new CountingInputStream(new FileInputStream(file));
             CacheHeader.readHeader(cis); // eat header
-            byte[] data = streamToBytes(cis, (int) (file.length() - cis.bytesRead));
+            byte[] data = streamToBytes(cis, (int)(file.length() - cis.bytesRead));
             return entry.toCacheEntry(data);
         } catch (IOException e) {
             VolleyLog.d("%s: %s", file.getAbsolutePath(), e.toString());
@@ -159,20 +161,22 @@ public class DiskBasedCache implements Cache {
                 putEntry(entry.key, entry);
             } catch (IOException e) {
                 if (file != null) {
-                   file.delete();
+                    file.delete();
                 }
             } finally {
                 try {
                     if (fis != null) {
                         fis.close();
                     }
-                } catch (IOException ignored) { }
+                } catch (IOException ignored) {
+                }
             }
         }
     }
 
     /**
      * Invalidates an entry in the cache.
+     * 
      * @param key Cache key
      * @param fullExpire True to fully expire the entry, false to soft expire
      */
@@ -225,13 +229,13 @@ public class DiskBasedCache implements Cache {
         boolean deleted = getFileForKey(key).delete();
         removeEntry(key);
         if (!deleted) {
-            VolleyLog.d("Could not delete cache entry for key=%s, filename=%s",
-                    key, getFilenameForKey(key));
+            VolleyLog.d("Could not delete cache entry for key=%s, filename=%s", key, getFilenameForKey(key));
         }
     }
 
     /**
      * Creates a pseudo-unique filename for the specified cache key.
+     * 
      * @param key The key to generate a file name for.
      * @return A pseudo-unique filename.
      */
@@ -251,7 +255,9 @@ public class DiskBasedCache implements Cache {
 
     /**
      * Prunes the cache to fit the amount of bytes specified.
-     * @param neededSpace The amount of bytes we are trying to fit into the cache.
+     * 
+     * @param neededSpace The amount of bytes we are trying to fit into the
+     *            cache.
      */
     private void pruneIfNeeded(int neededSpace) {
         if ((mTotalSize + neededSpace) < mMaxCacheSizeInBytes) {
@@ -273,8 +279,7 @@ public class DiskBasedCache implements Cache {
             if (deleted) {
                 mTotalSize -= e.size;
             } else {
-               VolleyLog.d("Could not delete cache entry for key=%s, filename=%s",
-                       e.key, getFilenameForKey(e.key));
+                VolleyLog.d("Could not delete cache entry for key=%s, filename=%s", e.key, getFilenameForKey(e.key));
             }
             iterator.remove();
             prunedFiles++;
@@ -285,13 +290,14 @@ public class DiskBasedCache implements Cache {
         }
 
         if (VolleyLog.DEBUG) {
-            VolleyLog.v("pruned %d files, %d bytes, %d ms",
-                    prunedFiles, (mTotalSize - before), SystemClock.elapsedRealtime() - startTime);
+            VolleyLog.v("pruned %d files, %d bytes, %d ms", prunedFiles, (mTotalSize - before),
+                            SystemClock.elapsedRealtime() - startTime);
         }
     }
 
     /**
      * Puts the entry with the specified key into the cache.
+     * 
      * @param key The key to identify the entry by.
      * @param entry The entry to cache.
      */
@@ -318,7 +324,7 @@ public class DiskBasedCache implements Cache {
 
     /**
      * Reads the contents of an InputStream into a byte[].
-     * */
+     */
     private static byte[] streamToBytes(InputStream in, int length) throws IOException {
         byte[] bytes = new byte[length];
         int count;
@@ -337,8 +343,10 @@ public class DiskBasedCache implements Cache {
      */
     // Visible for testing.
     static class CacheHeader {
-        /** The size of the data identified by this CacheHeader. (This is not
-         * serialized to disk. */
+        /**
+         * The size of the data identified by this CacheHeader. (This is not
+         * serialized to disk.
+         */
         public long size;
 
         /** The key that identifies the cache entry. */
@@ -359,10 +367,12 @@ public class DiskBasedCache implements Cache {
         /** Headers from the response resulting in this cache entry. */
         public Map<String, String> responseHeaders;
 
-        private CacheHeader() { }
+        private CacheHeader() {
+        }
 
         /**
          * Instantiates a new CacheHeader object
+         * 
          * @param key The key that identifies the cache entry
          * @param entry The cache entry.
          */
@@ -377,7 +387,9 @@ public class DiskBasedCache implements Cache {
         }
 
         /**
-         * Reads the header off of an InputStream and returns a CacheHeader object.
+         * Reads the header off of an InputStream and returns a CacheHeader
+         * object.
+         * 
          * @param is The InputStream to read from.
          * @throws IOException
          */
@@ -414,9 +426,9 @@ public class DiskBasedCache implements Cache {
             return e;
         }
 
-
         /**
-         * Writes the contents of this CacheHeader to the specified OutputStream.
+         * Writes the contents of this CacheHeader to the specified
+         * OutputStream.
          */
         public boolean writeHeader(OutputStream os) {
             try {
@@ -529,7 +541,7 @@ public class DiskBasedCache implements Cache {
     }
 
     static String readString(InputStream is) throws IOException {
-        int n = (int) readLong(is);
+        int n = (int)readLong(is);
         byte[] b = streamToBytes(is, n);
         return new String(b, "UTF-8");
     }
@@ -548,9 +560,8 @@ public class DiskBasedCache implements Cache {
 
     static Map<String, String> readStringStringMap(InputStream is) throws IOException {
         int size = readInt(is);
-        Map<String, String> result = (size == 0)
-                ? Collections.<String, String>emptyMap()
-                : new HashMap<String, String>(size);
+        Map<String, String> result = (size == 0) ? Collections.<String, String> emptyMap()
+                        : new HashMap<String, String>(size);
         for (int i = 0; i < size; i++) {
             String key = readString(is).intern();
             String value = readString(is).intern();
@@ -558,6 +569,5 @@ public class DiskBasedCache implements Cache {
         }
         return result;
     }
-
 
 }

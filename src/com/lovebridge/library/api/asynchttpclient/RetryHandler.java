@@ -38,12 +38,10 @@ import java.util.HashSet;
 
 import javax.net.ssl.SSLException;
 
-class RetryHandler implements HttpRequestRetryHandler
-{
+class RetryHandler implements HttpRequestRetryHandler {
     private final static HashSet<Class<?>> exceptionWhitelist = new HashSet();
     private final static HashSet<Class<?>> exceptionBlacklist = new HashSet();
-    static
-    {
+    static {
         // Retry if the server dropped connection on us
         exceptionWhitelist.add(NoHttpResponseException.class);
         // retry-this, since it may happens as part of a Wi-Fi to 3G failover
@@ -58,75 +56,56 @@ class RetryHandler implements HttpRequestRetryHandler
     private final int maxRetries;
     private final int retrySleepTimeMS;
 
-    public RetryHandler(int maxRetries, int retrySleepTimeMS)
-    {
+    public RetryHandler(int maxRetries, int retrySleepTimeMS) {
         this.maxRetries = maxRetries;
         this.retrySleepTimeMS = retrySleepTimeMS;
     }
 
     @Override
-    public boolean retryRequest(IOException exception , int executionCount , HttpContext context)
-    {
+    public boolean retryRequest(IOException exception, int executionCount, HttpContext context) {
         boolean retry = true;
-        Boolean b = (Boolean) context.getAttribute(ExecutionContext.HTTP_REQ_SENT);
+        Boolean b = (Boolean)context.getAttribute(ExecutionContext.HTTP_REQ_SENT);
         boolean sent = (b != null && b);
-        if (executionCount > maxRetries)
-        {
+        if (executionCount > maxRetries) {
             // Do not retry if over max retry count
             retry = false;
-        }
-        else if (isInList(exceptionWhitelist, exception))
-        {
+        } else if (isInList(exceptionWhitelist, exception)) {
             // immediately retry if error is whitelisted
             retry = true;
-        }
-        else if (isInList(exceptionBlacklist, exception))
-        {
+        } else if (isInList(exceptionBlacklist, exception)) {
             // immediately cancel retry if the error is blacklisted
             retry = false;
-        }
-        else if (!sent)
-        {
+        } else if (!sent) {
             // for most other errors, retry only if request hasn't been fully
             // sent yet
             retry = true;
         }
-        if (retry)
-        {
+        if (retry) {
             // resend all idempotent requests
-            HttpUriRequest currentReq = (HttpUriRequest) context.getAttribute(ExecutionContext.HTTP_REQUEST);
-            if (currentReq == null)
-            {
+            HttpUriRequest currentReq = (HttpUriRequest)context.getAttribute(ExecutionContext.HTTP_REQUEST);
+            if (currentReq == null) {
                 return false;
             }
         }
-        if (retry)
-        {
+        if (retry) {
             SystemClock.sleep(retrySleepTimeMS);
-        }
-        else
-        {
+        } else {
             exception.printStackTrace();
         }
         return retry;
     }
 
-    static void addClassToWhitelist(Class<?> cls)
-    {
+    static void addClassToWhitelist(Class<?> cls) {
         exceptionWhitelist.add(cls);
     }
 
-    static void addClassToBlacklist(Class<?> cls)
-    {
+    static void addClassToBlacklist(Class<?> cls) {
         exceptionBlacklist.add(cls);
     }
 
-    protected boolean isInList(HashSet<Class<?>> list , Throwable error)
-    {
-        for (Class<?> aList : list)
-        {
-            if (aList.isInstance(error))
-            {
+    protected boolean isInList(HashSet<Class<?>> list, Throwable error) {
+        for (Class<?> aList : list) {
+            if (aList.isInstance(error)) {
                 return true;
             }
         }

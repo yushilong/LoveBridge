@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.lovebridge.library.view.viewpagerindicator;
 
 import android.content.Context;
@@ -34,8 +35,8 @@ import android.view.ViewConfiguration;
 import com.lovebridge.R;
 
 /**
- * Draws a line for each page. The current page line is colored differently
- * than the unselected page lines.
+ * Draws a line for each page. The current page line is colored differently than
+ * the unselected page lines.
  */
 public class UnderlinePageIndicator extends View implements PageIndicator {
     private static final int INVALID_POINTER = -1;
@@ -60,16 +61,18 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
     private boolean mIsDragging;
 
     private final Runnable mFadeRunnable = new Runnable() {
-      @Override public void run() {
-        if (!mFades) return;
+        @Override
+        public void run() {
+            if (!mFades)
+                return;
 
-        final int alpha = Math.max(mPaint.getAlpha() - mFadeBy, 0);
-        mPaint.setAlpha(alpha);
-        invalidate();
-        if (alpha > 0) {
-          postDelayed(this, FADE_FRAME_MS);
+            final int alpha = Math.max(mPaint.getAlpha() - mFadeBy, 0);
+            mPaint.setAlpha(alpha);
+            invalidate();
+            if (alpha > 0) {
+                postDelayed(this, FADE_FRAME_MS);
+            }
         }
-      }
     };
 
     public UnderlinePageIndicator(Context context) {
@@ -82,17 +85,18 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
 
     public UnderlinePageIndicator(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        if (isInEditMode()) return;
+        if (isInEditMode())
+            return;
 
         final Resources res = getResources();
 
-        //Load defaults from resources
+        // Load defaults from resources
         final boolean defaultFades = res.getBoolean(R.bool.default_underline_indicator_fades);
         final int defaultFadeDelay = res.getInteger(R.integer.default_underline_indicator_fade_delay);
         final int defaultFadeLength = res.getInteger(R.integer.default_underline_indicator_fade_length);
         final int defaultSelectedColor = res.getColor(R.color.default_underline_indicator_selected_color);
 
-        //Retrieve styles attributes
+        // Retrieve styles attributes
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.UnderlinePageIndicator, defStyle, 0);
 
         setFades(a.getBoolean(R.styleable.UnderlinePageIndicator_fades, defaultFades));
@@ -102,7 +106,7 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
 
         Drawable background = a.getDrawable(R.styleable.UnderlinePageIndicator_android_background);
         if (background != null) {
-          setBackgroundDrawable(background);
+            setBackgroundDrawable(background);
         }
 
         a.recycle();
@@ -239,7 +243,8 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
 
                 mIsDragging = false;
                 mActivePointerId = INVALID_POINTER;
-                if (mViewPager.isFakeDragging()) mViewPager.endFakeDrag();
+                if (mViewPager.isFakeDragging())
+                    mViewPager.endFakeDrag();
                 break;
 
             case MotionEventCompat.ACTION_POINTER_DOWN: {
@@ -269,7 +274,7 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
             return;
         }
         if (mViewPager != null) {
-            //Clear us from the old pager.
+            // Clear us from the old pager.
             mViewPager.setOnPageChangeListener(null);
         }
         if (viewPager.getAdapter() == null) {
@@ -279,7 +284,8 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
         mViewPager.setOnPageChangeListener(this);
         invalidate();
         post(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 if (mFades) {
                     post(mFadeRunnable);
                 }

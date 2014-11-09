@@ -11,8 +11,7 @@ import com.lovebridge.library.volley.VolleyError;
  * @date 2014-9-30
  * @version 1.0
  */
-interface YARApiListener
-{
+interface YARApiListener {
     void onSuccess(JSONObject response);
 
     void onSuccess(JSONArray response);
@@ -23,5 +22,5 @@ interface YARApiListener
 
     void onFinish();
 
-    void onProgress(int bytesWritten , int totalSize);
+    void onProgress(int bytesWritten, int totalSize);
 }

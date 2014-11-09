@@ -4,8 +4,7 @@ package com.lovebridge.library.tools;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class YARTimeUtils
-{
+public class YARTimeUtils {
     public static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final SimpleDateFormat DATE_FORMAT_DATE = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -16,8 +15,7 @@ public class YARTimeUtils
      * @param dateFormat
      * @return
      */
-    public static String getTime(long timeInMillis , SimpleDateFormat dateFormat)
-    {
+    public static String getTime(long timeInMillis, SimpleDateFormat dateFormat) {
         return dateFormat.format(new Date(timeInMillis));
     }
 
@@ -27,8 +25,7 @@ public class YARTimeUtils
      * @param timeInMillis
      * @return
      */
-    public static String getTime(long timeInMillis)
-    {
+    public static String getTime(long timeInMillis) {
         return getTime(timeInMillis, DEFAULT_DATE_FORMAT);
     }
 
@@ -37,8 +34,7 @@ public class YARTimeUtils
      * 
      * @return
      */
-    public static long getCurrentTimeInLong()
-    {
+    public static long getCurrentTimeInLong() {
         return System.currentTimeMillis();
     }
 
@@ -47,8 +43,7 @@ public class YARTimeUtils
      * 
      * @return
      */
-    public static String getCurrentTimeInString()
-    {
+    public static String getCurrentTimeInString() {
         return getTime(getCurrentTimeInLong());
     }
 
@@ -57,8 +52,7 @@ public class YARTimeUtils
      * 
      * @return
      */
-    public static String getCurrentTimeInString(SimpleDateFormat dateFormat)
-    {
+    public static String getCurrentTimeInString(SimpleDateFormat dateFormat) {
         return getTime(getCurrentTimeInLong(), dateFormat);
     }
 }

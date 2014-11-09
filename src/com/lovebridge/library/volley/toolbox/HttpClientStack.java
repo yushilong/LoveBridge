@@ -72,8 +72,8 @@ public class HttpClientStack implements HttpStack {
     }
 
     @Override
-    public HttpResponse performRequest(Request<?> request, Map<String, String> additionalHeaders)
-            throws IOException, AuthFailureError {
+    public HttpResponse performRequest(Request<?> request, Map<String, String> additionalHeaders) throws IOException,
+                    AuthFailureError {
         HttpUriRequest httpRequest = createHttpRequest(request, additionalHeaders);
         addHeaders(httpRequest, additionalHeaders);
         addHeaders(httpRequest, request.getHeaders());
@@ -91,13 +91,15 @@ public class HttpClientStack implements HttpStack {
      * Creates the appropriate subclass of HttpUriRequest for passed in request.
      */
     @SuppressWarnings("deprecation")
-    /* protected */ static HttpUriRequest createHttpRequest(Request<?> request,
-            Map<String, String> additionalHeaders) throws AuthFailureError {
+    /* protected */static HttpUriRequest createHttpRequest(Request<?> request, Map<String, String> additionalHeaders)
+                    throws AuthFailureError {
         switch (request.getMethod()) {
             case Method.DEPRECATED_GET_OR_POST: {
-                // This is the deprecated way that needs to be handled for backwards compatibility.
-                // If the request's post body is null, then the assumption is that the request is
-                // GET.  Otherwise, it is assumed that the request is a POST.
+                // This is the deprecated way that needs to be handled for
+                // backwards compatibility.
+                // If the request's post body is null, then the assumption is
+                // that the request is
+                // GET. Otherwise, it is assumed that the request is a POST.
                 byte[] postBody = request.getPostBody();
                 if (postBody != null) {
                     HttpPost postRequest = new HttpPost(request.getUrl());
@@ -143,8 +145,8 @@ public class HttpClientStack implements HttpStack {
         }
     }
 
-    private static void setEntityIfNonEmptyBody(HttpEntityEnclosingRequestBase httpRequest,
-            Request<?> request) throws AuthFailureError {
+    private static void setEntityIfNonEmptyBody(HttpEntityEnclosingRequestBase httpRequest, Request<?> request)
+                    throws AuthFailureError {
         byte[] body = request.getBody();
         if (body != null) {
             HttpEntity entity = new ByteArrayEntity(body);
@@ -154,15 +156,17 @@ public class HttpClientStack implements HttpStack {
 
     /**
      * Called before the request is executed using the underlying HttpClient.
-     *
-     * <p>Overwrite in subclasses to augment the request.</p>
+     * <p>
+     * Overwrite in subclasses to augment the request.
+     * </p>
      */
     protected void onPrepareRequest(HttpUriRequest request) throws IOException {
         // Nothing.
     }
 
     /**
-     * The HttpPatch class does not exist in the Android framework, so this has been defined here.
+     * The HttpPatch class does not exist in the Android framework, so this has
+     * been defined here.
      */
     public static final class HttpPatch extends HttpEntityEnclosingRequestBase {
 

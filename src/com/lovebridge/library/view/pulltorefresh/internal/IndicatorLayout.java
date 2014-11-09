@@ -35,15 +35,13 @@ import com.lovebridge.R;
 import com.lovebridge.library.view.pulltorefresh.PullToRefreshBase;
 
 @SuppressLint("ViewConstructor")
-public class IndicatorLayout extends FrameLayout implements AnimationListener
-{
+public class IndicatorLayout extends FrameLayout implements AnimationListener {
     static final int DEFAULT_ROTATION_ANIMATION_DURATION = 150;
     private Animation mInAnim, mOutAnim;
     private ImageView mArrowImageView;
     private final Animation mRotateAnimation, mResetRotateAnimation;
 
-    public IndicatorLayout(Context context, PullToRefreshBase.Mode mode)
-    {
+    public IndicatorLayout(Context context, PullToRefreshBase.Mode mode) {
         super(context);
         mArrowImageView = new ImageView(context);
         Drawable arrowD = getResources().getDrawable(R.drawable.indicator_arrow);
@@ -52,8 +50,7 @@ public class IndicatorLayout extends FrameLayout implements AnimationListener
         mArrowImageView.setPadding(padding, padding, padding, padding);
         addView(mArrowImageView);
         int inAnimResId, outAnimResId;
-        switch (mode)
-        {
+        switch (mode) {
             case PULL_FROM_END:
                 inAnimResId = R.anim.slide_in_from_bottom;
                 outAnimResId = R.anim.slide_out_to_bottom;
@@ -76,71 +73,61 @@ public class IndicatorLayout extends FrameLayout implements AnimationListener
         mOutAnim = AnimationUtils.loadAnimation(context, outAnimResId);
         mOutAnim.setAnimationListener(this);
         final Interpolator interpolator = new LinearInterpolator();
-        mRotateAnimation = new RotateAnimation(0, -180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        mRotateAnimation = new RotateAnimation(0, -180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+                        0.5f);
         mRotateAnimation.setInterpolator(interpolator);
         mRotateAnimation.setDuration(DEFAULT_ROTATION_ANIMATION_DURATION);
         mRotateAnimation.setFillAfter(true);
-        mResetRotateAnimation = new RotateAnimation(-180, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        mResetRotateAnimation = new RotateAnimation(-180, 0, Animation.RELATIVE_TO_SELF, 0.5f,
+                        Animation.RELATIVE_TO_SELF, 0.5f);
         mResetRotateAnimation.setInterpolator(interpolator);
         mResetRotateAnimation.setDuration(DEFAULT_ROTATION_ANIMATION_DURATION);
         mResetRotateAnimation.setFillAfter(true);
     }
 
-    public final boolean isVisible()
-    {
+    public final boolean isVisible() {
         Animation currentAnim = getAnimation();
-        if (null != currentAnim)
-        {
+        if (null != currentAnim) {
             return mInAnim == currentAnim;
         }
         return getVisibility() == View.VISIBLE;
     }
 
-    public void hide()
-    {
+    public void hide() {
         startAnimation(mOutAnim);
     }
 
-    public void show()
-    {
+    public void show() {
         mArrowImageView.clearAnimation();
         startAnimation(mInAnim);
     }
 
     @Override
-    public void onAnimationEnd(Animation animation)
-    {
-        if (animation == mOutAnim)
-        {
+    public void onAnimationEnd(Animation animation) {
+        if (animation == mOutAnim) {
             mArrowImageView.clearAnimation();
             setVisibility(View.GONE);
-        }
-        else if (animation == mInAnim)
-        {
+        } else if (animation == mInAnim) {
             setVisibility(View.VISIBLE);
         }
         clearAnimation();
     }
 
     @Override
-    public void onAnimationRepeat(Animation animation)
-    {
+    public void onAnimationRepeat(Animation animation) {
         // NO-OP
     }
 
     @Override
-    public void onAnimationStart(Animation animation)
-    {
+    public void onAnimationStart(Animation animation) {
         setVisibility(View.VISIBLE);
     }
 
-    public void releaseToRefresh()
-    {
+    public void releaseToRefresh() {
         mArrowImageView.startAnimation(mRotateAnimation);
     }
 
-    public void pullToRefresh()
-    {
+    public void pullToRefresh() {
         mArrowImageView.startAnimation(mResetRotateAnimation);
     }
 }

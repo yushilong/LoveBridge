@@ -27,47 +27,39 @@ import com.lovebridge.library.volley.toolbox.ImageLoader;
 import com.lovebridge.library.volley.toolbox.ImageLoader.ImageContainer;
 
 /**
- * Implements ImageListener interface to perform fade-In animation of image when download completes.
+ * Implements ImageListener interface to perform fade-In animation of image when
+ * download completes.
+ * 
  * @author Mani Selvaraj
- *
  */
-public class FadeInImageListener implements ImageLoader.ImageListener
-{
+public class FadeInImageListener implements ImageLoader.ImageListener {
     WeakReference<ImageView> mImageView;
     int loadErrorResId;
     private long durationMillis = 500l;
 
-    public FadeInImageListener(ImageView image, int loadErrorResId)
-    {
+    public FadeInImageListener(ImageView image, int loadErrorResId) {
         mImageView = new WeakReference<ImageView>(image);
         this.loadErrorResId = loadErrorResId;
     }
 
     @Override
-    public void onErrorResponse(VolleyError arg0)
-    {
-        if (mImageView.get() != null)
-        {
+    public void onErrorResponse(VolleyError arg0) {
+        if (mImageView.get() != null) {
             mImageView.get().setImageResource(loadErrorResId);
         }
     }
 
     @Override
-    public void onResponse(ImageContainer response , boolean arg1)
-    {
-        if (mImageView.get() != null)
-        {
+    public void onResponse(ImageContainer response, boolean arg1) {
+        if (mImageView.get() != null) {
             ImageView image = mImageView.get();
-            if (response.getBitmap() != null)
-            {
+            if (response.getBitmap() != null) {
                 AlphaAnimation fadeImage = new AlphaAnimation(0, 1);
                 fadeImage.setDuration(durationMillis);
                 fadeImage.setInterpolator(new DecelerateInterpolator());
                 image.startAnimation(fadeImage);
                 image.setImageBitmap(response.getBitmap());
-            }
-            else
-            {
+            } else {
                 image.setImageResource(loadErrorResId);
             }
         }

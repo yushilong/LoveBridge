@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.lovebridge.R;
 import com.lovebridge.bean.User;
-import com.lovebridge.library.YARFragment;
+import com.lovebridge.library.YARBaseFragment;
 import com.lovebridge.library.view.pulltorefresh.PullToRefreshGridView;
 
 /**
@@ -15,34 +15,29 @@ import com.lovebridge.library.view.pulltorefresh.PullToRefreshGridView;
  * @date 2014-10-31 下午5:26:32
  * @version 1.0
  */
-public class RecommendListFragment extends YARFragment
-{
+public class RecommendListFragment extends YARBaseFragment {
     private PullToRefreshGridView mPullToRefreshGridView;
     private RecommendListAdapter mRecommendListAdapter;
 
     @Override
-    public int doGetContentViewId()
-    {
+    public int doGetContentViewId() {
         // TODO Auto-generated method stub
         return R.layout.recommendlist;
     }
 
     @Override
-    public void doInitSubViews(View containerView)
-    {
+    public void doInitSubViews(View containerView) {
         // TODO Auto-generated method stub
-        mPullToRefreshGridView = (PullToRefreshGridView) containerView.findViewById(R.id.pull_refresh_grid);
+        mPullToRefreshGridView = (PullToRefreshGridView)containerView.findViewById(R.id.pull_refresh_grid);
         mPullToRefreshGridView.getRefreshableView().setNumColumns(4);
         mRecommendListAdapter = new RecommendListAdapter(mActivity, new ArrayList<User>());
         mPullToRefreshGridView.setAdapter(mRecommendListAdapter);
     }
 
     @Override
-    public void doInitDataes()
-    {
+    public void doInitDataes() {
         // TODO Auto-generated method stub
-        for (int i = 0; i < 22; i++)
-        {
+        for (int i = 0; i < 22; i++) {
             User user = new User();
             user.name = "name" + i;
             user.age = 15 + i;
@@ -53,14 +48,12 @@ public class RecommendListFragment extends YARFragment
     }
 
     @Override
-    public void doAfter()
-    {
+    public void doAfter() {
         // TODO Auto-generated method stub
     }
 
     @Override
-    public Object getNavigationTitle()
-    {
+    public Object getNavigationTitle() {
         // TODO Auto-generated method stub
         return "RECOMMEND LIST";
     }

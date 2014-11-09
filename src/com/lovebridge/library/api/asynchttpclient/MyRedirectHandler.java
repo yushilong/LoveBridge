@@ -20,30 +20,24 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 // taken from: https://stackoverflow.com/questions/3420767/httpclient-redirecting-to-url-with-spaces-throwing-exception
-class MyRedirectHandler extends DefaultRedirectHandler
-{
+class MyRedirectHandler extends DefaultRedirectHandler {
     private static final String REDIRECT_LOCATIONS = "http.protocol.redirect-locations";
     private final boolean enableRedirects;
 
-    public MyRedirectHandler(final boolean allowRedirects)
-    {
+    public MyRedirectHandler(final boolean allowRedirects) {
         super();
         this.enableRedirects = allowRedirects;
     }
 
-    public boolean isRedirectRequested(final HttpResponse response , final HttpContext context)
-    {
-        if (!enableRedirects)
-        {
+    public boolean isRedirectRequested(final HttpResponse response, final HttpContext context) {
+        if (!enableRedirects) {
             return false;
         }
-        if (response == null)
-        {
+        if (response == null) {
             throw new IllegalArgumentException("HTTP response may not be null");
         }
         int statusCode = response.getStatusLine().getStatusCode();
-        switch (statusCode)
-        {
+        switch (statusCode) {
             case HttpStatus.SC_MOVED_TEMPORARILY:
             case HttpStatus.SC_MOVED_PERMANENTLY:
             case HttpStatus.SC_SEE_OTHER:
@@ -54,88 +48,66 @@ class MyRedirectHandler extends DefaultRedirectHandler
         } // end of switch
     }
 
-    public URI getLocationURI(final HttpResponse response , final HttpContext context) throws ProtocolException
-    {
-        if (response == null)
-        {
+    public URI getLocationURI(final HttpResponse response, final HttpContext context) throws ProtocolException {
+        if (response == null) {
             throw new IllegalArgumentException("HTTP response may not be null");
         }
         // get the location header to find out where to redirect to
         Header locationHeader = response.getFirstHeader("location");
-        if (locationHeader == null)
-        {
+        if (locationHeader == null) {
             // got a redirect response, but no location header
-            throw new ProtocolException("Received redirect response " + response.getStatusLine() + " but no location header");
+            throw new ProtocolException("Received redirect response " + response.getStatusLine()
+                            + " but no location header");
         }
         // HERE IS THE MODIFIED LINE OF CODE
         String location = locationHeader.getValue().replaceAll(" ", "%20");
         URI uri;
-        try
-        {
+        try {
             uri = new URI(location);
-        }
-        catch (URISyntaxException ex)
-        {
+        } catch (URISyntaxException ex) {
             throw new ProtocolException("Invalid redirect URI: " + location, ex);
         }
         HttpParams params = response.getParams();
         // rfc2616 demands the location value be a complete URI
         // Location = "Location" ":" absoluteURI
-        if (!uri.isAbsolute())
-        {
-            if (params.isParameterTrue(ClientPNames.REJECT_RELATIVE_REDIRECT))
-            {
+        if (!uri.isAbsolute()) {
+            if (params.isParameterTrue(ClientPNames.REJECT_RELATIVE_REDIRECT)) {
                 throw new ProtocolException("Relative redirect location '" + uri + "' not allowed");
             }
             // Adjust location URI
-            HttpHost target = (HttpHost) context.getAttribute(ExecutionContext.HTTP_TARGET_HOST);
-            if (target == null)
-            {
+            HttpHost target = (HttpHost)context.getAttribute(ExecutionContext.HTTP_TARGET_HOST);
+            if (target == null) {
                 throw new IllegalStateException("Target host not available " + "in the HTTP context");
             }
-            HttpRequest request = (HttpRequest) context.getAttribute(ExecutionContext.HTTP_REQUEST);
-            try
-            {
+            HttpRequest request = (HttpRequest)context.getAttribute(ExecutionContext.HTTP_REQUEST);
+            try {
                 URI requestURI = new URI(request.getRequestLine().getUri());
                 URI absoluteRequestURI = URIUtils.rewriteURI(requestURI, target, true);
                 uri = URIUtils.resolve(absoluteRequestURI, uri);
-            }
-            catch (URISyntaxException ex)
-            {
+            } catch (URISyntaxException ex) {
                 throw new ProtocolException(ex.getMessage(), ex);
             }
         }
-        if (params.isParameterFalse(ClientPNames.ALLOW_CIRCULAR_REDIRECTS))
-        {
-            RedirectLocations redirectLocations = (RedirectLocations) context.getAttribute(REDIRECT_LOCATIONS);
-            if (redirectLocations == null)
-            {
+        if (params.isParameterFalse(ClientPNames.ALLOW_CIRCULAR_REDIRECTS)) {
+            RedirectLocations redirectLocations = (RedirectLocations)context.getAttribute(REDIRECT_LOCATIONS);
+            if (redirectLocations == null) {
                 redirectLocations = new RedirectLocations();
                 context.setAttribute(REDIRECT_LOCATIONS, redirectLocations);
             }
             URI redirectURI;
-            if (uri.getFragment() != null)
-            {
-                try
-                {
+            if (uri.getFragment() != null) {
+                try {
                     HttpHost target = new HttpHost(uri.getHost(), uri.getPort(), uri.getScheme());
                     redirectURI = URIUtils.rewriteURI(uri, target, true);
-                }
-                catch (URISyntaxException ex)
-                {
+                } catch (URISyntaxException ex) {
                     throw new ProtocolException(ex.getMessage(), ex);
                 }
-            }
-            else
-            {
+            } else {
                 redirectURI = uri;
             }
-            if (redirectLocations.contains(redirectURI))
-            {
+            if (redirectLocations.contains(redirectURI)) {
                 throw new CircularRedirectException("Circular redirect to '" + redirectURI + "'");
-            }
-            else
-            {
+            } else {
                 redirectLocations.add(redirectURI);
             }
         }

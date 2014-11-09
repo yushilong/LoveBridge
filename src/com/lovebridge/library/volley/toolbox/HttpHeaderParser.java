@@ -32,9 +32,10 @@ public class HttpHeaderParser {
 
     /**
      * Extracts a {@link Cache.Entry} from a {@link NetworkResponse}.
-     *
+     * 
      * @param response The network response to parse headers from
-     * @return a cache entry for the given response, or null if the response is not cacheable.
+     * @return a cache entry for the given response, or null if the response is
+     *         not cacheable.
      */
     public static Cache.Entry parseCacheHeaders(NetworkResponse response) {
         long now = System.currentTimeMillis();
@@ -81,12 +82,14 @@ public class HttpHeaderParser {
 
         serverEtag = headers.get("ETag");
 
-        // Cache-Control takes precedence over an Expires header, even if both exist and Expires
+        // Cache-Control takes precedence over an Expires header, even if both
+        // exist and Expires
         // is more restrictive.
         if (hasCacheControl) {
             softExpire = now + maxAge * 1000;
         } else if (serverDate > 0 && serverExpires >= serverDate) {
-            // Default semantic for Expire header in HTTP specification is softExpire.
+            // Default semantic for Expire header in HTTP specification is
+            // softExpire.
             softExpire = now + (serverExpires - serverDate);
         }
 
@@ -115,8 +118,8 @@ public class HttpHeaderParser {
     }
 
     /**
-     * Returns the charset specified in the Content-Type of this header,
-     * or the HTTP default (ISO-8859-1) if none can be found.
+     * Returns the charset specified in the Content-Type of this header, or the
+     * HTTP default (ISO-8859-1) if none can be found.
      */
     public static String parseCharset(Map<String, String> headers) {
         String contentType = headers.get(HTTP.CONTENT_TYPE);

@@ -33,10 +33,12 @@ public class Volley {
     private static final String DEFAULT_CACHE_DIR = "volley";
 
     /**
-     * Creates a default instance of the worker pool and calls {@link RequestQueue#start()} on it.
-     *
+     * Creates a default instance of the worker pool and calls
+     * {@link RequestQueue#start()} on it.
+     * 
      * @param context A {@link Context} to use for creating the cache dir.
-     * @param stack An {@link HttpStack} to use for the network, or null for default.
+     * @param stack An {@link HttpStack} to use for the network, or null for
+     *            default.
      * @return A started {@link RequestQueue} instance.
      */
     public static RequestQueue newRequestQueue(Context context, HttpStack stack) {
@@ -55,7 +57,8 @@ public class Volley {
                 stack = new HurlStack();
             } else {
                 // Prior to Gingerbread, HttpUrlConnection was unreliable.
-                // See: http://android-developers.blogspot.com/2011/09/androids-http-clients.html
+                // See:
+                // http://android-developers.blogspot.com/2011/09/androids-http-clients.html
                 stack = new HttpClientStack(AndroidHttpClient.newInstance(userAgent));
             }
         }
@@ -69,8 +72,9 @@ public class Volley {
     }
 
     /**
-     * Creates a default instance of the worker pool and calls {@link RequestQueue#start()} on it.
-     *
+     * Creates a default instance of the worker pool and calls
+     * {@link RequestQueue#start()} on it.
+     * 
      * @param context A {@link Context} to use for creating the cache dir.
      * @return A started {@link RequestQueue} instance.
      */

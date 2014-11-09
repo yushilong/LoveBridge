@@ -35,81 +35,80 @@ import com.lovebridge.library.volley.toolbox.HttpHeaderParser;
 import com.lovebridge.library.volley.toolbox.JsonRequest;
 
 /**
- * MultipartRequest - To handle the large file uploads.
- * Extended from JSONRequest. You might want to change to StringRequest based on your response type.
+ * MultipartRequest - To handle the large file uploads. Extended from
+ * JSONRequest. You might want to change to StringRequest based on your response
+ * type.
+ * 
  * @author Mani Selvaraj
- *
  */
 public class YARMultiPartRequest extends JsonRequest<JSONObject> {
 
-	/* To hold the parameter name and the File to upload */
-	private Map<String,File> fileUploads = new HashMap<String,File>();
-	
-	/* To hold the parameter name and the string content to upload */
-	private Map<String,String> stringUploads = new HashMap<String,String>();
-	
-	private Map<String, String> headers = new HashMap<String, String>();
-	
+    /* To hold the parameter name and the File to upload */
+    private Map<String, File> fileUploads = new HashMap<String, File>();
+
+    /* To hold the parameter name and the string content to upload */
+    private Map<String, String> stringUploads = new HashMap<String, String>();
+
+    private Map<String, String> headers = new HashMap<String, String>();
+
     /**
      * Creates a new request.
+     * 
      * @param method the HTTP method to use
      * @param url URL to fetch the JSON from
-     * @param jsonRequest A {@link JSONObject} to post with the request. Null is allowed and
-     *   indicates no parameters will be posted along with request.
+     * @param jsonRequest A {@link JSONObject} to post with the request. Null is
+     *            allowed and indicates no parameters will be posted along with
+     *            request.
      * @param listener Listener to receive the JSON response
      * @param errorListener Error listener, or null to ignore errors.
      */
-    public YARMultiPartRequest(int method, String url, JSONObject jsonRequest,
-            Listener<JSONObject> listener, ErrorListener errorListener) {
-        super(method, url, (jsonRequest == null) ? null : jsonRequest.toString(), listener,
-                    errorListener);
+    public YARMultiPartRequest(int method, String url, JSONObject jsonRequest, Listener<JSONObject> listener,
+                    ErrorListener errorListener) {
+        super(method, url, (jsonRequest == null) ? null : jsonRequest.toString(), listener, errorListener);
     }
 
     /**
-     * Constructor which defaults to <code>GET</code> if <code>jsonRequest</code> is
-     * <code>null</code>, <code>POST</code> otherwise.
-     *
+     * Constructor which defaults to <code>GET</code> if
+     * <code>jsonRequest</code> is <code>null</code>, <code>POST</code>
+     * otherwise.
+     * 
      * @see #JsonObjectRequest(int, String, JSONObject, Listener, ErrorListener)
      */
     public YARMultiPartRequest(String url, JSONObject jsonRequest, Listener<JSONObject> listener,
-            ErrorListener errorListener) {
-        this(jsonRequest == null ? Method.GET : Method.POST, url, jsonRequest,
-                listener, errorListener);
+                    ErrorListener errorListener) {
+        this(jsonRequest == null ? Method.GET : Method.POST, url, jsonRequest, listener, errorListener);
     }
 
+    public void addFileUpload(String param, File file) {
+        fileUploads.put(param, file);
+    }
 
-    public void addFileUpload(String param,File file) {
-    	fileUploads.put(param,file);
+    public void addStringUpload(String param, String content) {
+        stringUploads.put(param, content);
     }
-    
-    public void addStringUpload(String param,String content) {
-    	stringUploads.put(param,content);
+
+    public Map<String, File> getFileUploads() {
+        return fileUploads;
     }
-    
-    public Map<String,File> getFileUploads() {
-    	return fileUploads;
+
+    public Map<String, String> getStringUploads() {
+        return stringUploads;
     }
-    
-    public Map<String,String> getStringUploads() {
-    	return stringUploads;
+
+    @Override
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        return headers;
     }
-    
-	@Override
-	public Map<String, String> getHeaders() throws AuthFailureError {
-		return headers;
-	}
-	
-	public void setHeader(String title, String content) {
-		 headers.put(title, content);
-	}
+
+    public void setHeader(String title, String content) {
+        headers.put(title, content);
+    }
 
     @Override
     protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
         try {
-            String jsonString =
-                new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-            return Response.success(new JSONObject(jsonString),
-                    HttpHeaderParser.parseCacheHeaders(response));
+            String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+            return Response.success(new JSONObject(jsonString), HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));
         } catch (JSONException je) {

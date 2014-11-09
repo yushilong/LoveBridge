@@ -68,7 +68,8 @@ public class BasicNetwork implements Network {
      * @param httpStack HTTP stack to be used
      */
     public BasicNetwork(HttpStack httpStack) {
-        // If a pool isn't passed in, then build a small default pool that will give us a lot of
+        // If a pool isn't passed in, then build a small default pool that will
+        // give us a lot of
         // benefit and not use too much memory.
         this(httpStack, new ByteArrayPool(DEFAULT_POOL_SIZE));
     }
@@ -103,8 +104,7 @@ public class BasicNetwork implements Network {
 
                     Entry entry = request.getCacheEntry();
                     if (entry == null) {
-                        return new NetworkResponse(HttpStatus.SC_NOT_MODIFIED, null,
-                                responseHeaders, true);
+                        return new NetworkResponse(HttpStatus.SC_NOT_MODIFIED, null, responseHeaders, true);
                     }
 
                     // A HTTP 304 response does not have all header fields. We
@@ -112,17 +112,17 @@ public class BasicNetwork implements Network {
                     // the new ones from the response.
                     // http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3.5
                     entry.responseHeaders.putAll(responseHeaders);
-                    return new NetworkResponse(HttpStatus.SC_NOT_MODIFIED, entry.data,
-                            entry.responseHeaders, true);
+                    return new NetworkResponse(HttpStatus.SC_NOT_MODIFIED, entry.data, entry.responseHeaders, true);
                 }
 
-                // Some responses such as 204s do not have content.  We must check.
+                // Some responses such as 204s do not have content. We must
+                // check.
                 if (httpResponse.getEntity() != null) {
-                  responseContents = entityToBytes(httpResponse.getEntity());
+                    responseContents = entityToBytes(httpResponse.getEntity());
                 } else {
-                  // Add 0 byte response as a way of honestly representing a
-                  // no-content request.
-                  responseContents = new byte[0];
+                    // Add 0 byte response as a way of honestly representing a
+                    // no-content request.
+                    responseContents = new byte[0];
                 }
 
                 // if the request is slow, log it.
@@ -149,12 +149,9 @@ public class BasicNetwork implements Network {
                 }
                 VolleyLog.e("Unexpected response code %d for %s", statusCode, request.getUrl());
                 if (responseContents != null) {
-                    networkResponse = new NetworkResponse(statusCode, responseContents,
-                            responseHeaders, false);
-                    if (statusCode == HttpStatus.SC_UNAUTHORIZED ||
-                            statusCode == HttpStatus.SC_FORBIDDEN) {
-                        attemptRetryOnException("auth",
-                                request, new AuthFailureError(networkResponse));
+                    networkResponse = new NetworkResponse(statusCode, responseContents, responseHeaders, false);
+                    if (statusCode == HttpStatus.SC_UNAUTHORIZED || statusCode == HttpStatus.SC_FORBIDDEN) {
+                        attemptRetryOnException("auth", request, new AuthFailureError(networkResponse));
                     } else {
                         // TODO: Only throw ServerError for 5xx status codes.
                         throw new ServerError(networkResponse);
@@ -169,31 +166,31 @@ public class BasicNetwork implements Network {
     /**
      * Logs requests that took over SLOW_REQUEST_THRESHOLD_MS to complete.
      */
-    private void logSlowRequests(long requestLifetime, Request<?> request,
-            byte[] responseContents, StatusLine statusLine) {
+    private void logSlowRequests(long requestLifetime, Request<?> request, byte[] responseContents,
+                                 StatusLine statusLine) {
         if (DEBUG || requestLifetime > SLOW_REQUEST_THRESHOLD_MS) {
-            VolleyLog.d("HTTP response for request=<%s> [lifetime=%d], [size=%s], " +
-                    "[rc=%d], [retryCount=%s]", request, requestLifetime,
-                    responseContents != null ? responseContents.length : "null",
-                    statusLine.getStatusCode(), request.getRetryPolicy().getCurrentRetryCount());
+            VolleyLog.d("HTTP response for request=<%s> [lifetime=%d], [size=%s], " + "[rc=%d], [retryCount=%s]",
+                            request, requestLifetime, responseContents != null ? responseContents.length : "null",
+                            statusLine.getStatusCode(), request.getRetryPolicy().getCurrentRetryCount());
         }
     }
 
     /**
-     * Attempts to prepare the request for a retry. If there are no more attempts remaining in the
-     * request's retry policy, a timeout exception is thrown.
+     * Attempts to prepare the request for a retry. If there are no more
+     * attempts remaining in the request's retry policy, a timeout exception is
+     * thrown.
+     * 
      * @param request The request to use.
      */
-    private static void attemptRetryOnException(String logPrefix, Request<?> request,
-            VolleyError exception) throws VolleyError {
+    private static void attemptRetryOnException(String logPrefix, Request<?> request, VolleyError exception)
+                    throws VolleyError {
         RetryPolicy retryPolicy = request.getRetryPolicy();
         int oldTimeout = request.getTimeoutMs();
 
         try {
             retryPolicy.retry(exception);
         } catch (VolleyError e) {
-            request.addMarker(
-                    String.format("%s-timeout-giveup [timeout=%s]", logPrefix, oldTimeout));
+            request.addMarker(String.format("%s-timeout-giveup [timeout=%s]", logPrefix, oldTimeout));
             throw e;
         }
         request.addMarker(String.format("%s-retry [timeout=%s]", logPrefix, oldTimeout));
@@ -222,8 +219,7 @@ public class BasicNetwork implements Network {
 
     /** Reads the contents of HttpEntity into a byte[]. */
     private byte[] entityToBytes(HttpEntity entity) throws IOException, ServerError {
-        PoolingByteArrayOutputStream bytes =
-                new PoolingByteArrayOutputStream(mPool, (int) entity.getContentLength());
+        PoolingByteArrayOutputStream bytes = new PoolingByteArrayOutputStream(mPool, (int)entity.getContentLength());
         byte[] buffer = null;
         try {
             InputStream in = entity.getContent();
@@ -238,10 +234,12 @@ public class BasicNetwork implements Network {
             return bytes.toByteArray();
         } finally {
             try {
-                // Close the InputStream and release the resources by "consuming the content".
+                // Close the InputStream and release the resources by
+                // "consuming the content".
                 entity.consumeContent();
             } catch (IOException e) {
-                // This can happen if there was an exception above that left the entity in
+                // This can happen if there was an exception above that left the
+                // entity in
                 // an invalid state.
                 VolleyLog.v("Error occured when calling consumingContent");
             }

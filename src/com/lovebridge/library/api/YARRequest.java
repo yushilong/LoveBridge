@@ -26,8 +26,7 @@ import com.lovebridge.library.volley.ex.YARJsonRequest;
  * @date 2014-9-30
  * @version 1.0
  */
-public class YARRequest
-{
+public class YARRequest {
     private static final String TAG = "Volley";
     private YARJsonRequest mYarJsonRequest;
     private YARApiListenerImpl mYarApiListenerImpl;
@@ -36,8 +35,8 @@ public class YARRequest
     //
     private JSONObject requestParams;
 
-    public YARRequest(String apiMethod, JSONObject requestParams, YARApiListenerImpl yarApiListenerImpl, View mProgressView)
-    {
+    public YARRequest(String apiMethod, JSONObject requestParams, YARApiListenerImpl yarApiListenerImpl,
+                    View mProgressView) {
         // TODO Auto-generated constructor stub
         this.url = YARConstants.HOST + apiMethod;
         this.mYarApiListenerImpl = yarApiListenerImpl;
@@ -47,8 +46,8 @@ public class YARRequest
     }
 
     @SuppressWarnings("rawtypes")
-    public YARRequest(String apiMethod, JSONObject requestParams, YARApiListenerImpl yarApiListenerImpl, View mProgressView, PullToRefreshBase pullToRefreshBase)
-    {
+    public YARRequest(String apiMethod, JSONObject requestParams, YARApiListenerImpl yarApiListenerImpl,
+                    View mProgressView, PullToRefreshBase pullToRefreshBase) {
         super();
         this.url = YARConstants.HOST + apiMethod;
         this.mYarApiListenerImpl = yarApiListenerImpl;
@@ -58,25 +57,19 @@ public class YARRequest
         initRequest();
     }
 
-    private void initRequest()
-    {
+    private void initRequest() {
         // TODO Auto-generated method stub
-        mYarJsonRequest = new YARJsonRequest(url, requestParams, new Response.Listener<JSONObject>()
-        {
+        mYarJsonRequest = new YARJsonRequest(url, requestParams, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONObject response)
-            {
+            public void onResponse(JSONObject response) {
                 // TODO Auto-generated method stub
-                if (isResponseSuccess(response))
-                {
+                if (isResponseSuccess(response)) {
                     mYarApiListenerImpl.onSuccess(response);
                 }
             }
-        }, new Response.ErrorListener()
-        {
+        }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error)
-            {
+            public void onErrorResponse(VolleyError error) {
                 // TODO Auto-generated method stub
                 mYarApiListenerImpl.onFailure(error);
             }
@@ -85,44 +78,34 @@ public class YARRequest
         mYarJsonRequest.setHeaders();
     }
 
-    public void start()
-    {
+    public void start() {
         // 是否读缓存数据
-        if (shouldCache())
-        {
+        if (shouldCache()) {
             Entry cacheEntry = mYarJsonRequest.getCacheEntry();
-            if (cacheEntry != null)
-            {
+            if (cacheEntry != null) {
                 String cacheStr = new String(cacheEntry.data);
-                if (TextUtils.isEmpty(cacheStr.trim()))
-                {
+                if (TextUtils.isEmpty(cacheStr.trim())) {
                     return;
                 }
-                try
-                {
+                try {
                     // jsonArray
-                    if (cacheStr.startsWith("["))
-                    {
+                    if (cacheStr.startsWith("[")) {
                         JSONArray jsonArray = new JSONArray(cacheStr);
                         mYarApiListenerImpl.onSuccess(jsonArray);
-                    }
-                    else
+                    } else
                     // jsonObject
                     {
                         JSONObject jsonObject = new JSONObject(cacheStr);
                         mYarApiListenerImpl.onSuccess(jsonObject);
                     }
-                }
-                catch (JSONException e)
-                {
+                } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                     mYarApiListenerImpl.onFailure(new ParseError());
                 }
             }
         }
-        if (!YARNetUtils.isNetAvailable())
-        {
+        if (!YARNetUtils.isNetAvailable()) {
             mYarApiListenerImpl.onFailure(new NetworkError());
             return;
         }
@@ -130,16 +113,13 @@ public class YARRequest
         YARVolley.getRequestQueue().add(mYarJsonRequest);
     }
 
-    private boolean isResponseSuccess(Object object)
-    {
-        if ("null".equals(object) || object == null)
-        {
+    private boolean isResponseSuccess(Object object) {
+        if ("null".equals(object) || object == null) {
             YARLogUtils.i(TAG, "response--->null");
             return false;
         }
         YARLogUtils.i(TAG, "response--->" + object.toString());
-        if (shouldCache())
-        {
+        if (shouldCache()) {
             Entry cacheEntry = new Entry();
             cacheEntry.data = object.toString().getBytes();
             mYarJsonRequest.setCacheEntry(cacheEntry);
@@ -147,43 +127,35 @@ public class YARRequest
         return true;
     }
 
-    public JSONObject getRequestParams()
-    {
+    public JSONObject getRequestParams() {
         return requestParams;
     }
 
-    public void setRequestParams(JSONObject requestParams)
-    {
+    public void setRequestParams(JSONObject requestParams) {
         this.requestParams = requestParams;
     }
 
-    public void setShouldCache(boolean shouldCache)
-    {
+    public void setShouldCache(boolean shouldCache) {
         mYarJsonRequest.setShouldCache(shouldCache);
     }
 
-    public boolean shouldCache()
-    {
+    public boolean shouldCache() {
         return mYarJsonRequest.shouldCache();
     }
 
-    public void setPriority(Priority priority)
-    {
+    public void setPriority(Priority priority) {
         mYarJsonRequest.setPriority(priority);
     }
 
-    public void setRetryPolicy(RetryPolicy retryPolicy)
-    {
+    public void setRetryPolicy(RetryPolicy retryPolicy) {
         mYarJsonRequest.setRetryPolicy(retryPolicy);
     }
 
-    public void setTag(Object tag)
-    {
+    public void setTag(Object tag) {
         mYarJsonRequest.setTag(tag);
     }
 
-    public void getTag(Object tag)
-    {
+    public void getTag(Object tag) {
         mYarJsonRequest.getTag();
     }
 }

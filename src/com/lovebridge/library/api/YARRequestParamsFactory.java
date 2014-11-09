@@ -9,17 +9,12 @@ import org.json.JSONObject;
  * @date 2014-9-29 下午5:34:13
  * @version 1.0
  */
-public class YARRequestParamsFactory
-{
-    public static JSONObject createRequestParams()
-    {
+public class YARRequestParamsFactory {
+    public static JSONObject createRequestParams() {
         JSONObject jsonObject = new JSONObject();
-        try
-        {
+        try {
             jsonObject.put("userId", "123456");
-        }
-        catch (JSONException e)
-        {
+        } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

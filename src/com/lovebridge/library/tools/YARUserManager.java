@@ -13,8 +13,7 @@ import com.lovebridge.bean.User;
  * @date 2014-9-29
  * @version 1.0
  */
-public class YARUserManager
-{
+public class YARUserManager {
     private User YARUser;
     private boolean isLogined;
     private static YARUserManager _instance;
@@ -24,18 +23,14 @@ public class YARUserManager
      * 
      * @param userString
      */
-    public void saveUser(String userString)
-    {
-        if (!TextUtils.isEmpty(userString))
-        {
+    public void saveUser(String userString) {
+        if (!TextUtils.isEmpty(userString)) {
             isLogined = true;
             YARUser = new Gson().fromJson(userString, User.class);
             // B5MPreferenceHelper.saveStringValue(MainApplication.getInstance(),
             // B5MPreferenceKeys.USERNAME, YARUser.username);
             YARCacheManager.getInstance().saveObject(userString, "");
-        }
-        else
-        {
+        } else {
             throw new NullPointerException("YARUser is null");
         }
     }
@@ -43,56 +38,43 @@ public class YARUserManager
     /**
      * 清除数据，例如登出操作
      */
-    public void clearData()
-    {
+    public void clearData() {
         YARUser = null;
         isLogined = false;
     }
 
-    public User getUser()
-    {
-        if (isLogined)
-        {
-            if (YARUser == null)
-            {
+    public User getUser() {
+        if (isLogined) {
+            if (YARUser == null) {
                 String userString = YARCacheManager.getInstance().readObject("");
-                if (!TextUtils.isEmpty(userString))
-                {
+                if (!TextUtils.isEmpty(userString)) {
                     return new Gson().fromJson(userString, User.class);
                 }
-            }
-            else
-            {
+            } else {
                 return YARUser;
             }
         }
         return null;
     }
 
-    public boolean isLogined()
-    {
+    public boolean isLogined() {
         return isLogined;
     }
 
-    public static YARUserManager getInstance()
-    {
-        synchronized (YARUserManager.class)
-        {
-            if (_instance == null)
-            {
+    public static YARUserManager getInstance() {
+        synchronized (YARUserManager.class) {
+            if (_instance == null) {
                 _instance = new YARUserManager();
             }
         }
         return _instance;
     }
 
-    public boolean checkIsLogined(Activity activity , String classForName)
-    {
-        if (!isLogined)
-        {
+    public boolean checkIsLogined(Activity activity, String classForName) {
+        if (!isLogined) {
             Bundle bundle = new Bundle();
             bundle.putString("classForName", classForName);
-            //此处跳转到登录界面
+            // 此处跳转到登录界面
             return false;
         }
         return true;

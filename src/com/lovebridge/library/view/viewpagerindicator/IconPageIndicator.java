@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.lovebridge.library.view.viewpagerindicator;
 
 import static android.view.ViewGroup.LayoutParams.FILL_PARENT;
@@ -127,7 +128,7 @@ public class IconPageIndicator extends HorizontalScrollView implements PageIndic
 
     public void notifyDataSetChanged() {
         mIconsLayout.removeAllViews();
-        IconPagerAdapter iconAdapter = (IconPagerAdapter) mViewPager.getAdapter();
+        IconPagerAdapter iconAdapter = (IconPagerAdapter)mViewPager.getAdapter();
         int count = iconAdapter.getCount();
         for (int i = 0; i < count; i++) {
             ImageView view = new ImageView(getContext(), null, R.attr.vpiIconPageIndicatorStyle);
