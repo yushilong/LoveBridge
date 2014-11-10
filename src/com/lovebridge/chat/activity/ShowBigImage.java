@@ -5,12 +5,10 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -46,66 +44,6 @@ public class ShowBigImage extends YARActivity {
     private Bitmap bitmap;
     private boolean isDownloaded;
     private ProgressBar loadLocalPb;
-
-    @SuppressLint("NewApi")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_show_big_image);
-        super.onCreate(savedInstanceState);
-
-        image = (PhotoView)findViewById(R.id.image);
-        loadLocalPb = (ProgressBar)findViewById(R.id.pb_load_local);
-
-        default_res = getIntent().getIntExtra("default_image", R.drawable.default_avatar);
-        showAvator = getIntent().getBooleanExtra("showAvator", false);
-        username = getIntent().getStringExtra("username");
-        deleteAfterDownload = getIntent().getBooleanExtra("delete", false);
-
-        Uri uri = getIntent().getParcelableExtra("uri");
-        String remotepath = getIntent().getExtras().getString("remotepath");
-        String secret = getIntent().getExtras().getString("secret");
-        System.err.println("show big image uri:" + uri + " remotepath:" + remotepath);
-
-        // 本地存在，直接显示本地的图片
-        if (uri != null && new File(uri.getPath()).exists()) {
-            System.err.println("showbigimage file exists. directly show it");
-            DisplayMetrics metrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(metrics);
-            // int screenWidth = metrics.widthPixels;
-            // int screenHeight =metrics.heightPixels;
-            bitmap = ImageCache.getInstance().get(uri.getPath());
-            if (bitmap == null) {
-                LoadLocalBigImgTask task = new LoadLocalBigImgTask(this, uri.getPath(), image, loadLocalPb,
-                                ImageUtils.SCALE_IMAGE_WIDTH, ImageUtils.SCALE_IMAGE_HEIGHT);
-                if (android.os.Build.VERSION.SDK_INT > 10) {
-                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                } else {
-                    task.execute();
-                }
-            } else {
-                image.setImageBitmap(bitmap);
-            }
-        } else if (remotepath != null) { // 去服务器下载图片
-            System.err.println("download remote image");
-            Map<String, String> maps = new HashMap<String, String>();
-            String accessToken = EMChatManager.getInstance().getAccessToken();
-            maps.put("Authorization", "Bearer " + accessToken);
-            if (!TextUtils.isEmpty(secret)) {
-                maps.put("share-secret", secret);
-            }
-            maps.put("Accept", "application/octet-stream");
-            downloadImage(remotepath, maps);
-        } else {
-            image.setImageResource(default_res);
-        }
-
-        image.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-    }
 
     /**
      * 下载图片
@@ -206,19 +144,66 @@ public class ShowBigImage extends YARActivity {
     @Override
     public int doGetContentViewId() {
         // TODO Auto-generated method stub
-        return 0;
+        return R.layout.activity_show_big_image;
     }
 
     @Override
     public void doInitSubViews(View containerView) {
         // TODO Auto-generated method stub
-
+        image = (PhotoView)findViewById(R.id.image);
+        loadLocalPb = (ProgressBar)findViewById(R.id.pb_load_local);
+        image.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
     public void doInitDataes() {
         // TODO Auto-generated method stub
+        default_res = getIntent().getIntExtra("default_image", R.drawable.default_avatar);
+        showAvator = getIntent().getBooleanExtra("showAvator", false);
+        username = getIntent().getStringExtra("username");
+        deleteAfterDownload = getIntent().getBooleanExtra("delete", false);
 
+        Uri uri = getIntent().getParcelableExtra("uri");
+        String remotepath = getIntent().getExtras().getString("remotepath");
+        String secret = getIntent().getExtras().getString("secret");
+
+        // 本地存在，直接显示本地的图片
+        if (uri != null && new File(uri.getPath()).exists()) {
+            System.err.println("showbigimage file exists. directly show it");
+            DisplayMetrics metrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(metrics);
+            // int screenWidth = metrics.widthPixels;
+            // int screenHeight =metrics.heightPixels;
+            bitmap = ImageCache.getInstance().get(uri.getPath());
+            if (bitmap == null) {
+                LoadLocalBigImgTask task = new LoadLocalBigImgTask(this, uri.getPath(), image, loadLocalPb,
+                                ImageUtils.SCALE_IMAGE_WIDTH, ImageUtils.SCALE_IMAGE_HEIGHT);
+                if (android.os.Build.VERSION.SDK_INT > 10) {
+                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                } else {
+                    task.execute();
+                }
+            } else {
+                image.setImageBitmap(bitmap);
+            }
+        } else if (remotepath != null) { // 去服务器下载图片
+            System.err.println("download remote image");
+            Map<String, String> maps = new HashMap<String, String>();
+            String accessToken = EMChatManager.getInstance().getAccessToken();
+            maps.put("Authorization", "Bearer " + accessToken);
+            if (!TextUtils.isEmpty(secret)) {
+                maps.put("share-secret", secret);
+            }
+            maps.put("Accept", "application/octet-stream");
+            downloadImage(remotepath, maps);
+        } else {
+            image.setImageResource(default_res);
+        }
     }
 
     @Override

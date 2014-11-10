@@ -23,7 +23,6 @@ import java.util.TimerTask;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -68,6 +67,7 @@ import com.lovebridge.R;
 import com.lovebridge.chat.activity.AlertActivity;
 import com.lovebridge.chat.activity.BaiduMapActivity;
 import com.lovebridge.chat.activity.ChatActivity;
+import com.lovebridge.chat.activity.ContextMenuActivity;
 import com.lovebridge.chat.activity.ShowBigImage;
 import com.lovebridge.chat.activity.ShowNormalFileActivity;
 import com.lovebridge.chat.activity.ShowVideoActivity;
@@ -635,8 +635,9 @@ public class MessageAdapter extends BaseAdapter {
 
             @Override
             public boolean onLongClick(View v) {
-                activity.startActivityForResult(new Intent(activity, ContextMenu.class).putExtra("position", position)
-                                .putExtra("type", EMMessage.Type.VIDEO.ordinal()),
+                activity.startActivityForResult(
+                                new Intent(activity, ContextMenuActivity.class).putExtra("position", position)
+                                                .putExtra("type", EMMessage.Type.VIDEO.ordinal()),
                                 ChatActivity.REQUEST_CODE_CONTEXT_MENU);
                 return true;
             }

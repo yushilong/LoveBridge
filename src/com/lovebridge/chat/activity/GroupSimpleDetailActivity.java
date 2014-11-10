@@ -15,7 +15,6 @@
 package com.lovebridge.chat.activity;
 
 import android.app.ProgressDialog;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -38,54 +37,6 @@ public class GroupSimpleDetailActivity extends YARActivity {
     private EMGroup group;
     private String groupid;
     private ProgressBar progressBar;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_simle_details);
-        tv_name = (TextView)findViewById(R.id.name);
-        tv_admin = (TextView)findViewById(R.id.tv_admin);
-        btn_add_group = (Button)findViewById(R.id.btn_add_to_group);
-        tv_introduction = (TextView)findViewById(R.id.tv_introduction);
-        progressBar = (ProgressBar)findViewById(R.id.loading);
-
-        EMGroupInfo groupInfo = (EMGroupInfo)getIntent().getSerializableExtra("groupinfo");
-        String groupname = groupInfo.getGroupName();
-        groupid = groupInfo.getGroupId();
-
-        tv_name.setText(groupname);
-
-        new Thread(new Runnable() {
-
-            public void run() {
-                // 从服务器获取详情
-                try {
-                    group = EMGroupManager.getInstance().getGroupFromServer(groupid);
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            progressBar.setVisibility(View.INVISIBLE);
-                            // 获取详情成功，并且自己不在群中，才让加入群聊按钮可点击
-                            if (!group.getMembers().contains(EMChatManager.getInstance().getCurrentUser()))
-                                btn_add_group.setEnabled(true);
-                            tv_name.setText(group.getGroupName());
-                            tv_admin.setText(group.getOwner());
-                            tv_introduction.setText(group.getDescription());
-                        }
-                    });
-                } catch (final EaseMobException e) {
-                    e.printStackTrace();
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            progressBar.setVisibility(View.INVISIBLE);
-                            Toast.makeText(GroupSimpleDetailActivity.this, "获取群聊信息失败: " + e.getMessage(), 1).show();
-                        }
-                    });
-                }
-
-            }
-        }).start();
-
-    }
 
     // 加入群聊
     public void addToGroup(View view) {
@@ -132,19 +83,57 @@ public class GroupSimpleDetailActivity extends YARActivity {
     @Override
     public int doGetContentViewId() {
         // TODO Auto-generated method stub
-        return 0;
+        return R.layout.activity_group_simle_details;
     }
 
     @Override
     public void doInitSubViews(View containerView) {
         // TODO Auto-generated method stub
-
+        tv_name = (TextView)findViewById(R.id.name);
+        tv_admin = (TextView)findViewById(R.id.tv_admin);
+        btn_add_group = (Button)findViewById(R.id.btn_add_to_group);
+        tv_introduction = (TextView)findViewById(R.id.tv_introduction);
+        progressBar = (ProgressBar)findViewById(R.id.loading);
     }
 
     @Override
     public void doInitDataes() {
         // TODO Auto-generated method stub
+        EMGroupInfo groupInfo = (EMGroupInfo)getIntent().getSerializableExtra("groupinfo");
+        String groupname = groupInfo.getGroupName();
+        groupid = groupInfo.getGroupId();
 
+        tv_name.setText(groupname);
+
+        new Thread(new Runnable() {
+
+            public void run() {
+                // 从服务器获取详情
+                try {
+                    group = EMGroupManager.getInstance().getGroupFromServer(groupid);
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            progressBar.setVisibility(View.INVISIBLE);
+                            // 获取详情成功，并且自己不在群中，才让加入群聊按钮可点击
+                            if (!group.getMembers().contains(EMChatManager.getInstance().getCurrentUser()))
+                                btn_add_group.setEnabled(true);
+                            tv_name.setText(group.getGroupName());
+                            tv_admin.setText(group.getOwner());
+                            tv_introduction.setText(group.getDescription());
+                        }
+                    });
+                } catch (final EaseMobException e) {
+                    e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            progressBar.setVisibility(View.INVISIBLE);
+                            Toast.makeText(GroupSimpleDetailActivity.this, "获取群聊信息失败: " + e.getMessage(), 1).show();
+                        }
+                    });
+                }
+
+            }
+        }).start();
     }
 
     @Override
