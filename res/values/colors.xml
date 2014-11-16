@@ -344,5 +344,9 @@
     <color name="color_grayfortext_4">#4b4b4b</color>
     <!-- 红色 -->
     <color name="lightgray">#D3D3D3</color>
-
+    <color name="divider">#ffcccccc</color>
+    <color name="bottom_bar_text">#ff888888</color>
+    <color name="bottom_bar_bg">#fff1f1f1</color>
+    <color name="actions_bg">#ff3c3c3c</color>
+    <color name="actions_divider">#ff888888</color>
 </resources>

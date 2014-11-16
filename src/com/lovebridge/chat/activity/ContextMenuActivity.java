@@ -4,7 +4,6 @@ package com.lovebridge.chat.activity;
 import android.content.Intent;
 import android.view.MotionEvent;
 import android.view.View;
-
 import com.easemob.chat.EMMessage;
 import com.lovebridge.R;
 import com.lovebridge.library.YARActivity;

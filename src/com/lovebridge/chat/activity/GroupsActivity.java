@@ -1,8 +1,6 @@
 
 package com.lovebridge.chat.activity;
 
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.MotionEvent;
@@ -13,12 +11,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.lovebridge.R;
 import com.lovebridge.chat.adapter.GroupAdapter;
 import com.lovebridge.library.YARActivity;
+
+import java.util.List;
 
 public class GroupsActivity extends YARActivity {
     private ListView groupListView;

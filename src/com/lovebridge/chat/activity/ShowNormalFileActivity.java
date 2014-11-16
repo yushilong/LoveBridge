@@ -1,15 +1,10 @@
 
 package com.lovebridge.chat.activity;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.easemob.chat.EMChatConfig;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.FileMessageBody;
@@ -18,6 +13,10 @@ import com.easemob.cloud.HttpFileManager;
 import com.easemob.util.FileUtils;
 import com.lovebridge.R;
 import com.lovebridge.library.YARActivity;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ShowNormalFileActivity extends YARActivity {
     private ProgressBar progressBar;

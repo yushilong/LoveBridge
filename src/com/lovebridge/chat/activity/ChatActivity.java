@@ -1,14 +1,6 @@
 
 package com.lovebridge.chat.activity;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +14,6 @@ import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.provider.MediaStore;
@@ -39,33 +30,11 @@ import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AbsListView;
+import android.widget.*;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMContactManager;
-import com.easemob.chat.EMConversation;
-import com.easemob.chat.EMGroup;
-import com.easemob.chat.EMGroupManager;
-import com.easemob.chat.EMMessage;
+import com.easemob.chat.*;
 import com.easemob.chat.EMMessage.ChatType;
-import com.easemob.chat.GroupReomveListener;
-import com.easemob.chat.ImageMessageBody;
-import com.easemob.chat.LocationMessageBody;
-import com.easemob.chat.NormalFileMessageBody;
-import com.easemob.chat.TextMessageBody;
-import com.easemob.chat.VideoMessageBody;
-import com.easemob.chat.VoiceMessageBody;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 import com.easemob.util.PathUtil;
@@ -82,6 +51,13 @@ import com.lovebridge.chat.utils.SmileUtils;
 import com.lovebridge.chat.view.ExpandGridView;
 import com.lovebridge.chat.view.PasteEditText;
 import com.lovebridge.library.YARActivity;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 聊天页面
@@ -509,7 +485,7 @@ public class ChatActivity extends YARActivity implements OnClickListener {
                     more(more);
                     sendLocationMsg(latitude, longitude, "", locationAddress);
                 } else {
-                    Toast.makeText(this, "无法获取到您的位置信息！", 0).show();
+                    Toast.makeText(this, "无法获取到您的位置信息！", Toast.LENGTH_SHORT).show();
                 }
                 // 重发消息
             } else if (requestCode == REQUEST_CODE_TEXT) {
@@ -585,7 +561,7 @@ public class ChatActivity extends YARActivity implements OnClickListener {
             selectFileFromLocal();
         } else if (id == R.id.btn_voice_call) { // 点击语音电话图标
             if (!EMChatManager.getInstance().isConnected())
-                Toast.makeText(this, "尚未连接至服务器，请稍后重试", 0).show();
+                Toast.makeText(this, "尚未连接至服务器，请稍后重试", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -594,7 +570,7 @@ public class ChatActivity extends YARActivity implements OnClickListener {
      */
     public void selectPicFromCamera() {
         if (!CommonUtils.isExitsSdcard()) {
-            Toast.makeText(getApplicationContext(), "SD卡不存在，不能拍照", 0).show();
+            Toast.makeText(getApplicationContext(), "SD卡不存在，不能拍照", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -641,7 +617,6 @@ public class ChatActivity extends YARActivity implements OnClickListener {
      * 发送文本消息
      * 
      * @param content message content
-     * @param isResend boolean resend
      */
     private void sendText(String content) {
 
@@ -840,11 +815,11 @@ public class ChatActivity extends YARActivity implements OnClickListener {
         }
         File file = new File(filePath);
         if (file == null || !file.exists()) {
-            Toast.makeText(getApplicationContext(), "文件不存在", 0).show();
+            Toast.makeText(getApplicationContext(), "文件不存在", Toast.LENGTH_SHORT).show();
             return;
         }
         if (file.length() > 10 * 1024 * 1024) {
-            Toast.makeText(getApplicationContext(), "文件不能大于10M", 0).show();
+            Toast.makeText(getApplicationContext(), "文件不能大于10M", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -1128,7 +1103,7 @@ public class ChatActivity extends YARActivity implements OnClickListener {
                                                 voiceRecorder.getVoiceFileName(toChatUsername),
                                                 Integer.toString(length), false);
                             } else {
-                                Toast.makeText(getApplicationContext(), "录音时间太短", 0).show();
+                                Toast.makeText(getApplicationContext(), "录音时间太短", Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -1287,10 +1262,10 @@ public class ChatActivity extends YARActivity implements OnClickListener {
     private void addUserToBlacklist(String username) {
         try {
             EMContactManager.getInstance().addUserToBlackList(username, true);
-            Toast.makeText(getApplicationContext(), "移入黑名单成功", 0).show();
+            Toast.makeText(getApplicationContext(), "移入黑名单成功", Toast.LENGTH_SHORT).show();
         } catch (EaseMobException e) {
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "移入黑名单失败", 0).show();
+            Toast.makeText(getApplicationContext(), "移入黑名单失败", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1392,7 +1367,7 @@ public class ChatActivity extends YARActivity implements OnClickListener {
             runOnUiThread(new Runnable() {
                 public void run() {
                     if (toChatUsername.equals(groupId)) {
-                        Toast.makeText(ChatActivity.this, "你被群创建者从此群中移除", 1).show();
+                        Toast.makeText(ChatActivity.this, "你被群创建者从此群中移除", Toast.LENGTH_SHORT).show();
                         // if (GroupDetailsActivity.instance != null)
                         // GroupDetailsActivity.instance.finish();
                         finish();
@@ -1407,7 +1382,7 @@ public class ChatActivity extends YARActivity implements OnClickListener {
             runOnUiThread(new Runnable() {
                 public void run() {
                     if (toChatUsername.equals(groupId)) {
-                        Toast.makeText(ChatActivity.this, "当前群聊已被群创建者解散", 1).show();
+                        Toast.makeText(ChatActivity.this, "当前群聊已被群创建者解散", Toast.LENGTH_SHORT).show();
                         // if (GroupDetailsActivity.instance != null)
                         // GroupDetailsActivity.instance.finish();
                         finish();

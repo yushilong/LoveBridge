@@ -130,6 +130,11 @@
             android:theme="@style/MyDialogStyle" >
         </activity>
 
+        <activity
+                android:name="com.lovebridge.chat.activity.ExamplesActivity"
+                android:screenOrientation="portrait">
+        </activity>
+
         <receiver android:name="com.lovebridge.library.tools.YARNetReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />

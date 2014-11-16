@@ -1,11 +1,6 @@
 
 package com.lovebridge.chat.activity;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -16,7 +11,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
-
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.lovebridge.R;
@@ -26,6 +20,11 @@ import com.lovebridge.chat.moden.ChatUser;
 import com.lovebridge.chat.view.Sidebar;
 import com.lovebridge.library.YARActivity;
 import com.lovebridge.library.tools.YARConstants;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class GroupPickContactsActivity extends YARActivity {
     private ListView listView;

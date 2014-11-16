@@ -1,10 +1,6 @@
 
 package com.lovebridge.chat.activity;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,7 +13,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-
 import com.easemob.chat.EMChatConfig;
 import com.easemob.chat.EMChatManager;
 import com.easemob.cloud.CloudOperationCallback;
@@ -25,6 +20,10 @@ import com.easemob.cloud.HttpFileManager;
 import com.easemob.util.PathUtil;
 import com.lovebridge.R;
 import com.lovebridge.library.YARActivity;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 展示视频内容

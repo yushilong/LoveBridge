@@ -14,9 +14,6 @@
 
 package com.lovebridge.chat.activity;
 
-import java.util.List;
-
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -27,14 +24,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
@@ -43,6 +33,8 @@ import com.easemob.util.NetUtils;
 import com.lovebridge.R;
 import com.lovebridge.chat.view.ExpandGridView;
 import com.lovebridge.library.YARActivity;
+
+import java.util.List;
 
 public class GroupDetailsActivity extends YARActivity implements OnClickListener {
     private static final String TAG = "GroupDetailsActivity";

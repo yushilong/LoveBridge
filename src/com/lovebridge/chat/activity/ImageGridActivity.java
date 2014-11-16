@@ -4,7 +4,6 @@ package com.lovebridge.chat.activity;
 import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-
 import com.lovebridge.chat.fragment.ImageGridFragment;
 import com.lovebridge.library.YARActivity;
 

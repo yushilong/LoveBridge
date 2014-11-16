@@ -14,29 +14,22 @@
 
 package com.lovebridge.chat.activity;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-
 import com.lovebridge.R;
 import com.lovebridge.application.MainApplication;
-import com.lovebridge.bean.User;
 import com.lovebridge.chat.adapter.ContactAdapter;
 import com.lovebridge.chat.moden.ChatUser;
 import com.lovebridge.chat.view.Sidebar;
 import com.lovebridge.library.YARActivity;
 import com.lovebridge.library.tools.YARConstants;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 public class PickContactNoCheckboxActivity extends YARActivity {
 

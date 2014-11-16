@@ -1,8 +1,6 @@
 
 package com.lovebridge.chat.activity;
 
-import java.io.File;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.MotionEvent;
@@ -11,12 +9,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.easemob.util.ImageUtils;
 import com.lovebridge.R;
 import com.lovebridge.chat.utils.DownloadImageTask;
 import com.lovebridge.chat.utils.ImageCache;
 import com.lovebridge.library.YARActivity;
+
+import java.io.File;
 
 public class AlertActivity extends YARActivity {
     private TextView mTextView;

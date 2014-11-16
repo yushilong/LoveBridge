@@ -1,8 +1,6 @@
 
 package com.lovebridge.chat.activity;
 
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.text.Editable;
@@ -11,20 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-
 import com.easemob.chat.EMGroupInfo;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.exceptions.EaseMobException;
 import com.lovebridge.R;
 import com.lovebridge.library.YARActivity;
+
+import java.util.List;
 
 public class PublicGroupsActivity extends YARActivity {
     private ProgressBar pb;

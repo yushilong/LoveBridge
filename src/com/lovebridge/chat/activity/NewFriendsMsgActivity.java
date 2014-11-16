@@ -1,11 +1,8 @@
 
 package com.lovebridge.chat.activity;
 
-import java.util.List;
-
 import android.view.View;
 import android.widget.ListView;
-
 import com.lovebridge.R;
 import com.lovebridge.application.MainApplication;
 import com.lovebridge.chat.adapter.NewFriendsMsgAdapter;
@@ -13,6 +10,8 @@ import com.lovebridge.chat.moden.InviteMessage;
 import com.lovebridge.db.InviteMessgeDao;
 import com.lovebridge.library.YARActivity;
 import com.lovebridge.library.tools.YARConstants;
+
+import java.util.List;
 
 /**
  * 申请与通知

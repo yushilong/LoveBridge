@@ -1,10 +1,6 @@
 
 package com.lovebridge.chat.activity;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -25,22 +21,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.text.TextUtils;
-import android.view.Surface;
-import android.view.SurfaceHolder;
+import android.view.*;
 import android.view.SurfaceHolder.Callback;
-import android.view.SurfaceView;
-import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.easemob.util.EMLog;
 import com.easemob.util.PathUtil;
 import com.lovebridge.R;
 import com.lovebridge.chat.utils.Utils;
 import com.lovebridge.library.YARActivity;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 public class RecorderVideoActivity extends YARActivity implements OnClickListener, Callback, OnErrorListener,
                 OnInfoListener {

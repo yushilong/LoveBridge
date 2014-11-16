@@ -1,11 +1,6 @@
 
 package com.lovebridge;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -16,7 +11,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContactManager;
@@ -30,6 +24,11 @@ import com.lovebridge.chat.utils.CommonUtils;
 import com.lovebridge.db.UserDao;
 import com.lovebridge.library.YARActivity;
 import com.lovebridge.library.tools.YARConstants;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 登陆页面
@@ -159,7 +158,7 @@ public class LoginActivity extends YARActivity {
                             runOnUiThread(new Runnable() {
                                 public void run() {
                                     pd.dismiss();
-                                    Toast.makeText(getApplicationContext(), "登录失败: " + message, 0).show();
+                                    Toast.makeText(getApplicationContext(), "登录失败: " + message, Toast.LENGTH_SHORT).show();
 
                                 }
                             });

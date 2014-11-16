@@ -5,13 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-
 import com.easemob.chat.EMGroupManager;
 import com.lovebridge.R;
 import com.lovebridge.library.YARActivity;
