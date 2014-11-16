@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical"
-    android:orientation="horizontal" >
+    android:orientation="horizontal" android:background="#DB7093">
 
     <Button
         android:id="@id/bt_navigation_left"
