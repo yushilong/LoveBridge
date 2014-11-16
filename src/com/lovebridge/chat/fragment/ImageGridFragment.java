@@ -352,10 +352,4 @@ public class ImageGridFragment extends YARBaseFragment implements OnItemClickLis
 
     }
 
-    @Override
-    public Object getNavigationTitle() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }

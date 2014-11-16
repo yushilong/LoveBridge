@@ -22,10 +22,10 @@ import com.easemob.chat.EMChatOptions;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.EMMessage.ChatType;
 import com.easemob.chat.OnNotificationClickListener;
-import com.lovebridge.MainActivity;
 import com.lovebridge.chat.activity.ChatActivity;
 import com.lovebridge.chat.moden.ChatUser;
 import com.lovebridge.db.UserDao;
+import com.lovebridge.index.TabActivity;
 import com.lovebridge.library.api.YARVolley;
 import com.lovebridge.library.tools.YARNetUtils;
 import com.lovebridge.library.tools.YARPreferenceUtils;
@@ -129,7 +129,7 @@ public class MainApplication extends Application {
         @Override
         public void onDisConnected(String errorString) {
             if (errorString != null && errorString.contains("conflict")) {
-                Intent intent = new Intent(context, MainActivity.class);
+                Intent intent = new Intent(context, TabActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("conflict", true);
                 startActivity(intent);

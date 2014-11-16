@@ -3,6 +3,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <com.lovebridge.widget.Navigation
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+    </com.lovebridge.widget.Navigation>
+
     <com.lovebridge.chat.view.TabPagerIndicator
         android:id="@+id/titles"
         android:layout_width="match_parent"

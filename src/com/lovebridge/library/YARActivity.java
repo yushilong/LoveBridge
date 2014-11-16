@@ -23,6 +23,7 @@ public abstract class YARActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
+        init();
         doBefore(savedInstanceState);
         int contentViewId = doGetContentViewId();
         if (contentViewId > 0) {
@@ -30,7 +31,6 @@ public abstract class YARActivity extends FragmentActivity {
             setContentView(containerView);
             doInitSubViews(containerView);
         }
-        init();
         doInitDataes();
         doAfter();
         //

@@ -50,4 +50,9 @@
         <!-- Effects interpolator -->
         <attr name="effects_interpolator" format="reference"/>
     </declare-styleable>
+    <declare-styleable name="navigationStyle">
+        <attr name="navigationLeftButtonBackground" format="reference|color"/>
+        <attr name="navigationRightButtonBackground" format="reference|color"/>
+        <attr name="navigationTitleResId" format="reference"/>
+    </declare-styleable>
 </resources>
