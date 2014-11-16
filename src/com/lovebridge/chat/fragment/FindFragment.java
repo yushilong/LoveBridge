@@ -79,10 +79,4 @@ public class FindFragment extends YARBaseFragment {
 
     }
 
-    @Override
-    public Object getNavigationTitle() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }

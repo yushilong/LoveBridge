@@ -344,5 +344,5 @@
     <color name="color_grayfortext_4">#4b4b4b</color>
     <!-- 红色 -->
     <color name="lightgray">#D3D3D3</color>
-
+    <color name="color_e24946">#e24946</color>
 </resources>

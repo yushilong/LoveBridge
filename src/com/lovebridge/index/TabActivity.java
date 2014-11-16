@@ -13,6 +13,7 @@ import com.lovebridge.R;
 import com.lovebridge.chat.fragment.ContactlistFragment;
 import com.lovebridge.chat.fragment.FindFragment;
 import com.lovebridge.library.FragmentTabAdapter;
+import com.lovebridge.library.YARActivity;
 import com.lovebridge.library.YARBaseFragment;
 
 /**
@@ -20,7 +21,7 @@ import com.lovebridge.library.YARBaseFragment;
  * @date 2014-10-27 上午10:06:58
  * @version 1.0
  */
-public class HomeTabFragment extends YARBaseFragment {
+public class TabActivity extends YARActivity {
     private RadioGroup rgs;
     public List<Fragment> fragments = new ArrayList<Fragment>();
 
@@ -36,7 +37,7 @@ public class HomeTabFragment extends YARBaseFragment {
         fragments.add(new IndexFragment());
         fragments.add(new RecommendListFragment());
         fragments.add(new FindFragment());
-        rgs = (RadioGroup)containerView.findViewById(R.id.tabs_rg);
+        rgs = (RadioGroup)findViewById(R.id.tabs_rg);
         FragmentTabAdapter tabAdapter = new FragmentTabAdapter((FragmentActivity)mActivity, fragments,
                         R.id.tab_content, rgs);
         tabAdapter.setOnRgsExtraCheckedChangedListener(new FragmentTabAdapter.OnRgsExtraCheckedChangedListener() {
@@ -64,9 +65,4 @@ public class HomeTabFragment extends YARBaseFragment {
         // TODO Auto-generated method stub
     }
 
-    @Override
-    public Object getNavigationTitle() {
-        // TODO Auto-generated method stub
-        return "HOME TABS";
-    }
 }
