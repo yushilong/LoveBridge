@@ -9,11 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-<<<<<<< HEAD
-import com.lovebridge.MainActivity;
-=======
 
->>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
 import com.lovebridge.R;
 
 /**
@@ -94,7 +90,6 @@ public abstract class YARBaseFragment extends Fragment
         ((YARActivity) mActivity).onFragmentResume(this);
     }
 
-<<<<<<< HEAD
     /**
      * 设置导航栏，返回为null时使用默认view
      *
@@ -106,33 +101,6 @@ public abstract class YARBaseFragment extends Fragment
     }
 
     /**
-     * 设置导航栏标题,支持String和int类型
-     *
-     * @return
-     */
-    public abstract Object getNavigationTitle();
-
-    /**
-     * 启动不带参数的fragment
-     *
-     * @param clazz
-     */
-    public void startFragment(Class<?> clazz)
-    {
-        ((MainActivity) mActivity).startFragment(clazz);
-    }
-
-    /**
-     * 启动带参数的fragment
-     *
-     * @param clazz
-     */
-    public void startFragment(Class<?> clazz, Bundle bundle)
-    {
-        ((MainActivity) mActivity).startFragment(clazz, bundle);
-    }
-
-    /**
      * 自定义theme
      * @return
      */
@@ -140,6 +108,4 @@ public abstract class YARBaseFragment extends Fragment
     {
         return 0;
     }
-=======
->>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
 }

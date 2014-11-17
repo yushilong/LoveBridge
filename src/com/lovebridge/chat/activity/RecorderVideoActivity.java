@@ -34,12 +34,6 @@ import com.lovebridge.library.YARActivity;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-<<<<<<< HEAD
-=======
-
-public class RecorderVideoActivity extends YARActivity implements OnClickListener, Callback, OnErrorListener,
-                OnInfoListener {
->>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
 
 public class RecorderVideoActivity extends YARActivity implements OnClickListener, Callback, OnErrorListener,
         OnInfoListener

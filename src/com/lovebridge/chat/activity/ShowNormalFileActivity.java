@@ -17,12 +17,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-<<<<<<< HEAD
-public class ShowNormalFileActivity extends YARActivity
-{
-=======
 public class ShowNormalFileActivity extends YARActivity {
->>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
     private ProgressBar progressBar;
     private File file;
 

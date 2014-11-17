@@ -16,12 +16,7 @@ import com.lovebridge.library.YARActivity;
 
 import java.io.File;
 
-<<<<<<< HEAD
-public class AlertActivity extends YARActivity
-{
-=======
 public class AlertActivity extends YARActivity {
->>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
     private TextView mTextView;
     private Button mButton;
     private int position;

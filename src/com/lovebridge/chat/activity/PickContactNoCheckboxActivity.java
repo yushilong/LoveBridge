@@ -30,11 +30,6 @@ import com.lovebridge.library.tools.YARConstants;
 
 import java.util.*;
 import java.util.Map.Entry;
-<<<<<<< HEAD
-=======
-
-public class PickContactNoCheckboxActivity extends YARActivity {
->>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
 
 public class PickContactNoCheckboxActivity extends YARActivity
 {

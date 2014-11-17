@@ -518,15 +518,8 @@ public class ChatActivity extends YARActivity implements OnClickListener
                 {
                     more(more);
                     sendLocationMsg(latitude, longitude, "", locationAddress);
-<<<<<<< HEAD
-                }
-                else
-                {
-                    Toast.makeText(this, "无法获取到您的位置信息！", 0).show();
-=======
                 } else {
                     Toast.makeText(this, "无法获取到您的位置信息！", Toast.LENGTH_SHORT).show();
->>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
                 }
                 // 重发消息
             }
@@ -644,17 +637,10 @@ public class ChatActivity extends YARActivity implements OnClickListener
     /**
      * 照相获取图片
      */
-<<<<<<< HEAD
-    public void selectPicFromCamera()
-    {
-        if (!CommonUtils.isExitsSdcard())
-        {
-            Toast.makeText(getApplicationContext(), "SD卡不存在，不能拍照", 0).show();
-=======
+
     public void selectPicFromCamera() {
         if (!CommonUtils.isExitsSdcard()) {
             Toast.makeText(getApplicationContext(), "SD卡不存在，不能拍照", Toast.LENGTH_SHORT).show();
->>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
             return;
         }
         cameraFile = new File(PathUtil.getInstance().getImagePath(), MainApplication.getInstance().getUserName()
@@ -919,23 +905,13 @@ public class ChatActivity extends YARActivity implements OnClickListener
             filePath = uri.getPath();
         }
         File file = new File(filePath);
-<<<<<<< HEAD
-        if (file == null || !file.exists())
-        {
-            Toast.makeText(getApplicationContext(), "文件不存在", 0).show();
-            return;
-        }
-        if (file.length() > 10 * 1024 * 1024)
-        {
-            Toast.makeText(getApplicationContext(), "文件不能大于10M", 0).show();
-=======
+
         if (file == null || !file.exists()) {
             Toast.makeText(getApplicationContext(), "文件不存在", Toast.LENGTH_SHORT).show();
             return;
         }
         if (file.length() > 10 * 1024 * 1024) {
             Toast.makeText(getApplicationContext(), "文件不能大于10M", Toast.LENGTH_SHORT).show();
->>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
             return;
         }
         // 创建一个文件消息
@@ -1250,19 +1226,11 @@ public class ChatActivity extends YARActivity implements OnClickListener
                             if (length > 0)
                             {
                                 sendVoice(voiceRecorder.getVoiceFilePath(),
-<<<<<<< HEAD
-                                        voiceRecorder.getVoiceFileName(toChatUsername),
-                                        Integer.toString(length), false);
-                            }
-                            else
-                            {
-                                Toast.makeText(getApplicationContext(), "录音时间太短", 0).show();
-=======
+
                                                 voiceRecorder.getVoiceFileName(toChatUsername),
                                                 Integer.toString(length), false);
                             } else {
                                 Toast.makeText(getApplicationContext(), "录音时间太短", Toast.LENGTH_SHORT).show();
->>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
                             }
                         }
                         catch (Exception e)
@@ -1451,15 +1419,8 @@ public class ChatActivity extends YARActivity implements OnClickListener
         try
         {
             EMContactManager.getInstance().addUserToBlackList(username, true);
-<<<<<<< HEAD
-            Toast.makeText(getApplicationContext(), "移入黑名单成功", 0).show();
-        }
-        catch (EaseMobException e)
-        {
-=======
             Toast.makeText(getApplicationContext(), "移入黑名单成功", Toast.LENGTH_SHORT).show();
         } catch (EaseMobException e) {
->>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), "移入黑名单失败", Toast.LENGTH_SHORT).show();
         }
@@ -1575,23 +1536,12 @@ public class ChatActivity extends YARActivity implements OnClickListener
     class GroupListener extends GroupReomveListener
     {
         @Override
-<<<<<<< HEAD
-        public void onUserRemoved(final String groupId, String groupName)
-        {
-            runOnUiThread(new Runnable()
-            {
-                public void run()
-                {
-                    if (toChatUsername.equals(groupId))
-                    {
-                        Toast.makeText(ChatActivity.this, "你被群创建者从此群中移除", 1).show();
-=======
+
         public void onUserRemoved(final String groupId, String groupName) {
             runOnUiThread(new Runnable() {
                 public void run() {
                     if (toChatUsername.equals(groupId)) {
                         Toast.makeText(ChatActivity.this, "你被群创建者从此群中移除", Toast.LENGTH_SHORT).show();
->>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
                         // if (GroupDetailsActivity.instance != null)
                         // GroupDetailsActivity.instance.finish();
                         finish();
@@ -1604,20 +1554,11 @@ public class ChatActivity extends YARActivity implements OnClickListener
         public void onGroupDestroy(final String groupId, String groupName)
         {
             // 群组解散正好在此页面，提示群组被解散，并finish此页面
-<<<<<<< HEAD
-            runOnUiThread(new Runnable()
-            {
-                public void run()
-                {
-                    if (toChatUsername.equals(groupId))
-                    {
-                        Toast.makeText(ChatActivity.this, "当前群聊已被群创建者解散", 1).show();
-=======
+
             runOnUiThread(new Runnable() {
                 public void run() {
                     if (toChatUsername.equals(groupId)) {
                         Toast.makeText(ChatActivity.this, "当前群聊已被群创建者解散", Toast.LENGTH_SHORT).show();
->>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
                         // if (GroupDetailsActivity.instance != null)
                         // GroupDetailsActivity.instance.finish();
                         finish();

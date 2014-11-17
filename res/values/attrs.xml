@@ -15,8 +15,6 @@
 
     <declare-styleable name="ActionsContentView">
 
-        <!-- Spacing type. -->
-        <attr name="spacing_type"/>
         <!-- Spacing value. -->
         <attr name="spacing" format="dimension"/>
         <!-- Spacing value for actions container. -->
@@ -29,20 +27,14 @@
         <attr name="shadow_drawable" format="reference"/>
         <!-- Shadow width. -->
         <attr name="shadow_width" format="dimension"/>
-        <!-- Fade type. -->
-        <attr name="fade_type"/>
         <!-- Max fade value. -->
         <attr name="fade_max_value" format="integer"/>
         <!-- Indicates how long flinging will take time in milliseconds. -->
         <attr name="fling_duration" format="integer"/>
-        <!-- Swiping type. -->
-        <attr name="swiping_type"/>
         <!-- Swiping edge width. -->
         <attr name="swiping_edge_width" format="dimension"/>
         <!-- Swiping enabled. -->
         <attr name="swiping_enabled" format="boolean"/>
-        <!-- Enabled effects. -->
-        <attr name="effects"/>
         <!-- Actions layout effect. -->
         <attr name="effect_actions" format="reference"/>
         <!-- Content layout effect. -->

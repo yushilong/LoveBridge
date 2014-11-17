@@ -10,11 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-<<<<<<< HEAD
-import com.lovebridge.MainActivity;
-=======
-
->>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
 import com.lovebridge.R;
 import com.lovebridge.bean.User;
 import com.lovebridge.library.YARBaseFragment;
@@ -23,6 +18,7 @@ import com.lovebridge.library.tools.notificationcompat.AppNotification;
 import com.lovebridge.library.tools.notificationcompat.NotificationCompat;
 import org.json.JSONException;
 import org.json.JSONObject;
+import com.lovebridge.index.TabActivity;
 
 /**
  * @author yushilong
@@ -85,16 +81,6 @@ public class IndexFragment extends YARBaseFragment implements OnClickListener
     {
         // TODO Auto-generated method stub
     }
-
-<<<<<<< HEAD
-    @Override
-    public Object getNavigationTitle()
-    {
-        // TODO Auto-generated method stub
-        return "INDEX";
-    }
-=======
->>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
 
     @Override
     public void onClick(View v)
