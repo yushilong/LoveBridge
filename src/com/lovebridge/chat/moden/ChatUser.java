@@ -1,56 +1,52 @@
-/**
- * Copyright (C) 2013-2014 EaseMob Technologies. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *     http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package com.lovebridge.chat.moden;
 
 import com.easemob.chat.EMContact;
 
-public class ChatUser extends EMContact {
+public class ChatUser extends EMContact
+{
     private int unreadMsgCount;
     private String header;
 
-    public String getHeader() {
+    public String getHeader()
+    {
         return header;
     }
 
-    public void setHeader(String header) {
+    public void setHeader(String header)
+    {
         this.header = header;
     }
 
-    public int getUnreadMsgCount() {
+    public int getUnreadMsgCount()
+    {
         return unreadMsgCount;
     }
 
-    public void setUnreadMsgCount(int unreadMsgCount) {
+    public void setUnreadMsgCount(int unreadMsgCount)
+    {
         this.unreadMsgCount = unreadMsgCount;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return 17 * getUsername().hashCode();
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (o == null || !(o instanceof ChatUser)) {
+    public boolean equals(Object o)
+    {
+        if (o == null || !(o instanceof ChatUser))
+        {
             return false;
         }
-        return getUsername().equals(((ChatUser)o).getUsername());
+        return getUsername().equals(((ChatUser) o).getUsername());
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return nick == null ? username : nick;
     }
 }
