@@ -54,8 +54,8 @@
             </intent-filter>
         </activity>
         <activity
-                android:name="com.lovebridge.MainActivity"
-                android:label="@string/app_name">
+            android:name="com.lovebridge.index.TabActivity"
+            android:label="@string/app_name" >
         </activity>
         <activity
                 android:name="com.lovebridge.chat.activity.AlertActivity"
@@ -130,7 +130,12 @@
                 android:theme="@style/MyDialogStyle">
         </activity>
 
-        <receiver android:name="com.lovebridge.library.tools.YARNetReceiver">
+        <activity
+                android:name="com.lovebridge.chat.activity.ExamplesActivity"
+                android:screenOrientation="portrait">
+        </activity>
+
+        <receiver android:name="com.lovebridge.library.tools.YARNetReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>

@@ -13,4 +13,46 @@
     <attr name="bottomIndicatorColor" format="color"/>
     <attr name="bottomIndicatorHeight" format="dimension"/>
 
+    <declare-styleable name="ActionsContentView">
+
+        <!-- Spacing type. -->
+        <attr name="spacing_type"/>
+        <!-- Spacing value. -->
+        <attr name="spacing" format="dimension"/>
+        <!-- Spacing value for actions container. -->
+        <attr name="actions_spacing" format="dimension"/>
+        <!-- Actions layout ID to link at view creation time. -->
+        <attr name="actions_layout" format="reference"/>
+        <!-- Content layout ID to link at view creation time. -->
+        <attr name="content_layout" format="reference"/>
+        <!-- Drawable to be used to draw shadow dropped by content view to actions one. -->
+        <attr name="shadow_drawable" format="reference"/>
+        <!-- Shadow width. -->
+        <attr name="shadow_width" format="dimension"/>
+        <!-- Fade type. -->
+        <attr name="fade_type"/>
+        <!-- Max fade value. -->
+        <attr name="fade_max_value" format="integer"/>
+        <!-- Indicates how long flinging will take time in milliseconds. -->
+        <attr name="fling_duration" format="integer"/>
+        <!-- Swiping type. -->
+        <attr name="swiping_type"/>
+        <!-- Swiping edge width. -->
+        <attr name="swiping_edge_width" format="dimension"/>
+        <!-- Swiping enabled. -->
+        <attr name="swiping_enabled" format="boolean"/>
+        <!-- Enabled effects. -->
+        <attr name="effects"/>
+        <!-- Actions layout effect. -->
+        <attr name="effect_actions" format="reference"/>
+        <!-- Content layout effect. -->
+        <attr name="effect_content" format="reference"/>
+        <!-- Effects interpolator -->
+        <attr name="effects_interpolator" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="navigationStyle">
+        <attr name="navigationLeftButtonBackground" format="reference|color"/>
+        <attr name="navigationRightButtonBackground" format="reference|color"/>
+        <attr name="navigationTitleResId" format="reference"/>
+    </declare-styleable>
 </resources>

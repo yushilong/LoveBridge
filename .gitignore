@@ -28,3 +28,4 @@ proguard/
 *.project
 *.settings
 *.iml
+.idea/

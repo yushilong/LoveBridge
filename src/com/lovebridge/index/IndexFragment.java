@@ -10,7 +10,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+<<<<<<< HEAD
 import com.lovebridge.MainActivity;
+=======
+
+>>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
 import com.lovebridge.R;
 import com.lovebridge.bean.User;
 import com.lovebridge.library.YARBaseFragment;
@@ -82,12 +86,15 @@ public class IndexFragment extends YARBaseFragment implements OnClickListener
         // TODO Auto-generated method stub
     }
 
+<<<<<<< HEAD
     @Override
     public Object getNavigationTitle()
     {
         // TODO Auto-generated method stub
         return "INDEX";
     }
+=======
+>>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
 
     @Override
     public void onClick(View v)
@@ -106,7 +113,7 @@ public class IndexFragment extends YARBaseFragment implements OnClickListener
     private void testNotification()
     {
         // TODO Auto-generated method stub
-        Intent resultIntent = new Intent(mContext, MainActivity.class);
+        Intent resultIntent = new Intent(mContext, TabActivity.class);
         resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         final PendingIntent resultPendingIntent = PendingIntent.getActivity(mActivity, 0, resultIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);

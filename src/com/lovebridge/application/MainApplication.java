@@ -11,10 +11,15 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import com.easemob.chat.*;
 import com.easemob.chat.EMMessage.ChatType;
+<<<<<<< HEAD
 import com.lovebridge.MainActivity;
+=======
+import com.easemob.chat.OnNotificationClickListener;
+>>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
 import com.lovebridge.chat.activity.ChatActivity;
 import com.lovebridge.chat.moden.ChatUser;
 import com.lovebridge.db.UserDao;
+import com.lovebridge.index.TabActivity;
 import com.lovebridge.library.api.YARVolley;
 import com.lovebridge.library.tools.YARNetUtils;
 import com.lovebridge.library.tools.YARPreferenceUtils;
@@ -138,11 +143,17 @@ public class MainApplication extends Application
         }
 
         @Override
+<<<<<<< HEAD
         public void onDisConnected(String errorString)
         {
             if (errorString != null && errorString.contains("conflict"))
             {
                 Intent intent = new Intent(context, MainActivity.class);
+=======
+        public void onDisConnected(String errorString) {
+            if (errorString != null && errorString.contains("conflict")) {
+                Intent intent = new Intent(context, TabActivity.class);
+>>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("conflict", true);
                 startActivity(intent);

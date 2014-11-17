@@ -56,10 +56,13 @@ public class RecommendListFragment extends YARBaseFragment
         // TODO Auto-generated method stub
     }
 
+<<<<<<< HEAD
     @Override
     public Object getNavigationTitle()
     {
         // TODO Auto-generated method stub
         return "RECOMMEND LIST";
     }
+=======
+>>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
 }

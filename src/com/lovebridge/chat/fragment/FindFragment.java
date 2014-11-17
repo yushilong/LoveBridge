@@ -60,6 +60,7 @@ public class FindFragment extends YARBaseFragment
         // TODO Auto-generated method stub
     }
 
+<<<<<<< HEAD
     @Override
     public Object getNavigationTitle()
     {
@@ -73,4 +74,6 @@ public class FindFragment extends YARBaseFragment
         // TODO Auto-generated method stub
         return R.style.CustomTabPager;
     }
+=======
+>>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
 }

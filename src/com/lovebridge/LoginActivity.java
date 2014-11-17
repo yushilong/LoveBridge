@@ -21,6 +21,7 @@ import com.lovebridge.chat.activity.AlertActivity;
 import com.lovebridge.chat.moden.ChatUser;
 import com.lovebridge.chat.utils.CommonUtils;
 import com.lovebridge.db.UserDao;
+import com.lovebridge.index.TabActivity;
 import com.lovebridge.library.YARActivity;
 import com.lovebridge.library.tools.YARConstants;
 
@@ -150,7 +151,7 @@ public class LoginActivity extends YARActivity
                             if (!LoginActivity.this.isFinishing())
                                 pd.dismiss();
                             // 进入主页面
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            startActivity(new Intent(LoginActivity.this, TabActivity.class));
                             finish();
                         }
 
@@ -171,7 +172,7 @@ public class LoginActivity extends YARActivity
                                 public void run()
                                 {
                                     pd.dismiss();
-                                    Toast.makeText(getApplicationContext(), "登录失败: " + message, 0).show();
+                                    Toast.makeText(getApplicationContext(), "登录失败: " + message, Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -258,9 +259,8 @@ public class LoginActivity extends YARActivity
     {
         // TODO Auto-generated method stub
         // 如果用户名密码都有，直接进入主页面
-        if (MainApplication.getInstance().getUserName() != null && MainApplication.getInstance().getPassword() != null)
-        {
-            startActivity(new Intent(this, MainActivity.class));
+        if (MainApplication.getInstance().getUserName() != null && MainApplication.getInstance().getPassword() != null) {
+            startActivity(new Intent(this, TabActivity.class));
             finish();
         }
         // 如果用户名改变，清空密码
