@@ -16,56 +16,52 @@
 
 package com.lovebridge.library.volley.toolbox;
 
+import com.lovebridge.library.volley.AuthFailureError;
+import com.lovebridge.library.volley.Request;
+import com.lovebridge.library.volley.Request.Method;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.*;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpHead;
-import org.apache.http.client.methods.HttpOptions;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpTrace;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-
-import com.lovebridge.library.volley.AuthFailureError;
-import com.lovebridge.library.volley.Request;
-import com.lovebridge.library.volley.Request.Method;
-
 /**
  * An HttpStack that performs request over an {@link HttpClient}.
  */
-public class HttpClientStack implements HttpStack {
+public class HttpClientStack implements HttpStack
+{
     protected final HttpClient mClient;
-
     private final static String HEADER_CONTENT_TYPE = "Content-Type";
 
-    public HttpClientStack(HttpClient client) {
+    public HttpClientStack(HttpClient client)
+    {
         mClient = client;
     }
 
-    private static void addHeaders(HttpUriRequest httpRequest, Map<String, String> headers) {
-        for (String key : headers.keySet()) {
+    private static void addHeaders(HttpUriRequest httpRequest, Map<String, String> headers)
+    {
+        for (String key : headers.keySet())
+        {
             httpRequest.setHeader(key, headers.get(key));
         }
     }
 
     @SuppressWarnings("unused")
-    private static List<NameValuePair> getPostParameterPairs(Map<String, String> postParams) {
+    private static List<NameValuePair> getPostParameterPairs(Map<String, String> postParams)
+    {
         List<NameValuePair> result = new ArrayList<NameValuePair>(postParams.size());
-        for (String key : postParams.keySet()) {
+        for (String key : postParams.keySet())
+        {
             result.add(new BasicNameValuePair(key, postParams.get(key)));
         }
         return result;
@@ -73,7 +69,8 @@ public class HttpClientStack implements HttpStack {
 
     @Override
     public HttpResponse performRequest(Request<?> request, Map<String, String> additionalHeaders) throws IOException,
-                    AuthFailureError {
+            AuthFailureError
+    {
         HttpUriRequest httpRequest = createHttpRequest(request, additionalHeaders);
         addHeaders(httpRequest, additionalHeaders);
         addHeaders(httpRequest, request.getHeaders());
@@ -91,24 +88,30 @@ public class HttpClientStack implements HttpStack {
      * Creates the appropriate subclass of HttpUriRequest for passed in request.
      */
     @SuppressWarnings("deprecation")
-    /* protected */static HttpUriRequest createHttpRequest(Request<?> request, Map<String, String> additionalHeaders)
-                    throws AuthFailureError {
-        switch (request.getMethod()) {
-            case Method.DEPRECATED_GET_OR_POST: {
+    /* protected */ static HttpUriRequest createHttpRequest(Request<?> request, Map<String, String> additionalHeaders)
+            throws AuthFailureError
+    {
+        switch (request.getMethod())
+        {
+            case Method.DEPRECATED_GET_OR_POST:
+            {
                 // This is the deprecated way that needs to be handled for
                 // backwards compatibility.
                 // If the request's post body is null, then the assumption is
                 // that the request is
                 // GET. Otherwise, it is assumed that the request is a POST.
                 byte[] postBody = request.getPostBody();
-                if (postBody != null) {
+                if (postBody != null)
+                {
                     HttpPost postRequest = new HttpPost(request.getUrl());
                     postRequest.addHeader(HEADER_CONTENT_TYPE, request.getPostBodyContentType());
                     HttpEntity entity;
                     entity = new ByteArrayEntity(postBody);
                     postRequest.setEntity(entity);
                     return postRequest;
-                } else {
+                }
+                else
+                {
                     return new HttpGet(request.getUrl());
                 }
             }
@@ -116,13 +119,15 @@ public class HttpClientStack implements HttpStack {
                 return new HttpGet(request.getUrl());
             case Method.DELETE:
                 return new HttpDelete(request.getUrl());
-            case Method.POST: {
+            case Method.POST:
+            {
                 HttpPost postRequest = new HttpPost(request.getUrl());
                 postRequest.addHeader(HEADER_CONTENT_TYPE, request.getBodyContentType());
                 setEntityIfNonEmptyBody(postRequest, request);
                 return postRequest;
             }
-            case Method.PUT: {
+            case Method.PUT:
+            {
                 HttpPut putRequest = new HttpPut(request.getUrl());
                 putRequest.addHeader(HEADER_CONTENT_TYPE, request.getBodyContentType());
                 setEntityIfNonEmptyBody(putRequest, request);
@@ -134,7 +139,8 @@ public class HttpClientStack implements HttpStack {
                 return new HttpOptions(request.getUrl());
             case Method.TRACE:
                 return new HttpTrace(request.getUrl());
-            case Method.PATCH: {
+            case Method.PATCH:
+            {
                 HttpPatch patchRequest = new HttpPatch(request.getUrl());
                 patchRequest.addHeader(HEADER_CONTENT_TYPE, request.getBodyContentType());
                 setEntityIfNonEmptyBody(patchRequest, request);
@@ -146,9 +152,11 @@ public class HttpClientStack implements HttpStack {
     }
 
     private static void setEntityIfNonEmptyBody(HttpEntityEnclosingRequestBase httpRequest, Request<?> request)
-                    throws AuthFailureError {
+            throws AuthFailureError
+    {
         byte[] body = request.getBody();
-        if (body != null) {
+        if (body != null)
+        {
             HttpEntity entity = new ByteArrayEntity(body);
             httpRequest.setEntity(entity);
         }
@@ -160,7 +168,8 @@ public class HttpClientStack implements HttpStack {
      * Overwrite in subclasses to augment the request.
      * </p>
      */
-    protected void onPrepareRequest(HttpUriRequest request) throws IOException {
+    protected void onPrepareRequest(HttpUriRequest request) throws IOException
+    {
         // Nothing.
     }
 
@@ -168,15 +177,17 @@ public class HttpClientStack implements HttpStack {
      * The HttpPatch class does not exist in the Android framework, so this has
      * been defined here.
      */
-    public static final class HttpPatch extends HttpEntityEnclosingRequestBase {
-
+    public static final class HttpPatch extends HttpEntityEnclosingRequestBase
+    {
         public final static String METHOD_NAME = "PATCH";
 
-        public HttpPatch() {
+        public HttpPatch()
+        {
             super();
         }
 
-        public HttpPatch(final URI uri) {
+        public HttpPatch(final URI uri)
+        {
             super();
             setURI(uri);
         }
@@ -184,15 +195,16 @@ public class HttpClientStack implements HttpStack {
         /**
          * @throws IllegalArgumentException if the uri is invalid.
          */
-        public HttpPatch(final String uri) {
+        public HttpPatch(final String uri)
+        {
             super();
             setURI(URI.create(uri));
         }
 
         @Override
-        public String getMethod() {
+        public String getMethod()
+        {
             return METHOD_NAME;
         }
-
     }
 }

@@ -16,7 +16,8 @@
 
 package com.lovebridge.library.volley;
 
-public interface ResponseDelivery {
+public interface ResponseDelivery
+{
     /**
      * Parses a response from the network or cache and delivers it.
      */

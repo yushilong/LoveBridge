@@ -16,9 +16,9 @@
 
 package com.lovebridge.library.volley;
 
-import java.util.concurrent.BlockingQueue;
-
 import android.os.Process;
+
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Provides a thread for performing cache triage on a queue of requests.
@@ -28,7 +28,8 @@ import android.os.Process;
  * enqueued on the specified network queue for processing by a
  * {@link NetworkDispatcher}.
  */
-public class CacheDispatcher extends Thread {
+public class CacheDispatcher extends Thread
+{
     private static final boolean DEBUG = VolleyLog.DEBUG;
     /** The queue of requests coming in for triage. */
     private final BlockingQueue<Request<?>> mCacheQueue;
@@ -44,14 +45,15 @@ public class CacheDispatcher extends Thread {
     /**
      * Creates a new cache triage dispatcher thread. You must call
      * {@link #start()} in order to begin processing.
-     * 
+     *
      * @param cacheQueue Queue of incoming requests for triage
      * @param networkQueue Queue to post requests that require network to
      * @param cache Cache interface to use for resolution
      * @param delivery Delivery interface to use for posting responses
      */
     public CacheDispatcher(BlockingQueue<Request<?>> cacheQueue, BlockingQueue<Request<?>> networkQueue, Cache cache,
-                    ResponseDelivery delivery) {
+            ResponseDelivery delivery)
+    {
         mCacheQueue = cacheQueue;
         mNetworkQueue = networkQueue;
         mCache = cache;
@@ -62,40 +64,47 @@ public class CacheDispatcher extends Thread {
      * Forces this dispatcher to quit immediately. If any requests are still in
      * the queue, they are not guaranteed to be processed.
      */
-    public void quit() {
+    public void quit()
+    {
         mQuit = true;
         interrupt();
     }
 
     @Override
-    public void run() {
+    public void run()
+    {
         if (DEBUG)
             VolleyLog.v("start new dispatcher");
         Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
         // Make a blocking call to initialize the cache.
         mCache.initialize();
-        while (true) {
-            try {
+        while (true)
+        {
+            try
+            {
                 // Get a request from the cache triage queue, blocking until
                 // at least one is available.
                 final Request<?> request = mCacheQueue.take();
                 request.addMarker("cache-queue-take");
                 // If the request has been canceled, don't bother dispatching
                 // it.
-                if (request.isCanceled()) {
+                if (request.isCanceled())
+                {
                     request.finish("cache-discard-canceled");
                     continue;
                 }
                 // Attempt to retrieve this item from cache.
                 Cache.Entry entry = mCache.get(request.getCacheKey());
-                if (entry == null) {
+                if (entry == null)
+                {
                     request.addMarker("cache-miss");
                     // Cache miss; send off to the network dispatcher.
                     mNetworkQueue.put(request);
                     continue;
                 }
                 // If it is completely expired, just send it to the network.
-                if (entry.isExpired()) {
+                if (entry.isExpired())
+                {
                     request.addMarker("cache-hit-expired");
                     request.setCacheEntry(entry);
                     mNetworkQueue.put(request);
@@ -105,13 +114,16 @@ public class CacheDispatcher extends Thread {
                 // request.
                 request.addMarker("cache-hit");
                 Response<?> response = request.parseNetworkResponse(new NetworkResponse(entry.data,
-                                entry.responseHeaders));
+                        entry.responseHeaders));
                 request.addMarker("cache-hit-parsed");
-                if (!entry.refreshNeeded()) {
+                if (!entry.refreshNeeded())
+                {
                     // Completely unexpired cache hit. Just deliver the
                     // response.
                     mDelivery.postResponse(request, response);
-                } else {
+                }
+                else
+                {
                     // Soft-expired cache hit. We can deliver the cached
                     // response,
                     // but we need to also send the request to the network for
@@ -123,20 +135,28 @@ public class CacheDispatcher extends Thread {
                     // Post the intermediate response back to the user and have
                     // the delivery then forward the request along to the
                     // network.
-                    mDelivery.postResponse(request, response, new Runnable() {
+                    mDelivery.postResponse(request, response, new Runnable()
+                    {
                         @Override
-                        public void run() {
-                            try {
+                        public void run()
+                        {
+                            try
+                            {
                                 mNetworkQueue.put(request);
-                            } catch (InterruptedException e) {
+                            }
+                            catch (InterruptedException e)
+                            {
                                 // Not much we can do about this.
                             }
                         }
                     });
                 }
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e)
+            {
                 // We may have been interrupted because it was time to quit.
-                if (mQuit) {
+                if (mQuit)
+                {
                     return;
                 }
                 continue;

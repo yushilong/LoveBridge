@@ -1,14 +1,14 @@
-
 package com.lovebridge.chat.photoview;
 
 import android.graphics.RectF;
 import android.view.View;
 import android.widget.ImageView;
 
-public interface IPhotoView {
+public interface IPhotoView
+{
     /**
      * Returns true if the PhotoView is set to allow zooming of Photos.
-     * 
+     *
      * @return true if the PhotoView allows zooming.
      */
     boolean canZoom();
@@ -17,7 +17,7 @@ public interface IPhotoView {
      * Gets the Display Rectangle of the currently displayed Drawable. The
      * Rectangle is relative to this View and includes all scaling and
      * translations.
-     * 
+     *
      * @return - RectF of Displayed Drawable
      */
     RectF getDisplayRect();
@@ -45,7 +45,7 @@ public interface IPhotoView {
 
     /**
      * Returns the current scale value
-     * 
+     *
      * @return float - current scale value
      */
     float getScale();
@@ -82,7 +82,7 @@ public interface IPhotoView {
     /**
      * Register a callback to be invoked when the Photo displayed by this view
      * is long-pressed.
-     * 
+     *
      * @param listener - Listener to be registered.
      */
     void setOnLongClickListener(View.OnLongClickListener listener);
@@ -90,7 +90,7 @@ public interface IPhotoView {
     /**
      * Register a callback to be invoked when the Matrix has changed for this
      * View. An example would be the user panning or scaling the Photo.
-     * 
+     *
      * @param listener - Listener to be registered.
      */
     void setOnMatrixChangeListener(PhotoViewAttacher.OnMatrixChangedListener listener);
@@ -98,7 +98,7 @@ public interface IPhotoView {
     /**
      * Register a callback to be invoked when the Photo displayed by this View
      * is tapped with a single tap.
-     * 
+     *
      * @param listener - Listener to be registered.
      */
     void setOnPhotoTapListener(PhotoViewAttacher.OnPhotoTapListener listener);
@@ -106,7 +106,7 @@ public interface IPhotoView {
     /**
      * Register a callback to be invoked when the View is tapped with a single
      * tap.
-     * 
+     *
      * @param listener - Listener to be registered.
      */
     void setOnViewTapListener(PhotoViewAttacher.OnViewTapListener listener);
@@ -115,7 +115,7 @@ public interface IPhotoView {
      * Controls how the image should be resized or moved to match the size of
      * the ImageView. Any scaling or panning will happen within the confines of
      * this {@link android.widget.ImageView.ScaleType}.
-     * 
+     *
      * @param scaleType - The desired scaling mode.
      */
     void setScaleType(ImageView.ScaleType scaleType);
@@ -123,14 +123,14 @@ public interface IPhotoView {
     /**
      * Allows you to enable/disable the zoom functionality on the ImageView.
      * When disable the ImageView reverts to using the FIT_CENTER matrix.
-     * 
+     *
      * @param zoomable - Whether the zoom functionality is enabled.
      */
     void setZoomable(boolean zoomable);
 
     /**
      * Zooms to the specified scale, around the focal point given.
-     * 
+     *
      * @param scale - Scale to zoom to
      * @param focalX - X Focus Point
      * @param focalY - Y Focus Point

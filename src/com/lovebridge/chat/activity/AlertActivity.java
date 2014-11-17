@@ -1,7 +1,4 @@
-
 package com.lovebridge.chat.activity;
-
-import java.io.File;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,14 +8,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.easemob.util.ImageUtils;
 import com.lovebridge.R;
 import com.lovebridge.chat.utils.DownloadImageTask;
 import com.lovebridge.chat.utils.ImageCache;
 import com.lovebridge.library.YARActivity;
 
-public class AlertActivity extends YARActivity {
+import java.io.File;
+
+public class AlertActivity extends YARActivity
+{
     private TextView mTextView;
     private Button mButton;
     private int position;
@@ -27,43 +26,48 @@ public class AlertActivity extends YARActivity {
     private boolean isEditextShow;
     private String voicePath;
 
-    public void ok(View view) {
+    public void ok(View view)
+    {
         setResult(RESULT_OK,
-                        new Intent().putExtra("position", position).putExtra("edittext", editText.getText().toString())
+                new Intent().putExtra("position", position).putExtra("edittext", editText.getText().toString())
         /* .putExtra("voicePath", voicePath) */);
         if (position != -1)
             ChatActivity.resendPos = position;
         finish();
-
     }
 
-    public void cancel(View view) {
+    public void cancel(View view)
+    {
         finish();
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event)
+    {
         finish();
         return true;
     }
 
     @Override
-    public int doGetContentViewId() {
+    public int doGetContentViewId()
+    {
         // TODO Auto-generated method stub
         return R.layout.alert_dialog;
     }
 
     @Override
-    public void doInitSubViews(View containerView) {
+    public void doInitSubViews(View containerView)
+    {
         // TODO Auto-generated method stub
-        mTextView = (TextView)findViewById(R.id.title);
-        mButton = (Button)findViewById(R.id.btn_cancel);
-        imageView = (ImageView)findViewById(R.id.image);
-        editText = (EditText)findViewById(R.id.edit);
+        mTextView = (TextView) findViewById(R.id.title);
+        mButton = (Button) findViewById(R.id.btn_cancel);
+        imageView = (ImageView) findViewById(R.id.image);
+        editText = (EditText) findViewById(R.id.edit);
     }
 
     @Override
-    public void doInitDataes() {
+    public void doInitDataes()
+    {
         // TODO Auto-generated method stub
         // 提示内容
         String msg = getIntent().getStringExtra("msg");
@@ -80,39 +84,42 @@ public class AlertActivity extends YARActivity {
         // 转发复制的图片的path
         String path = getIntent().getStringExtra("forwardImage");
         if (msg != null)
-            ((TextView)findViewById(R.id.alert_message)).setText(msg);
+            ((TextView) findViewById(R.id.alert_message)).setText(msg);
         if (title != null)
             mTextView.setText(title);
-        if (isCanceTitle) {
+        if (isCanceTitle)
+        {
             mTextView.setVisibility(View.GONE);
         }
         if (isCanceShow)
             mButton.setVisibility(View.VISIBLE);
-        if (path != null) {
+        if (path != null)
+        {
             // 优先拿大图，没有去取缩略图
             if (!new File(path).exists())
                 path = DownloadImageTask.getThumbnailImagePath(path);
             imageView.setVisibility(View.VISIBLE);
-            ((TextView)findViewById(R.id.alert_message)).setVisibility(View.GONE);
-            if (ImageCache.getInstance().get(path) != null) {
+            ((TextView) findViewById(R.id.alert_message)).setVisibility(View.GONE);
+            if (ImageCache.getInstance().get(path) != null)
+            {
                 imageView.setImageBitmap(ImageCache.getInstance().get(path));
-            } else {
+            }
+            else
+            {
                 Bitmap bm = ImageUtils.decodeScaleImage(path, 150, 150);
                 imageView.setImageBitmap(bm);
                 ImageCache.getInstance().put(path, bm);
             }
-
         }
-        if (isEditextShow) {
+        if (isEditextShow)
+        {
             editText.setVisibility(View.VISIBLE);
-
         }
     }
 
     @Override
-    public void doAfter() {
+    public void doAfter()
+    {
         // TODO Auto-generated method stub
-
     }
-
 }

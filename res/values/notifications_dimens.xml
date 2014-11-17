@@ -25,7 +25,6 @@
     <!-- The width of the big icons in notifications. -->
     <dimen name="notification_large_icon_height">64dp</dimen>
 
-   
 
     <!-- Size of notification text (see TextAppearance.StatusBar.EventContent) -->
     <dimen name="notification_text_size">14dp</dimen>
@@ -34,6 +33,5 @@
     <!-- Size of smaller notification text (see TextAppearance.StatusBar.EventContent.Line2, Info, Time) -->
     <dimen name="notification_subtext_size">12dp</dimen>
 
-    
 
 </resources>

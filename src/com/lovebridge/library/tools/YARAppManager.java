@@ -1,29 +1,32 @@
-
 package com.lovebridge.library.tools;
-
-import java.util.Stack;
 
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+
+import java.util.Stack;
 
 /**
  * @author yushilong
  * @date 2014-9-30
  * @version 1.0
  */
-public class YARAppManager {
+public class YARAppManager
+{
     private static Stack<Activity> activityStack;
     private static YARAppManager instance;
 
-    private YARAppManager() {
+    private YARAppManager()
+    {
     }
 
     /**
      * 单一实例
      */
-    public static YARAppManager getInstance() {
-        if (instance == null) {
+    public static YARAppManager getInstance()
+    {
+        if (instance == null)
+        {
             instance = new YARAppManager();
         }
         return instance;
@@ -32,8 +35,10 @@ public class YARAppManager {
     /**
      * 添加Activity到堆栈
      */
-    public void addActivity(Activity activity) {
-        if (activityStack == null) {
+    public void addActivity(Activity activity)
+    {
+        if (activityStack == null)
+        {
             activityStack = new Stack<Activity>();
         }
         activityStack.add(activity);
@@ -42,7 +47,8 @@ public class YARAppManager {
     /**
      * 获取当前Activity（堆栈中最后一个压入的）
      */
-    public Activity currentActivity() {
+    public Activity currentActivity()
+    {
         Activity activity = activityStack.lastElement();
         return activity;
     }
@@ -50,7 +56,8 @@ public class YARAppManager {
     /**
      * 结束当前Activity（堆栈中最后一个压入的）
      */
-    public void finishActivity() {
+    public void finishActivity()
+    {
         Activity activity = activityStack.lastElement();
         finishActivity(activity);
     }
@@ -58,8 +65,10 @@ public class YARAppManager {
     /**
      * 结束指定的Activity
      */
-    public void finishActivity(Activity activity) {
-        if (activity != null) {
+    public void finishActivity(Activity activity)
+    {
+        if (activity != null)
+        {
             activityStack.remove(activity);
             activity.finish();
             activity = null;
@@ -69,9 +78,12 @@ public class YARAppManager {
     /**
      * 结束指定类名的Activity
      */
-    public void finishActivity(Class<?> cls) {
-        for (Activity activity : activityStack) {
-            if (activity.getClass().equals(cls)) {
+    public void finishActivity(Class<?> cls)
+    {
+        for (Activity activity : activityStack)
+        {
+            if (activity.getClass().equals(cls))
+            {
                 finishActivity(activity);
             }
         }
@@ -80,9 +92,12 @@ public class YARAppManager {
     /**
      * 结束所有Activity
      */
-    public void finishAllActivity() {
-        for (int i = 0, size = activityStack.size(); i < size; i++) {
-            if (null != activityStack.get(i)) {
+    public void finishAllActivity()
+    {
+        for (int i = 0, size = activityStack.size(); i < size; i++)
+        {
+            if (null != activityStack.get(i))
+            {
                 activityStack.get(i).finish();
             }
         }
@@ -93,14 +108,18 @@ public class YARAppManager {
      * 退出应用程序
      */
     @SuppressWarnings("deprecation")
-    public void AppExit(Context context) {
-        try {
+    public void AppExit(Context context)
+    {
+        try
+        {
             finishAllActivity();
-            ActivityManager activityMgr = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+            ActivityManager activityMgr = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
             activityMgr.restartPackage(context.getPackageName());
             System.exit(0);
             YARUserManager.getInstance().clearData();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
         }
     }
 }

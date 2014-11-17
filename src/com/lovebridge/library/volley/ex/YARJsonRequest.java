@@ -16,47 +16,51 @@
 
 package com.lovebridge.library.volley.ex;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONObject;
-
 import com.lovebridge.library.volley.AuthFailureError;
 import com.lovebridge.library.volley.Response.ErrorListener;
 import com.lovebridge.library.volley.Response.Listener;
 import com.lovebridge.library.volley.toolbox.JsonObjectRequest;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Custom Implementation of com.android.volley.toolbox.JsonObjectRequest to
  * handle the headers.
- * 
+ *
  * @author Mani Selvaraj
  */
-public class YARJsonRequest extends JsonObjectRequest {
-
+public class YARJsonRequest extends JsonObjectRequest
+{
     private Map<String, String> headers = new HashMap<String, String>();
     private Priority priority = null;
 
     public YARJsonRequest(int method, String url, JSONObject jsonRequest, Listener<JSONObject> listener,
-                    ErrorListener errorListener) {
+            ErrorListener errorListener)
+    {
         super(method, url, jsonRequest, listener, errorListener);
         // TODO Auto-generated constructor stub
     }
 
-    public YARJsonRequest(String url, JSONObject jsonRequest, Listener<JSONObject> listener, ErrorListener errorListener) {
+    public YARJsonRequest(String url, JSONObject jsonRequest, Listener<JSONObject> listener, ErrorListener errorListener)
+    {
         super(url, jsonRequest, listener, errorListener);
     }
 
     @Override
-    public Map<String, String> getHeaders() throws AuthFailureError {
+    public Map<String, String> getHeaders() throws AuthFailureError
+    {
         return headers;
     }
 
-    public void setHeader(String title, String content) {
+    public void setHeader(String title, String content)
+    {
         headers.put(title, content);
     }
 
-    public void setPriority(Priority priority) {
+    public void setPriority(Priority priority)
+    {
         this.priority = priority;
     }
 
@@ -64,15 +68,20 @@ public class YARJsonRequest extends JsonObjectRequest {
      * If prioirty set use it,else returned NORMAL
      * @see com.android.volley.Request#getPriority()
      */
-    public Priority getPriority() {
-        if (this.priority != null) {
+    public Priority getPriority()
+    {
+        if (this.priority != null)
+        {
             return priority;
-        } else {
+        }
+        else
+        {
             return Priority.NORMAL;
         }
     }
 
-    public void setHeaders() {
+    public void setHeaders()
+    {
         // heads.put(key, value);
     }
 }

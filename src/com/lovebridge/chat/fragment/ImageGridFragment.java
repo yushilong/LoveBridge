@@ -1,8 +1,4 @@
-
 package com.lovebridge.chat.fragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -18,17 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.AbsListView;
+import android.widget.*;
 import android.widget.AbsListView.LayoutParams;
-import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.easemob.util.DateUtils;
 import com.easemob.util.TextFormater;
 import com.lovebridge.BuildConfig;
@@ -41,8 +29,11 @@ import com.lovebridge.chat.view.ImageResizer;
 import com.lovebridge.chat.view.RecyclingImageView;
 import com.lovebridge.library.YARBaseFragment;
 
-public class ImageGridFragment extends YARBaseFragment implements OnItemClickListener {
+import java.util.ArrayList;
+import java.util.List;
 
+public class ImageGridFragment extends YARBaseFragment implements OnItemClickListener
+{
     private static final String TAG = "ImageGridFragment";
     private int mImageThumbSize;
     private int mImageThumbSpacing;
@@ -54,110 +45,124 @@ public class ImageGridFragment extends YARBaseFragment implements OnItemClickLis
     /**
      * Empty constructor as per the Fragment documentation
      */
-    public ImageGridFragment() {
+    public ImageGridFragment()
+    {
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         mImageResizer.setExitTasksEarly(false);
         mAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         super.onDestroy();
         mImageResizer.closeCache();
         mImageResizer.clearCache();
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View v, final int position, long id) {
-
+    public void onItemClick(AdapterView<?> parent, View v, final int position, long id)
+    {
         mImageResizer.setPauseWork(true);
-
-        if (position == 0) {
-
+        if (position == 0)
+        {
             Intent intent = new Intent();
             intent.setClass(getActivity(), RecorderVideoActivity.class);
             startActivityForResult(intent, 100);
-        } else {
+        }
+        else
+        {
             VideoEntity vEntty = mList.get(position - 1);
             // 限制大小不能超过10M
-            if (vEntty.size > 1024 * 1024 * 10) {
+            if (vEntty.size > 1024 * 1024 * 10)
+            {
                 Toast.makeText(getActivity(), "暂不支持大于10M的视频！", Toast.LENGTH_SHORT).show();
                 return;
             }
             Intent intent = getActivity().getIntent().putExtra("path", vEntty.filePath)
-                            .putExtra("dur", vEntty.duration);
+                    .putExtra("dur", vEntty.duration);
             getActivity().setResult(Activity.RESULT_OK, intent);
             getActivity().finish();
         }
     }
 
-    private class ImageAdapter extends BaseAdapter {
-
+    private class ImageAdapter extends BaseAdapter
+    {
         private final Context mContext;
         private int mItemHeight = 0;
         private RelativeLayout.LayoutParams mImageViewLayoutParams;
 
-        public ImageAdapter(Context context) {
+        public ImageAdapter(Context context)
+        {
             super();
             mContext = context;
             mImageViewLayoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
-                            LayoutParams.MATCH_PARENT);
+                    LayoutParams.MATCH_PARENT);
         }
 
         @Override
-        public int getCount() {
+        public int getCount()
+        {
             return mList.size() + 1;
         }
 
         @Override
-        public Object getItem(int position) {
+        public Object getItem(int position)
+        {
             return (position == 0) ? null : mList.get(position - 1);
         }
 
         @Override
-        public long getItemId(int position) {
+        public long getItemId(int position)
+        {
             return position;
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup container) {
+        public View getView(int position, View convertView, ViewGroup container)
+        {
             ViewHolder holder = null;
-            if (convertView == null) {
+            if (convertView == null)
+            {
                 holder = new ViewHolder();
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.choose_griditem, container, false);
-                holder.imageView = (RecyclingImageView)convertView.findViewById(R.id.imageView);
-                holder.icon = (ImageView)convertView.findViewById(R.id.video_icon);
-                holder.tvDur = (TextView)convertView.findViewById(R.id.chatting_length_iv);
-                holder.tvSize = (TextView)convertView.findViewById(R.id.chatting_size_iv);
+                holder.imageView = (RecyclingImageView) convertView.findViewById(R.id.imageView);
+                holder.icon = (ImageView) convertView.findViewById(R.id.video_icon);
+                holder.tvDur = (TextView) convertView.findViewById(R.id.chatting_length_iv);
+                holder.tvSize = (TextView) convertView.findViewById(R.id.chatting_size_iv);
                 holder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 holder.imageView.setLayoutParams(mImageViewLayoutParams);
                 convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder)convertView.getTag();
             }
-
+            else
+            {
+                holder = (ViewHolder) convertView.getTag();
+            }
             // Check the height matches our calculated column width
-            if (holder.imageView.getLayoutParams().height != mItemHeight) {
+            if (holder.imageView.getLayoutParams().height != mItemHeight)
+            {
                 holder.imageView.setLayoutParams(mImageViewLayoutParams);
             }
-
             // Finally load the image asynchronously into the ImageView, this
             // also takes care of
             // setting a placeholder image while the background thread runs
-            if (position == 0) {
+            if (position == 0)
+            {
                 holder.icon.setVisibility(View.GONE);
                 holder.tvDur.setVisibility(View.GONE);
                 holder.tvSize.setText("拍摄录像");
                 holder.imageView.setImageResource(R.drawable.actionbar_camera_icon);
-            } else {
+            }
+            else
+            {
                 holder.icon.setVisibility(View.VISIBLE);
                 VideoEntity entty = mList.get(position - 1);
                 holder.tvDur.setVisibility(View.VISIBLE);
-
                 holder.tvDur.setText(DateUtils.toTime(entty.duration));
                 holder.tvSize.setText(TextFormater.getDataSize(entty.size));
                 holder.imageView.setImageResource(R.drawable.empty_photo);
@@ -170,11 +175,13 @@ public class ImageGridFragment extends YARBaseFragment implements OnItemClickLis
         /**
          * Sets the item height. Useful for when we know the column width so the
          * height can be set to match.
-         * 
+         *
          * @param height
          */
-        public void setItemHeight(int height) {
-            if (height == mItemHeight) {
+        public void setItemHeight(int height)
+        {
+            if (height == mItemHeight)
+            {
                 return;
             }
             mItemHeight = height;
@@ -183,39 +190,34 @@ public class ImageGridFragment extends YARBaseFragment implements OnItemClickLis
             notifyDataSetChanged();
         }
 
-        class ViewHolder {
-
+        class ViewHolder
+        {
             RecyclingImageView imageView;
             ImageView icon;
             TextView tvDur;
             TextView tvSize;
-
         }
-
     }
 
-    private void getVideoFile() {
+    private void getVideoFile()
+    {
         ContentResolver mContentResolver = getActivity().getContentResolver();
         Cursor cursor = mContentResolver.query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, null, null, null,
-                        MediaStore.Video.DEFAULT_SORT_ORDER);
-
-        if (cursor.moveToFirst()) {
-            do {
-
+                MediaStore.Video.DEFAULT_SORT_ORDER);
+        if (cursor.moveToFirst())
+        {
+            do
+            {
                 // ID:MediaStore.Audio.Media._ID
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID));
-
                 // 名称：MediaStore.Audio.Media.TITLE
                 String title = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.TITLE));
                 // 路径：MediaStore.Audio.Media.DATA
                 String url = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA));
-
                 // 总播放时长：MediaStore.Audio.Media.DURATION
                 int duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION));
-
                 // 大小：MediaStore.Audio.Media.SIZE
-                int size = (int)cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.SIZE));
-
+                int size = (int) cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.SIZE));
                 VideoEntity entty = new VideoEntity();
                 entty.ID = id;
                 entty.title = title;
@@ -223,80 +225,89 @@ public class ImageGridFragment extends YARBaseFragment implements OnItemClickLis
                 entty.duration = duration;
                 entty.size = size;
                 mList.add(entty);
-            } while (cursor.moveToNext());
-
+            }
+            while (cursor.moveToNext());
         }
-        if (cursor != null) {
+        if (cursor != null)
+        {
             cursor.close();
             cursor = null;
         }
-
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 100) {
+        if (resultCode == Activity.RESULT_OK)
+        {
+            if (requestCode == 100)
+            {
                 Uri uri = data.getParcelableExtra("uri");
-                String[] projects = new String[] { MediaStore.Video.Media.DATA, MediaStore.Video.Media.DURATION };
+                String[] projects = new String[] { MediaStore.Video.Media.DATA , MediaStore.Video.Media.DURATION };
                 Cursor cursor = getActivity().getContentResolver().query(uri, projects, null, null, null);
                 int duration = 0;
                 String filePath = null;
-
-                if (cursor.moveToFirst()) {
+                if (cursor.moveToFirst())
+                {
                     // 路径：MediaStore.Audio.Media.DATA
                     filePath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA));
                     // 总播放时长：MediaStore.Audio.Media.DURATION
                     duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION));
                     System.out.println("duration:" + duration);
                 }
-                if (cursor != null) {
+                if (cursor != null)
+                {
                     cursor.close();
                     cursor = null;
                 }
-
                 getActivity().setResult(Activity.RESULT_OK,
-                                getActivity().getIntent().putExtra("path", filePath).putExtra("dur", duration));
+                        getActivity().getIntent().putExtra("path", filePath).putExtra("dur", duration));
                 getActivity().finish();
-
             }
         }
-
     }
 
     @Override
-    public int doGetContentViewId() {
+    public int doGetContentViewId()
+    {
         // TODO Auto-generated method stub
         return R.layout.image_grid_fragment;
     }
 
     @Override
-    public void doInitSubViews(View containerView) {
+    public void doInitSubViews(View containerView)
+    {
         mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
         mImageThumbSpacing = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_spacing);
-        mGridView = (GridView)containerView.findViewById(R.id.gridView);
+        mGridView = (GridView) containerView.findViewById(R.id.gridView);
         mGridView.setOnItemClickListener(this);
-        mGridView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        mGridView.setOnScrollListener(new AbsListView.OnScrollListener()
+        {
             @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+            public void onScrollStateChanged(AbsListView absListView, int scrollState)
+            {
                 // Pause fetcher to ensure smoother scrolling when flinging
-                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING)
+                {
                     // Before Honeycomb pause image loading on scroll to help
                     // with performance
-                    if (!Utils.hasHoneycomb()) {
+                    if (!Utils.hasHoneycomb())
+                    {
                         mImageResizer.setPauseWork(true);
                     }
-                } else {
+                }
+                else
+                {
                     mImageResizer.setPauseWork(false);
                 }
             }
 
             @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+            {
             }
         });
-
         // This listener is used to get the final width of the GridView and then
         // calculate the
         // number of columns and the width of each column. The width of each
@@ -304,41 +315,45 @@ public class ImageGridFragment extends YARBaseFragment implements OnItemClickLis
         // as the GridView has stretchMode=columnWidth. The column width is used
         // to set the height
         // of each view so we get nice square thumbnails.
-
     }
 
     @Override
-    public void doInitDataes() {
+    public void doInitDataes()
+    {
         // TODO Auto-generated method stub
-
         mList = new ArrayList<VideoEntity>();
         getVideoFile();
         mAdapter = new ImageAdapter(getActivity());
         mGridView.setAdapter(mAdapter);
         ImageCache.ImageCacheParams cacheParams = new ImageCache.ImageCacheParams();
-
         cacheParams.setMemCacheSizePercent(0.25f); // Set memory cache to 25% of
-                                                   // app memory
-
+        // app memory
         // The ImageFetcher takes care of loading images into our ImageView
         // children asynchronously
         mImageResizer = new ImageResizer(getActivity(), mImageThumbSize);
         mImageResizer.setLoadingImage(R.drawable.empty_photo);
         mImageResizer.addImageCache(getActivity().getSupportFragmentManager(), cacheParams);
-        mGridView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        mGridView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener()
+        {
             @TargetApi(VERSION_CODES.JELLY_BEAN)
             @Override
-            public void onGlobalLayout() {
-                final int numColumns = (int)Math.floor(mGridView.getWidth() / (mImageThumbSize + mImageThumbSpacing));
-                if (numColumns > 0) {
+            public void onGlobalLayout()
+            {
+                final int numColumns = (int) Math.floor(mGridView.getWidth() / (mImageThumbSize + mImageThumbSpacing));
+                if (numColumns > 0)
+                {
                     final int columnWidth = (mGridView.getWidth() / numColumns) - mImageThumbSpacing;
                     mAdapter.setItemHeight(columnWidth);
-                    if (BuildConfig.DEBUG) {
+                    if (BuildConfig.DEBUG)
+                    {
                         Log.d(TAG, "onCreateView - numColumns set to " + numColumns);
                     }
-                    if (Utils.hasJellyBean()) {
+                    if (Utils.hasJellyBean())
+                    {
                         mGridView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    } else {
+                    }
+                    else
+                    {
                         mGridView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                     }
                 }
@@ -347,15 +362,15 @@ public class ImageGridFragment extends YARBaseFragment implements OnItemClickLis
     }
 
     @Override
-    public void doAfter() {
+    public void doAfter()
+    {
         // TODO Auto-generated method stub
-
     }
 
     @Override
-    public Object getNavigationTitle() {
+    public Object getNavigationTitle()
+    {
         // TODO Auto-generated method stub
         return null;
     }
-
 }

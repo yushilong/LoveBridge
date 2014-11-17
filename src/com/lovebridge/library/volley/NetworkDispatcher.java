@@ -16,12 +16,12 @@
 
 package com.lovebridge.library.volley;
 
-import java.util.concurrent.BlockingQueue;
-
 import android.annotation.TargetApi;
 import android.net.TrafficStats;
 import android.os.Build;
 import android.os.Process;
+
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Provides a thread for performing network dispatch from a queue of requests.
@@ -30,7 +30,8 @@ import android.os.Process;
  * eligible, using a specified {@link Cache} interface. Valid responses and
  * errors are posted back to the caller via a {@link ResponseDelivery}.
  */
-public class NetworkDispatcher extends Thread {
+public class NetworkDispatcher extends Thread
+{
     /** The queue of requests to service. */
     private final BlockingQueue<Request<?>> mQueue;
     /** The network interface for processing requests. */
@@ -45,13 +46,14 @@ public class NetworkDispatcher extends Thread {
     /**
      * Creates a new network dispatcher thread. You must call {@link #start()}
      * in order to begin processing.
-     * 
+     *
      * @param queue Queue of incoming requests for triage
      * @param network Network interface to use for performing requests
      * @param cache Cache interface to use for writing responses to cache
      * @param delivery Delivery interface to use for posting responses
      */
-    public NetworkDispatcher(BlockingQueue<Request<?>> queue, Network network, Cache cache, ResponseDelivery delivery) {
+    public NetworkDispatcher(BlockingQueue<Request<?>> queue, Network network, Cache cache, ResponseDelivery delivery)
+    {
         mQueue = queue;
         mNetwork = network;
         mCache = cache;
@@ -62,39 +64,50 @@ public class NetworkDispatcher extends Thread {
      * Forces this dispatcher to quit immediately. If any requests are still in
      * the queue, they are not guaranteed to be processed.
      */
-    public void quit() {
+    public void quit()
+    {
         mQuit = true;
         interrupt();
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    private void addTrafficStatsTag(Request<?> request) {
+    private void addTrafficStatsTag(Request<?> request)
+    {
         // Tag the request (if API >= 14)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+        {
             TrafficStats.setThreadStatsTag(request.getTrafficStatsTag());
         }
     }
 
     @Override
-    public void run() {
+    public void run()
+    {
         Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-        while (true) {
+        while (true)
+        {
             Request<?> request;
-            try {
+            try
+            {
                 // Take a request from the queue.
                 request = mQueue.take();
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e)
+            {
                 // We may have been interrupted because it was time to quit.
-                if (mQuit) {
+                if (mQuit)
+                {
                     return;
                 }
                 continue;
             }
-            try {
+            try
+            {
                 request.addMarker("network-queue-take");
                 // If the request was cancelled already, do not perform the
                 // network request.
-                if (request.isCanceled()) {
+                if (request.isCanceled())
+                {
                     request.finish("network-discard-cancelled");
                     continue;
                 }
@@ -105,7 +118,8 @@ public class NetworkDispatcher extends Thread {
                 // If the server returned 304 AND we delivered a response
                 // already,
                 // we're done -- don't deliver a second identical response.
-                if (networkResponse.notModified && request.hasHadResponseDelivered()) {
+                if (networkResponse.notModified && request.hasHadResponseDelivered())
+                {
                     request.finish("not-modified");
                     continue;
                 }
@@ -115,23 +129,29 @@ public class NetworkDispatcher extends Thread {
                 // Write to cache if applicable.
                 // TODO: Only update cache metadata instead of entire record for
                 // 304s.
-                if (request.shouldCache() && response.cacheEntry != null) {
+                if (request.shouldCache() && response.cacheEntry != null)
+                {
                     mCache.put(request.getCacheKey(), response.cacheEntry);
                     request.addMarker("network-cache-written");
                 }
                 // Post the response back.
                 request.markDelivered();
                 mDelivery.postResponse(request, response);
-            } catch (VolleyError volleyError) {
+            }
+            catch (VolleyError volleyError)
+            {
                 parseAndDeliverNetworkError(request, volleyError);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 VolleyLog.e(e, "Unhandled exception %s", e.toString());
                 mDelivery.postError(request, new VolleyError(e));
             }
         }
     }
 
-    private void parseAndDeliverNetworkError(Request<?> request, VolleyError error) {
+    private void parseAndDeliverNetworkError(Request<?> request, VolleyError error)
+    {
         error = request.parseNetworkError(error);
         mDelivery.postError(request, error);
     }

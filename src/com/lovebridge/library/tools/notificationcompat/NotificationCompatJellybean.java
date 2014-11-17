@@ -21,64 +21,76 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.RemoteViews;
+
 import java.util.ArrayList;
 
-class NotificationCompatJellybean {
+class NotificationCompatJellybean
+{
     private Notification.Builder b;
 
     public NotificationCompatJellybean(Context context, Notification n, CharSequence contentTitle,
-                    CharSequence contentText, CharSequence contentInfo, RemoteViews tickerView, int number,
-                    PendingIntent contentIntent, PendingIntent fullScreenIntent, Bitmap largeIcon, int mProgressMax,
-                    int mProgress, boolean mProgressIndeterminate, boolean useChronometer, int priority,
-                    CharSequence subText) {
+            CharSequence contentText, CharSequence contentInfo, RemoteViews tickerView, int number,
+            PendingIntent contentIntent, PendingIntent fullScreenIntent, Bitmap largeIcon, int mProgressMax,
+            int mProgress, boolean mProgressIndeterminate, boolean useChronometer, int priority,
+            CharSequence subText)
+    {
         b = new Notification.Builder(context).setWhen(n.when).setSmallIcon(n.icon, n.iconLevel)
-                        .setContent(n.contentView).setTicker(n.tickerText, tickerView)
-                        .setSound(n.sound, n.audioStreamType).setVibrate(n.vibrate)
-                        .setLights(n.ledARGB, n.ledOnMS, n.ledOffMS)
-                        .setOngoing((n.flags & Notification.FLAG_ONGOING_EVENT) != 0)
-                        .setOnlyAlertOnce((n.flags & Notification.FLAG_ONLY_ALERT_ONCE) != 0)
-                        .setAutoCancel((n.flags & Notification.FLAG_AUTO_CANCEL) != 0).setDefaults(n.defaults)
-                        .setContentTitle(contentTitle).setContentText(contentText).setSubText(subText)
-                        .setContentInfo(contentInfo).setContentIntent(contentIntent).setDeleteIntent(n.deleteIntent)
-                        .setFullScreenIntent(fullScreenIntent, (n.flags & Notification.FLAG_HIGH_PRIORITY) != 0)
-                        .setLargeIcon(largeIcon).setNumber(number).setUsesChronometer(useChronometer)
-                        .setPriority(priority).setProgress(mProgressMax, mProgress, mProgressIndeterminate);
+                .setContent(n.contentView).setTicker(n.tickerText, tickerView)
+                .setSound(n.sound, n.audioStreamType).setVibrate(n.vibrate)
+                .setLights(n.ledARGB, n.ledOnMS, n.ledOffMS)
+                .setOngoing((n.flags & Notification.FLAG_ONGOING_EVENT) != 0)
+                .setOnlyAlertOnce((n.flags & Notification.FLAG_ONLY_ALERT_ONCE) != 0)
+                .setAutoCancel((n.flags & Notification.FLAG_AUTO_CANCEL) != 0).setDefaults(n.defaults)
+                .setContentTitle(contentTitle).setContentText(contentText).setSubText(subText)
+                .setContentInfo(contentInfo).setContentIntent(contentIntent).setDeleteIntent(n.deleteIntent)
+                .setFullScreenIntent(fullScreenIntent, (n.flags & Notification.FLAG_HIGH_PRIORITY) != 0)
+                .setLargeIcon(largeIcon).setNumber(number).setUsesChronometer(useChronometer)
+                .setPriority(priority).setProgress(mProgressMax, mProgress, mProgressIndeterminate);
     }
 
-    public void addAction(int icon, CharSequence title, PendingIntent intent) {
+    public void addAction(int icon, CharSequence title, PendingIntent intent)
+    {
         b.addAction(icon, title, intent);
     }
 
     public void addBigTextStyle(CharSequence bigContentTitle, boolean useSummary, CharSequence summaryText,
-                                CharSequence bigText) {
+            CharSequence bigText)
+    {
         Notification.BigTextStyle style = new Notification.BigTextStyle(b).setBigContentTitle(bigContentTitle).bigText(
-                        bigText);
-        if (useSummary) {
+                bigText);
+        if (useSummary)
+        {
             style.setSummaryText(summaryText);
         }
     }
 
     public void addBigPictureStyle(CharSequence bigContentTitle, boolean useSummary, CharSequence summaryText,
-                                   Bitmap bigPicture) {
+            Bitmap bigPicture)
+    {
         Notification.BigPictureStyle style = new Notification.BigPictureStyle(b).setBigContentTitle(bigContentTitle)
-                        .bigPicture(bigPicture);
-        if (useSummary) {
+                .bigPicture(bigPicture);
+        if (useSummary)
+        {
             style.setSummaryText(summaryText);
         }
     }
 
     public void addInboxStyle(CharSequence bigContentTitle, boolean useSummary, CharSequence summaryText,
-                              ArrayList<CharSequence> texts) {
+            ArrayList<CharSequence> texts)
+    {
         Notification.InboxStyle style = new Notification.InboxStyle(b).setBigContentTitle(bigContentTitle);
-        if (useSummary) {
+        if (useSummary)
+        {
             style.setSummaryText(summaryText);
         }
-        for (CharSequence text : texts) {
+        for (CharSequence text : texts)
+        {
             style.addLine(text);
         }
     }
 
-    public Notification build() {
+    public Notification build()
+    {
         return b.build();
     }
 }

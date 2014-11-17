@@ -1,11 +1,7 @@
-
 package com.lovebridge.chat.activity;
-
-import java.util.List;
 
 import android.view.View;
 import android.widget.ListView;
-
 import com.lovebridge.R;
 import com.lovebridge.application.MainApplication;
 import com.lovebridge.chat.adapter.NewFriendsMsgAdapter;
@@ -14,31 +10,37 @@ import com.lovebridge.db.InviteMessgeDao;
 import com.lovebridge.library.YARActivity;
 import com.lovebridge.library.tools.YARConstants;
 
+import java.util.List;
+
 /**
  * 申请与通知
  */
-public class NewFriendsMsgActivity extends YARActivity {
+public class NewFriendsMsgActivity extends YARActivity
+{
     private ListView listView;
 
-    public void back(View view) {
+    public void back(View view)
+    {
         finish();
     }
 
     @Override
-    public int doGetContentViewId() {
+    public int doGetContentViewId()
+    {
         // TODO Auto-generated method stub
         return R.layout.activity_new_friends_msg;
     }
 
     @Override
-    public void doInitSubViews(View containerView) {
+    public void doInitSubViews(View containerView)
+    {
         // TODO Auto-generated method stub
-        listView = (ListView)findViewById(R.id.list);
-
+        listView = (ListView) findViewById(R.id.list);
     }
 
     @Override
-    public void doInitDataes() {
+    public void doInitDataes()
+    {
         InviteMessgeDao dao = new InviteMessgeDao(this);
         List<InviteMessage> msgs = dao.getMessagesList();
         // 设置adapter
@@ -48,9 +50,8 @@ public class NewFriendsMsgActivity extends YARActivity {
     }
 
     @Override
-    public void doAfter() {
+    public void doAfter()
+    {
         // TODO Auto-generated method stub
-
     }
-
 }

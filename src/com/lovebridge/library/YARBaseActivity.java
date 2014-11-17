@@ -1,4 +1,3 @@
-
 package com.lovebridge.library;
 
 import android.app.Activity;
@@ -6,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-
 import com.lovebridge.library.tools.YARAppManager;
 
 /**
@@ -14,12 +12,14 @@ import com.lovebridge.library.tools.YARAppManager;
  * @date 2014-9-30
  * @version 1.0
  */
-public abstract class YARBaseActivity extends FragmentActivity {
+public abstract class YARBaseActivity extends FragmentActivity
+{
     public Context mContext;
     public Activity mActivity;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         doBefore(savedInstanceState);
@@ -34,7 +34,8 @@ public abstract class YARBaseActivity extends FragmentActivity {
         YARAppManager.getInstance().addActivity(this);
     }
 
-    private void init() {
+    private void init()
+    {
         // TODO Auto-generated method stub
         mActivity = this;
         mContext = this;
@@ -48,12 +49,14 @@ public abstract class YARBaseActivity extends FragmentActivity {
 
     public abstract void doAfter();
 
-    protected void doBefore(Bundle savedInstanceState) {
+    protected void doBefore(Bundle savedInstanceState)
+    {
         // TODO Auto-generated method stub
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         super.onDestroy();
         // 结束Activity&从堆栈中移除
         YARAppManager.getInstance().finishActivity(this);

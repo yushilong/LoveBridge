@@ -19,7 +19,6 @@
 package com.lovebridge.library.api.asynchttpclient;
 
 import android.util.Log;
-
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.message.BasicHeader;
@@ -38,10 +37,11 @@ import java.util.zip.GZIPOutputStream;
  * HTTP entity to upload JSON data using streams. This has very low memory
  * footprint; suitable for uploading large files using base64 encoding.
  */
-class JsonStreamerEntity implements HttpEntity {
+class JsonStreamerEntity implements HttpEntity
+{
     private static final String LOG_TAG = "JsonStreamerEntity";
     private static final UnsupportedOperationException ERR_UNSUPPORTED = new UnsupportedOperationException(
-                    "Unsupported operation in this implementation.");
+            "Unsupported operation in this implementation.");
     // Size of the byte-array buffer used in I/O streams.
     private static final int BUFFER_SIZE = 4096;
     // Buffer used for reading from input streams.
@@ -65,63 +65,75 @@ class JsonStreamerEntity implements HttpEntity {
     private final Header contentEncoding;
     private final ResponseHandlerInterface progressHandler;
 
-    public JsonStreamerEntity(ResponseHandlerInterface progressHandler, boolean useGZipCompression) {
+    public JsonStreamerEntity(ResponseHandlerInterface progressHandler, boolean useGZipCompression)
+    {
         this.progressHandler = progressHandler;
         this.contentEncoding = useGZipCompression ? HEADER_GZIP_ENCODING : null;
     }
 
     /**
      * Add content parameter, identified by the given key, to the request.
-     * 
+     *
      * @param key entity's name
      * @param value entity's value (Scalar, FileWrapper, StreamWrapper)
      */
-    public void addPart(String key, Object value) {
+    public void addPart(String key, Object value)
+    {
         jsonParams.put(key, value);
     }
 
     @Override
-    public boolean isRepeatable() {
+    public boolean isRepeatable()
+    {
         return false;
     }
 
     @Override
-    public boolean isChunked() {
+    public boolean isChunked()
+    {
         return false;
     }
 
     @Override
-    public boolean isStreaming() {
+    public boolean isStreaming()
+    {
         return false;
     }
 
     @Override
-    public long getContentLength() {
+    public long getContentLength()
+    {
         return -1;
     }
 
     @Override
-    public Header getContentEncoding() {
+    public Header getContentEncoding()
+    {
         return contentEncoding;
     }
 
     @Override
-    public Header getContentType() {
+    public Header getContentType()
+    {
         return HEADER_JSON_CONTENT;
     }
 
     @Override
-    public void consumeContent() throws IOException, UnsupportedOperationException {
+    public void consumeContent() throws IOException, UnsupportedOperationException
+    {
     }
 
     @Override
-    public InputStream getContent() throws IOException, UnsupportedOperationException {
+    public InputStream getContent() throws IOException, UnsupportedOperationException
+    {
         throw ERR_UNSUPPORTED;
     }
 
     @Override
-    public void writeTo(final OutputStream out) throws IOException {
-        if (out == null) {
+    public void writeTo(final OutputStream out) throws IOException
+    {
+        if (out == null)
+        {
             throw new IllegalStateException("Output stream cannot be null.");
         }
         // Record the time when uploading started.
@@ -135,11 +147,13 @@ class JsonStreamerEntity implements HttpEntity {
         Set<String> keys = jsonParams.keySet();
         boolean isFileWrapper;
         // Go over all keys and handle each's value.
-        for (String key : keys) {
+        for (String key : keys)
+        {
             // Evaluate the value (which cannot be null).
             Object value = jsonParams.get(key);
             // Bail out prematurely if value's null.
-            if (value == null) {
+            if (value == null)
+            {
                 continue;
             }
             // Write the JSON object's key.
@@ -148,29 +162,45 @@ class JsonStreamerEntity implements HttpEntity {
             // Check if this is a FileWrapper.
             isFileWrapper = value instanceof RequestParams.FileWrapper;
             // If a file should be uploaded.
-            if (isFileWrapper || value instanceof RequestParams.StreamWrapper) {
+            if (isFileWrapper || value instanceof RequestParams.StreamWrapper)
+            {
                 // All uploads are sent as an object containing the file's
                 // details.
                 os.write('{');
                 // Determine how to handle this entry.
-                if (isFileWrapper) {
-                    writeToFromFile(os, (RequestParams.FileWrapper)value);
-                } else {
-                    writeToFromStream(os, (RequestParams.StreamWrapper)value);
+                if (isFileWrapper)
+                {
+                    writeToFromFile(os, (RequestParams.FileWrapper) value);
+                }
+                else
+                {
+                    writeToFromStream(os, (RequestParams.StreamWrapper) value);
                 }
                 // End the file's object and prepare for next one.
                 os.write('}');
-            } else if (value instanceof Boolean) {
-                os.write((Boolean)value ? JSON_TRUE : JSON_FALSE);
-            } else if (value instanceof Long) {
-                os.write((((Number)value).longValue() + "").getBytes());
-            } else if (value instanceof Double) {
-                os.write((((Number)value).doubleValue() + "").getBytes());
-            } else if (value instanceof Float) {
-                os.write((((Number)value).floatValue() + "").getBytes());
-            } else if (value instanceof Integer) {
-                os.write((((Number)value).intValue() + "").getBytes());
-            } else {
+            }
+            else if (value instanceof Boolean)
+            {
+                os.write((Boolean) value ? JSON_TRUE : JSON_FALSE);
+            }
+            else if (value instanceof Long)
+            {
+                os.write((((Number) value).longValue() + "").getBytes());
+            }
+            else if (value instanceof Double)
+            {
+                os.write((((Number) value).doubleValue() + "").getBytes());
+            }
+            else if (value instanceof Float)
+            {
+                os.write((((Number) value).floatValue() + "").getBytes());
+            }
+            else if (value instanceof Integer)
+            {
+                os.write((((Number) value).intValue() + "").getBytes());
+            }
+            else
+            {
                 os.write(value.toString().getBytes());
             }
             os.write(',');
@@ -188,14 +218,16 @@ class JsonStreamerEntity implements HttpEntity {
         AsyncHttpClient.silentCloseOutputStream(os);
     }
 
-    private void writeToFromStream(OutputStream os, RequestParams.StreamWrapper entry) throws IOException {
+    private void writeToFromStream(OutputStream os, RequestParams.StreamWrapper entry) throws IOException
+    {
         // Send the meta data.
         writeMetaData(os, entry.name, entry.contentType);
         int bytesRead;
         // Upload the file's contents in Base64.
         Base64OutputStream bos = new Base64OutputStream(os, Base64.NO_CLOSE | Base64.NO_WRAP);
         // Read from input stream until no more data's left to read.
-        while ((bytesRead = entry.inputStream.read(buffer)) != -1) {
+        while ((bytesRead = entry.inputStream.read(buffer)) != -1)
+        {
             bos.write(buffer, 0, bytesRead);
         }
         // Close the Base64 output stream.
@@ -203,22 +235,25 @@ class JsonStreamerEntity implements HttpEntity {
         // End the meta data.
         endMetaData(os);
         // Close input stream.
-        if (entry.autoClose) {
+        if (entry.autoClose)
+        {
             // Safely close the input stream.
             AsyncHttpClient.silentCloseInputStream(entry.inputStream);
         }
     }
 
-    private void writeToFromFile(OutputStream os, RequestParams.FileWrapper wrapper) throws IOException {
+    private void writeToFromFile(OutputStream os, RequestParams.FileWrapper wrapper) throws IOException
+    {
         // Send the meta data.
         writeMetaData(os, wrapper.file.getName(), wrapper.contentType);
-        int bytesRead, bytesWritten = 0, totalSize = (int)wrapper.file.length();
+        int bytesRead, bytesWritten = 0, totalSize = (int) wrapper.file.length();
         // Open the file for reading.
         FileInputStream in = new FileInputStream(wrapper.file);
         // Upload the file's contents in Base64.
         Base64OutputStream bos = new Base64OutputStream(os, Base64.NO_CLOSE | Base64.NO_WRAP);
         // Read from file until no more data's left to read.
-        while ((bytesRead = in.read(buffer)) != -1) {
+        while ((bytesRead = in.read(buffer)) != -1)
+        {
             bos.write(buffer, 0, bytesRead);
             bytesWritten += bytesRead;
             progressHandler.sendProgressMessage(bytesWritten, totalSize);
@@ -231,7 +266,8 @@ class JsonStreamerEntity implements HttpEntity {
         AsyncHttpClient.silentCloseInputStream(in);
     }
 
-    private void writeMetaData(OutputStream os, String name, String contentType) throws IOException {
+    private void writeMetaData(OutputStream os, String name, String contentType) throws IOException
+    {
         // Send the streams's name.
         os.write(STREAM_NAME);
         os.write(':');
@@ -248,23 +284,28 @@ class JsonStreamerEntity implements HttpEntity {
         os.write('"');
     }
 
-    private void endMetaData(OutputStream os) throws IOException {
+    private void endMetaData(OutputStream os) throws IOException
+    {
         os.write('"');
     }
 
     // Curtosy of Simple-JSON: http://goo.gl/XoW8RF
     // Changed a bit to suit our needs in this class.
-    static byte[] escape(String string) {
+    static byte[] escape(String string)
+    {
         // If it's null, just return prematurely.
-        if (string == null) {
+        if (string == null)
+        {
             return JSON_NULL;
         }
         // Surround with quotations.
         BUILDER.append('"');
         int length = string.length(), pos = -1;
-        while (++pos < length) {
+        while (++pos < length)
+        {
             char ch = string.charAt(pos);
-            switch (ch) {
+            switch (ch)
+            {
                 case '"':
                     BUILDER.append("\\\"");
                     break;
@@ -289,15 +330,19 @@ class JsonStreamerEntity implements HttpEntity {
                 default:
                     // Reference: http://www.unicode.org/versions/Unicode5.1.0/
                     if ((ch >= '\u0000' && ch <= '\u001F') || (ch >= '\u007F' && ch <= '\u009F')
-                                    || (ch >= '\u2000' && ch <= '\u20FF')) {
+                            || (ch >= '\u2000' && ch <= '\u20FF'))
+                    {
                         String intString = Integer.toHexString(ch);
                         BUILDER.append("\\u");
                         int intLength = 4 - intString.length();
-                        for (int zero = 0; zero < intLength; zero++) {
+                        for (int zero = 0; zero < intLength; zero++)
+                        {
                             BUILDER.append('0');
                         }
                         BUILDER.append(intString.toUpperCase(Locale.US));
-                    } else {
+                    }
+                    else
+                    {
                         BUILDER.append(ch);
                     }
                     break;
@@ -305,9 +350,12 @@ class JsonStreamerEntity implements HttpEntity {
         }
         // Surround with quotations.
         BUILDER.append('"');
-        try {
+        try
+        {
             return BUILDER.toString().getBytes();
-        } finally {
+        }
+        finally
+        {
             // Empty the String buffer.
             // This is 20-30% faster than instantiating a new object.
             BUILDER.setLength(0);

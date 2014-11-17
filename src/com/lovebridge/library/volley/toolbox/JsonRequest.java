@@ -16,8 +16,6 @@
 
 package com.lovebridge.library.volley.toolbox;
 
-import java.io.UnsupportedEncodingException;
-
 import com.lovebridge.library.volley.NetworkResponse;
 import com.lovebridge.library.volley.Request;
 import com.lovebridge.library.volley.Response;
@@ -25,19 +23,20 @@ import com.lovebridge.library.volley.Response.ErrorListener;
 import com.lovebridge.library.volley.Response.Listener;
 import com.lovebridge.library.volley.VolleyLog;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * A request for retrieving a T type response body at a given URL that also
  * optionally sends along a JSON body in the request specified.
- * 
+ *
  * @param <T> JSON type of response expected
  */
-public abstract class JsonRequest<T> extends Request<T> {
+public abstract class JsonRequest<T> extends Request<T>
+{
     /** Charset for request. */
     private static final String PROTOCOL_CHARSET = "utf-8";
-
     /** Content type for request. */
     private static final String PROTOCOL_CONTENT_TYPE = String.format("application/json; charset=%s", PROTOCOL_CHARSET);
-
     private final Listener<T> mListener;
     private String mRequestBody;
 
@@ -45,23 +44,26 @@ public abstract class JsonRequest<T> extends Request<T> {
      * Deprecated constructor for a JsonRequest which defaults to GET unless
      * {@link #getPostBody()} or {@link #getPostParams()} is overridden (which
      * defaults to POST).
-     * 
+     *
      * @deprecated Use
-     *             {@link #JsonRequest(int, String, String, Listener, ErrorListener)}
+     *             {@link #JsonRequest(int , String , String , Listener , ErrorListener)}
      *             .
      */
-    public JsonRequest(String url, String requestBody, Listener<T> listener, ErrorListener errorListener) {
+    public JsonRequest(String url, String requestBody, Listener<T> listener, ErrorListener errorListener)
+    {
         this(Method.DEPRECATED_GET_OR_POST, url, requestBody, listener, errorListener);
     }
 
-    public JsonRequest(int method, String url, String requestBody, Listener<T> listener, ErrorListener errorListener) {
+    public JsonRequest(int method, String url, String requestBody, Listener<T> listener, ErrorListener errorListener)
+    {
         super(method, url, errorListener);
         mListener = listener;
         mRequestBody = requestBody;
     }
 
     @Override
-    protected void deliverResponse(T response) {
+    protected void deliverResponse(T response)
+    {
         mListener.onResponse(response);
     }
 
@@ -72,7 +74,8 @@ public abstract class JsonRequest<T> extends Request<T> {
      * @deprecated Use {@link #getBodyContentType()}.
      */
     @Override
-    public String getPostBodyContentType() {
+    public String getPostBodyContentType()
+    {
         return getBodyContentType();
     }
 
@@ -80,30 +83,38 @@ public abstract class JsonRequest<T> extends Request<T> {
      * @deprecated Use {@link #getBody()}.
      */
     @Override
-    public byte[] getPostBody() {
+    public byte[] getPostBody()
+    {
         return getBody();
     }
 
     @Override
-    public String getBodyContentType() {
+    public String getBodyContentType()
+    {
         return PROTOCOL_CONTENT_TYPE;
     }
 
-    public String getRequestBody() {
+    public String getRequestBody()
+    {
         return mRequestBody;
     }
 
-    public void setRequestBody(String mRequestBody) {
+    public void setRequestBody(String mRequestBody)
+    {
         this.mRequestBody = mRequestBody;
     }
 
     @Override
-    public byte[] getBody() {
-        try {
+    public byte[] getBody()
+    {
+        try
+        {
             return mRequestBody == null ? null : mRequestBody.getBytes(PROTOCOL_CHARSET);
-        } catch (UnsupportedEncodingException uee) {
+        }
+        catch (UnsupportedEncodingException uee)
+        {
             VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody,
-                            PROTOCOL_CHARSET);
+                    PROTOCOL_CHARSET);
             return null;
         }
     }

@@ -8,7 +8,7 @@
     <style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <!-- API 14 theme customizations can go here. -->
     </style>
- <style name="TextAppearance.StatusBar.EventContent.Title">
+    <style name="TextAppearance.StatusBar.EventContent.Title">
         <item name="android:textColor">#ffffff</item>
         <!-- <item name="android:fontFamily">sans-serif-light</item> -->
         <item name="android:textSize">@dimen/notification_title_text_size</item>

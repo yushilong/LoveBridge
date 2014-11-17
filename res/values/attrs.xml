@@ -2,15 +2,15 @@
 <resources>
 
     <declare-styleable name="tab_vertical">
-        <attr name="tabImageSrc" format="reference" />
-        <attr name="tabImageSize" format="reference" />
-        <attr name="tabTextResId" format="reference" />
-        <attr name="tabTextColor" format="reference|color" />
-        <attr name="tabTextSize" format="reference|dimension" />
+        <attr name="tabImageSrc" format="reference"/>
+        <attr name="tabImageSize" format="reference"/>
+        <attr name="tabTextResId" format="reference"/>
+        <attr name="tabTextColor" format="reference|color"/>
+        <attr name="tabTextSize" format="reference|dimension"/>
     </declare-styleable>
 
-    <attr name="tabPageIndicatorStyle" format="reference" />
-    <attr name="bottomIndicatorColor" format="color" />
-    <attr name="bottomIndicatorHeight" format="dimension" />
+    <attr name="tabPageIndicatorStyle" format="reference"/>
+    <attr name="bottomIndicatorColor" format="color"/>
+    <attr name="bottomIndicatorHeight" format="dimension"/>
 
 </resources>

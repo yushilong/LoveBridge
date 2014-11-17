@@ -18,45 +18,50 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.lovebridge.R;
 import com.lovebridge.library.YARActivity;
 
-public class ExitGroupDialog extends YARActivity {
+public class ExitGroupDialog extends YARActivity
+{
     private TextView text;
     private Button exitBtn;
 
-    public void logout(View view) {
+    public void logout(View view)
+    {
         setResult(RESULT_OK);
         finish();
-
     }
 
-    public void cancel(View view) {
+    public void cancel(View view)
+    {
         finish();
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event)
+    {
         finish();
         return true;
     }
 
     @Override
-    public int doGetContentViewId() {
+    public int doGetContentViewId()
+    {
         // TODO Auto-generated method stub
         return R.layout.logout_actionsheet;
     }
 
     @Override
-    public void doInitSubViews(View containerView) {
+    public void doInitSubViews(View containerView)
+    {
         // TODO Auto-generated method stub
-        text = (TextView)findViewById(R.id.tv_text);
-        exitBtn = (Button)findViewById(R.id.btn_exit);
+        text = (TextView) findViewById(R.id.tv_text);
+        exitBtn = (Button) findViewById(R.id.btn_exit);
     }
 
     @Override
-    public void doInitDataes() {
+    public void doInitDataes()
+    {
         // TODO Auto-generated method stub
         text.setText(R.string.exit_group_hint);
         String toast = getIntent().getStringExtra("deleteToast");
@@ -66,8 +71,8 @@ public class ExitGroupDialog extends YARActivity {
     }
 
     @Override
-    public void doAfter() {
+    public void doAfter()
+    {
         // TODO Auto-generated method stub
-
     }
 }

@@ -27,3 +27,4 @@ proguard/
 *.classpath
 *.project
 *.settings
+*.iml
