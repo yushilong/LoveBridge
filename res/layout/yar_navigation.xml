@@ -1,33 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-<<<<<<< HEAD
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center_vertical"
-              android:orientation="horizontal">
 
-    <Button
-            android:id="@id/bt_navigation_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="left"/>
-
-    <TextView
-            android:id="@id/tv_navigation_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="center"/>
-
-    <Button
-            android:id="@id/bt_navigation_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="right"/>
-=======
     android:layout_width="match_parent"
     android:layout_height="46dp"
     android:gravity="center_vertical"
@@ -57,6 +30,6 @@
         android:layout_height="46dp"
         android:src="@drawable/mm_title_remove"
         android:scaleType="centerInside"/>
->>>>>>> f56bc730f3884f9cc6f8667940c235ff59896ed1
+
 
 </LinearLayout>
