@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?color_tab_background" >
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/newChat"
+        android:layout_marginTop="@dimen/tabs_sticky_margin_top" >
+
+        <RelativeLayout
+            android:id="@+id/tabs_inner_wrapper"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_above="@+id/footer"
+                android:layout_marginBottom="@dimen/tabs_sticky_margin_bottom"
+                android:cacheColorHint="#00000000"
+                android:divider="@null"
+                android:dividerHeight="@dimen/tabs_divider_height"
+                android:fadingEdge="none"
+                android:listSelector="@null"
+                android:overScrollMode="never"
+                android:scrollbars="none" />
+
+            <com.hellotext.tabs.FooterTabLayout
+                android:id="@+id/footer"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/tabs_footer_height"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+    </FrameLayout>
+
+    <com.hellotext.tabs.NewChatTabLayout
+        android:id="@+id/newChat"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/tabs_new_chat_height"
+        android:layout_alignParentTop="true" />
+
+    <View
+        android:id="@+id/stickyChatTabOverlay"
+        android:layout_width="fill_parent"
+        android:layout_height="10.0dip"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/tabs_footer_height"
+        android:background="?color_tab_background"
+        android:visibility="gone" />
+
+    <com.hellotext.tabs.StickyChatTabLayout
+        android:id="@+id/stickyChatTab"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/tabs_tab_height"
+        android:visibility="gone" />
+
+</RelativeLayout>

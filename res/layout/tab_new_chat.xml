@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <View
+        android:id="@+id/active_background"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="?drawable_active_tab_new_chat"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="@dimen/tabs_closed_width"
+        android:layout_height="@dimen/tabs_new_chat_image_height"
+        android:layout_alignParentLeft="true"
+        android:scaleType="center"
+        android:src="?drawable_ic_peeking_new_chat_plus" />
+
+</merge>
