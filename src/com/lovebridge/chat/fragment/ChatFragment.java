@@ -1,12 +1,10 @@
+
 package com.lovebridge.chat.fragment;
 
 import android.os.Bundle;
 import android.view.View;
 import com.lovebridge.library.YARBaseFragment;
 
-/**
- * Created by tao on 14-11-16.
- */
 public class ChatFragment extends YARBaseFragment {
 
     @Override
