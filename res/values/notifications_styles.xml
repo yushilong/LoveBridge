@@ -2,13 +2,17 @@
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+
+
     -->
     <style name="AppBaseTheme" parent="android:Theme">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
+            backward-compatibility can go here.
+
+
         -->
     </style>
 
@@ -17,9 +21,9 @@
 
     <style name="TextAppearance">
         <item name="android:textColor">@color/primary_text_dark</item>
-      <!--   <item name="android:textColorHighlight">@android:color/textColorHighlight</item>-->
+        <!--   <item name="android:textColorHighlight">@android:color/textColorHighlight</item>-->
         <item name="android:textColorHint">@color/hint_foreground_dark</item>
-   <!--      <item name="android:textColorLink">@android:color/textColorLink</item>  -->
+        <!--      <item name="android:textColorLink">@android:color/textColorLink</item>  -->
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">normal</item>
     </style>

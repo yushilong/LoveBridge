@@ -1,4 +1,3 @@
-
 package com.lovebridge.library;
 
 import android.support.v4.view.PagerAdapter;
@@ -10,30 +9,36 @@ import android.widget.AdapterView;
  * A {@link PagerAdapter} which behaves like an {@link android.widget.Adapter}
  * with view types and view recycling.
  */
-public abstract class RecyclingPagerAdapter extends PagerAdapter {
+public abstract class RecyclingPagerAdapter extends PagerAdapter
+{
     static final int IGNORE_ITEM_VIEW_TYPE = AdapterView.ITEM_VIEW_TYPE_IGNORE;
     private final RecycleBin recycleBin;
 
-    public RecyclingPagerAdapter() {
+    public RecyclingPagerAdapter()
+    {
         this(new RecycleBin());
     }
 
-    RecyclingPagerAdapter(RecycleBin recycleBin) {
+    RecyclingPagerAdapter(RecycleBin recycleBin)
+    {
         this.recycleBin = recycleBin;
         recycleBin.setViewTypeCount(getViewTypeCount());
     }
 
     @Override
-    public void notifyDataSetChanged() {
+    public void notifyDataSetChanged()
+    {
         recycleBin.scrapActiveViews();
         super.notifyDataSetChanged();
     }
 
     @Override
-    public final Object instantiateItem(ViewGroup container, int position) {
+    public final Object instantiateItem(ViewGroup container, int position)
+    {
         int viewType = getItemViewType(position);
         View view = null;
-        if (viewType != IGNORE_ITEM_VIEW_TYPE) {
+        if (viewType != IGNORE_ITEM_VIEW_TYPE)
+        {
             view = recycleBin.getScrapView(position, viewType);
         }
         view = getView(position, view, container);
@@ -42,17 +47,20 @@ public abstract class RecyclingPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public final void destroyItem(ViewGroup container, int position, Object object) {
-        View view = (View)object;
+    public final void destroyItem(ViewGroup container, int position, Object object)
+    {
+        View view = (View) object;
         container.removeView(view);
         int viewType = getItemViewType(position);
-        if (viewType != IGNORE_ITEM_VIEW_TYPE) {
+        if (viewType != IGNORE_ITEM_VIEW_TYPE)
+        {
             recycleBin.addScrapView(view, position, viewType);
         }
     }
 
     @Override
-    public final boolean isViewFromObject(View view, Object object) {
+    public final boolean isViewFromObject(View view, Object object)
+    {
         return view == object;
     }
 
@@ -67,17 +75,18 @@ public abstract class RecyclingPagerAdapter extends PagerAdapter {
      * This method will only be called when when the adapter is set on the the
      * {@link AdapterView}.
      * </p>
-     * 
+     *
      * @return The number of types of Views that will be created by this adapter
      */
-    public int getViewTypeCount() {
+    public int getViewTypeCount()
+    {
         return 1;
     }
 
     /**
      * Get the type of View that will be created by {@link #getView} for the
      * specified item.
-     * 
+     *
      * @param position The position of the item within the adapter's data set
      *            whose view type we want.
      * @return An integer representing the type of View. Two views should share
@@ -88,7 +97,8 @@ public abstract class RecyclingPagerAdapter extends PagerAdapter {
      * @see #IGNORE_ITEM_VIEW_TYPE
      */
     // Argument potentially used by subclasses.
-    public int getItemViewType(int position) {
+    public int getItemViewType(int position)
+    {
         return 0;
     }
 
@@ -97,9 +107,9 @@ public abstract class RecyclingPagerAdapter extends PagerAdapter {
      * set. You can either create a View manually or inflate it from an XML
      * layout file. When the View is inflated, the parent View (GridView,
      * ListView...) will apply default layout parameters unless you use
-     * {@link android.view.LayoutInflater#inflate(int, android.view.ViewGroup, boolean)}
+     * {@link android.view.LayoutInflater#inflate(int , android.view.ViewGroup , boolean)}
      * to specify a root view and to prevent attachment to the root.
-     * 
+     *
      * @param position The position of the item within the adapter's data set of
      *            the item whose view we want.
      * @param convertView The old view to reuse, if possible. Note: You should

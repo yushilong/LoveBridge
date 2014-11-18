@@ -20,13 +20,12 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ProgressBar;
-
 import com.easemob.util.ImageUtils;
 import com.lovebridge.R;
 import com.lovebridge.chat.photoview.PhotoView;
 
-public class LoadLocalBigImgTask extends AsyncTask<Void, Void, Bitmap> {
-
+public class LoadLocalBigImgTask extends AsyncTask<Void, Void, Bitmap>
+{
     private ProgressBar pb;
     private PhotoView photoView;
     private String path;
@@ -34,7 +33,8 @@ public class LoadLocalBigImgTask extends AsyncTask<Void, Void, Bitmap> {
     private int height;
     private Context context;
 
-    public LoadLocalBigImgTask(Context context, String path, PhotoView photoView, ProgressBar pb, int width, int height) {
+    public LoadLocalBigImgTask(Context context, String path, PhotoView photoView, ProgressBar pb, int width, int height)
+    {
         this.context = context;
         this.path = path;
         this.photoView = photoView;
@@ -44,27 +44,32 @@ public class LoadLocalBigImgTask extends AsyncTask<Void, Void, Bitmap> {
     }
 
     @Override
-    protected void onPreExecute() {
+    protected void onPreExecute()
+    {
         super.onPreExecute();
         int degree = ImageUtils.readPictureDegree(path);
-        if (degree != 0) {
+        if (degree != 0)
+        {
             pb.setVisibility(View.VISIBLE);
             photoView.setVisibility(View.INVISIBLE);
-        } else {
+        }
+        else
+        {
             pb.setVisibility(View.INVISIBLE);
             photoView.setVisibility(View.VISIBLE);
         }
-
     }
 
     @Override
-    protected Bitmap doInBackground(Void... params) {
+    protected Bitmap doInBackground(Void... params)
+    {
         Bitmap bitmap = ImageUtils.decodeScaleImage(path, width, height);
         return bitmap;
     }
 
     @Override
-    protected void onPostExecute(Bitmap result) {
+    protected void onPostExecute(Bitmap result)
+    {
         super.onPostExecute(result);
         pb.setVisibility(View.INVISIBLE);
         photoView.setVisibility(View.VISIBLE);

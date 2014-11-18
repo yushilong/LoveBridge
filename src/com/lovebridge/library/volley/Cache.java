@@ -22,10 +22,11 @@ import java.util.Map;
 /**
  * An interface for a cache keyed by a String with a byte array as data.
  */
-public interface Cache {
+public interface Cache
+{
     /**
      * Retrieves an entry from the cache.
-     * 
+     *
      * @param key Cache key
      * @return An {@link Entry} or null in the event of a cache miss
      */
@@ -33,7 +34,7 @@ public interface Cache {
 
     /**
      * Adds or replaces an entry to the cache.
-     * 
+     *
      * @param key Cache key
      * @param entry Data to store and metadata for cache coherency, TTL, etc.
      */
@@ -47,7 +48,7 @@ public interface Cache {
 
     /**
      * Invalidates an entry in the cache.
-     * 
+     *
      * @param key Cache key
      * @param fullExpire True to fully expire the entry, false to soft expire
      */
@@ -55,7 +56,7 @@ public interface Cache {
 
     /**
      * Removes an entry from the cache.
-     * 
+     *
      * @param key Cache key
      */
     public void remove(String key);
@@ -68,7 +69,8 @@ public interface Cache {
     /**
      * Data and metadata for an entry returned by the cache.
      */
-    public static class Entry {
+    public static class Entry
+    {
         /** The data returned from cache. */
         public byte[] data;
         /** ETag for cache coherency. */
@@ -85,12 +87,14 @@ public interface Cache {
         public Map<String, String> responseHeaders = Collections.emptyMap();
 
         /** True if the entry is expired. */
-        public boolean isExpired() {
+        public boolean isExpired()
+        {
             return this.ttl < System.currentTimeMillis();
         }
 
         /** True if a refresh is needed from the original data source. */
-        public boolean refreshNeeded() {
+        public boolean refreshNeeded()
+        {
             return this.softTtl < System.currentTimeMillis();
         }
     }

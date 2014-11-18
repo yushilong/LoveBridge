@@ -28,7 +28,7 @@ public class YARDialog extends Dialog
 
  *//**
  * 创建一个普通的确认对话框
- * 
+ *
  * @param context
  * @return
  */
@@ -41,7 +41,7 @@ public static YARDialog createConfirmDialog(Context context)
 
  *//**
  * 创建一个普通的没标题的对话框
- * 
+ *
  * @param context
  * @return
  */

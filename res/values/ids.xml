@@ -3,8 +3,8 @@
 
     <!-- head -->
     <item name="pb_navigation" type="id"/>
-    <item name="bt_navigation_left" type="id"/>
-    <item name="bt_navigation_right" type="id"/>
+    <item name="iv_navigation_left" type="id"/>
+    <item name="iv_navigation_right" type="id"/>
     <item name="tv_navigation_title" type="id"/>
 
 </resources>

@@ -16,9 +16,6 @@
 
 package com.lovebridge.library.tools.notificationcompat;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -29,23 +26,25 @@ import android.net.Uri;
 import android.os.Build;
 import android.view.View;
 import android.widget.RemoteViews;
-
 import com.lovebridge.R;
+
+import java.text.NumberFormat;
+import java.util.ArrayList;
 
 /**
  * Helper for accessing features in {@link android.app.Notification} introduced
  * after API level 4 in a backwards compatible fashion.
  */
-public class NotificationCompat {
+public class NotificationCompat
+{
     /**
      * Obsolete flag indicating high-priority notifications; use the priority
      * field instead.
-     * 
+     *
      * @deprecated Use {@link NotificationCompat.Builder#setPriority(int)} with
      *             a positive value.
      */
     public static final int FLAG_HIGH_PRIORITY = 0x00000080;
-
     /**
      * Default notification priority for
      * {@link NotificationCompat.Builder#setPriority(int)}. If your application
@@ -53,7 +52,6 @@ public class NotificationCompat {
      * notifications.
      */
     public static final int PRIORITY_DEFAULT = 0;
-
     /**
      * Lower notification priority for
      * {@link NotificationCompat.Builder#setPriority(int)}, for items that are
@@ -62,7 +60,6 @@ public class NotificationCompat {
      * {@link #PRIORITY_DEFAULT} items.
      */
     public static final int PRIORITY_LOW = -1;
-
     /**
      * Lowest notification priority for
      * {@link NotificationCompat.Builder#setPriority(int)}; these items might
@@ -70,7 +67,6 @@ public class NotificationCompat {
      * detailed notification logs.
      */
     public static final int PRIORITY_MIN = -2;
-
     /**
      * Higher notification priority for
      * {@link NotificationCompat.Builder#setPriority(int)}, for more important
@@ -79,7 +75,6 @@ public class NotificationCompat {
      * {@link #PRIORITY_DEFAULT} items.
      */
     public static final int PRIORITY_HIGH = 1;
-
     /**
      * Highest notification priority for
      * {@link NotificationCompat.Builder#setPriority(int)}, for your
@@ -87,80 +82,93 @@ public class NotificationCompat {
      * attention or input.
      */
     public static final int PRIORITY_MAX = 2;
-
     private static final NotificationCompatImpl IMPL;
 
-    interface NotificationCompatImpl {
+    interface NotificationCompatImpl
+    {
         public Notification build(Builder b);
     }
 
-    static class NotificationCompatImplBase implements NotificationCompatImpl {
-        public Notification build(Builder b) {
-            Notification result = (Notification)b.mNotification;
+    static class NotificationCompatImplBase implements NotificationCompatImpl
+    {
+        public Notification build(Builder b)
+        {
+            Notification result = (Notification) b.mNotification;
             result.setLatestEventInfo(b.mContext, b.mContentTitle, b.mContentText, b.mContentIntent);
             // translate high priority requests into legacy flag
-            if (b.mPriority > PRIORITY_DEFAULT) {
+            if (b.mPriority > PRIORITY_DEFAULT)
+            {
                 result.flags |= FLAG_HIGH_PRIORITY;
             }
             boolean isFROYO = false;
             RemoteViews contentView;
             // compat android 2.2 progressbar
-            if (Build.VERSION.SDK_INT == 8) {
+            if (Build.VERSION.SDK_INT == 8)
+            {
                 isFROYO = true;
-                if (b.mProgressMax != 0 || b.mProgressIndeterminate) {
+                if (b.mProgressMax != 0 || b.mProgressIndeterminate)
+                {
                     contentView = new RemoteViews(b.mContext.getPackageName(),
-                                    R.layout.notification_template_base_progress);
-                } else {
+                            R.layout.notification_template_base_progress);
+                }
+                else
+                {
                     contentView = new RemoteViews(b.mContext.getPackageName(), R.layout.notification_template_base);
                 }
-            } else {
-                contentView = new RemoteViews(b.mContext.getPackageName(), R.layout.notification_template_base);
-
             }
-
-            if (result.icon != 0) {
+            else
+            {
+                contentView = new RemoteViews(b.mContext.getPackageName(), R.layout.notification_template_base);
+            }
+            if (result.icon != 0)
+            {
                 contentView.setViewVisibility(R.id.right_icon, View.VISIBLE);
                 contentView.setImageViewResource(R.id.right_icon, b.mNotification.icon);
             }
-
-            if (b.mContentInfo != null) {
+            if (b.mContentInfo != null)
+            {
                 contentView.setTextViewText(R.id.info, b.mContentInfo);
             }
-
-            if (b.mLargeIcon != null) {
+            if (b.mLargeIcon != null)
+            {
                 contentView.setImageViewBitmap(R.id.icon, b.mLargeIcon);
             }
-
-            if (b.mContentTitle != null) {
+            if (b.mContentTitle != null)
+            {
                 contentView.setTextViewText(R.id.title, b.mContentTitle);
             }
-
-            if (b.mContentText != null) {
+            if (b.mContentText != null)
+            {
                 contentView.setTextViewText(R.id.text, b.mContentText);
             }
             //
-            if (result.when != 0) {
+            if (result.when != 0)
+            {
                 contentView.setViewVisibility(R.id.time, View.VISIBLE);
                 contentView.setLong(R.id.time, "setTime", b.mNotification.when);
             }
             //
-            if (result.number != 0) {
+            if (result.number != 0)
+            {
                 NumberFormat f = NumberFormat.getIntegerInstance();
                 contentView.setTextViewText(R.id.info, f.format(b.mNotification.number));
             }
-
-            if (b.mProgressMax != 0 || b.mProgressIndeterminate) {
+            if (b.mProgressMax != 0 || b.mProgressIndeterminate)
+            {
                 contentView.setProgressBar(R.id.progress, b.mProgressMax, b.mProgress, b.mProgressIndeterminate);
-                if (!isFROYO) {
+                if (!isFROYO)
+                {
                     contentView.setViewVisibility(R.id.progress, View.VISIBLE);
                 }
-            } else {
-                if (!isFROYO) {
+            }
+            else
+            {
+                if (!isFROYO)
+                {
                     contentView.setViewVisibility(R.id.progress, View.GONE);
                 }
             }
             //
-
             //
             //
             //
@@ -170,58 +178,79 @@ public class NotificationCompat {
         }
     }
 
-    static class NotificationCompatImplHoneycomb implements NotificationCompatImpl {
-        public Notification build(Builder b) {
+    static class NotificationCompatImplHoneycomb implements NotificationCompatImpl
+    {
+        public Notification build(Builder b)
+        {
             return NotificationCompatHoneycomb.add(b.mContext, b.mNotification, b.mContentTitle, b.mContentText,
-                            b.mContentInfo, b.mTickerView, b.mNumber, b.mContentIntent, b.mFullScreenIntent,
-                            b.mLargeIcon);
+                    b.mContentInfo, b.mTickerView, b.mNumber, b.mContentIntent, b.mFullScreenIntent,
+                    b.mLargeIcon);
         }
     }
 
-    static class NotificationCompatImplIceCreamSandwich implements NotificationCompatImpl {
-        public Notification build(Builder b) {
+    static class NotificationCompatImplIceCreamSandwich implements NotificationCompatImpl
+    {
+        public Notification build(Builder b)
+        {
             return NotificationCompatIceCreamSandwich.add(b.mContext, b.mNotification, b.mContentTitle, b.mContentText,
-                            b.mContentInfo, b.mTickerView, b.mNumber, b.mContentIntent, b.mFullScreenIntent,
-                            b.mLargeIcon, b.mProgressMax, b.mProgress, b.mProgressIndeterminate);
+                    b.mContentInfo, b.mTickerView, b.mNumber, b.mContentIntent, b.mFullScreenIntent,
+                    b.mLargeIcon, b.mProgressMax, b.mProgress, b.mProgressIndeterminate);
         }
     }
 
-    static class NotificationCompatImplJellybean implements NotificationCompatImpl {
-        public Notification build(Builder b) {
+    static class NotificationCompatImplJellybean implements NotificationCompatImpl
+    {
+        public Notification build(Builder b)
+        {
             NotificationCompatJellybean jbBuilder = new NotificationCompatJellybean(b.mContext, b.mNotification,
-                            b.mContentTitle, b.mContentText, b.mContentInfo, b.mTickerView, b.mNumber,
-                            b.mContentIntent, b.mFullScreenIntent, b.mLargeIcon, b.mProgressMax, b.mProgress,
-                            b.mProgressIndeterminate, b.mUseChronometer, b.mPriority, b.mSubText);
-            for (Action action : b.mActions) {
+                    b.mContentTitle, b.mContentText, b.mContentInfo, b.mTickerView, b.mNumber,
+                    b.mContentIntent, b.mFullScreenIntent, b.mLargeIcon, b.mProgressMax, b.mProgress,
+                    b.mProgressIndeterminate, b.mUseChronometer, b.mPriority, b.mSubText);
+            for (Action action : b.mActions)
+            {
                 jbBuilder.addAction(action.icon, action.title, action.actionIntent);
             }
-            if (b.mStyle != null) {
-                if (b.mStyle instanceof BigTextStyle) {
-                    BigTextStyle style = (BigTextStyle)b.mStyle;
+            if (b.mStyle != null)
+            {
+                if (b.mStyle instanceof BigTextStyle)
+                {
+                    BigTextStyle style = (BigTextStyle) b.mStyle;
                     jbBuilder.addBigTextStyle(style.mBigContentTitle, style.mSummaryTextSet, style.mSummaryText,
-                                    style.mBigText);
-                } else if (b.mStyle instanceof InboxStyle) {
-                    InboxStyle style = (InboxStyle)b.mStyle;
+                            style.mBigText);
+                }
+                else if (b.mStyle instanceof InboxStyle)
+                {
+                    InboxStyle style = (InboxStyle) b.mStyle;
                     jbBuilder.addInboxStyle(style.mBigContentTitle, style.mSummaryTextSet, style.mSummaryText,
-                                    style.mTexts);
-                } else if (b.mStyle instanceof BigPictureStyle) {
-                    BigPictureStyle style = (BigPictureStyle)b.mStyle;
+                            style.mTexts);
+                }
+                else if (b.mStyle instanceof BigPictureStyle)
+                {
+                    BigPictureStyle style = (BigPictureStyle) b.mStyle;
                     jbBuilder.addBigPictureStyle(style.mBigContentTitle, style.mSummaryTextSet, style.mSummaryText,
-                                    style.mPicture);
+                            style.mPicture);
                 }
             }
             return (jbBuilder.build());
         }
     }
 
-    static {
-        if (Build.VERSION.SDK_INT >= 16) {
+    static
+    {
+        if (Build.VERSION.SDK_INT >= 16)
+        {
             IMPL = new NotificationCompatImplJellybean();
-        } else if (Build.VERSION.SDK_INT >= 14) {
+        }
+        else if (Build.VERSION.SDK_INT >= 14)
+        {
             IMPL = new NotificationCompatImplIceCreamSandwich();
-        } else if (Build.VERSION.SDK_INT >= 11) {
+        }
+        else if (Build.VERSION.SDK_INT >= 11)
+        {
             IMPL = new NotificationCompatImplHoneycomb();
-        } else {
+        }
+        else
+        {
             IMPL = new NotificationCompatImplBase();
         }
     }
@@ -231,9 +260,9 @@ public class NotificationCompat {
      * over all the flags, as well as help constructing the typical notification
      * layouts.
      */
-    public static class Builder {
+    public static class Builder
+    {
         Context mContext;
-
         CharSequence mContentTitle;
         CharSequence mContentText;
         PendingIntent mContentIntent;
@@ -250,21 +279,20 @@ public class NotificationCompat {
         int mProgress;
         boolean mProgressIndeterminate;
         ArrayList<Action> mActions = new ArrayList<Action>();
-
         Notification mNotification = new Notification();
 
         /**
          * Constructor. Automatically sets the when field to
          * {@link System#currentTimeMillis() System.currentTimeMillis()} and the
          * audio stream to the {@link Notification#STREAM_DEFAULT}.
-         * 
+         *
          * @param context A {@link Context} that will be used to construct the
          *            RemoteViews. The Context will not be held past the
          *            lifetime of this Builder object.
          */
-        public Builder(Context context) {
+        public Builder(Context context)
+        {
             mContext = context;
-
             // Set defaults to match the defaults of a Notification
             mNotification.when = System.currentTimeMillis();
             mNotification.audioStreamType = Notification.STREAM_DEFAULT;
@@ -275,7 +303,8 @@ public class NotificationCompat {
          * Set the time that the event occurred. Notifications in the panel are
          * sorted by this time.
          */
-        public Builder setWhen(long when) {
+        public Builder setWhen(long when)
+        {
             mNotification.when = when;
             return this;
         }
@@ -286,11 +315,12 @@ public class NotificationCompat {
          * show an automatically updating display of the minutes and seconds
          * since <code>when</code>. Useful when showing an elapsed time (like an
          * ongoing phone call).
-         * 
+         *
          * @see android.widget.Chronometer
          * @see Notification#when
          */
-        public Builder setUsesChronometer(boolean b) {
+        public Builder setUsesChronometer(boolean b)
+        {
             mUseChronometer = b;
             return this;
         }
@@ -299,11 +329,12 @@ public class NotificationCompat {
          * Set the small icon to use in the notification layouts. Different
          * classes of devices may return different sizes. See the UX guidelines
          * for more information on how to design these icons.
-         * 
+         *
          * @param icon A resource ID in the application's package of the drawble
          *            to use.
          */
-        public Builder setSmallIcon(int icon) {
+        public Builder setSmallIcon(int icon)
+        {
             mNotification.icon = icon;
             return this;
         }
@@ -313,13 +344,14 @@ public class NotificationCompat {
          * an additional level parameter for when the icon is a
          * {@link android.graphics.drawable.LevelListDrawable LevelListDrawable}
          * .
-         * 
+         *
          * @param icon A resource ID in the application's package of the drawble
          *            to use.
          * @param level The level to use for the icon.
          * @see android.graphics.drawable.LevelListDrawable
          */
-        public Builder setSmallIcon(int icon, int level) {
+        public Builder setSmallIcon(int icon, int level)
+        {
             mNotification.icon = icon;
             mNotification.iconLevel = level;
             return this;
@@ -329,7 +361,8 @@ public class NotificationCompat {
          * Set the title (first row) of the notification, in a standard
          * notification.
          */
-        public Builder setContentTitle(CharSequence title) {
+        public Builder setContentTitle(CharSequence title)
+        {
             mContentTitle = title;
             return this;
         }
@@ -338,7 +371,8 @@ public class NotificationCompat {
          * Set the text (second row) of the notification, in a standard
          * notification.
          */
-        public Builder setContentText(CharSequence text) {
+        public Builder setContentText(CharSequence text)
+        {
             mContentText = text;
             return this;
         }
@@ -346,10 +380,11 @@ public class NotificationCompat {
         /**
          * Set the third line of text in the platform notification template.
          * Don't use if you're also using
-         * {@link #setProgress(int, int, boolean)}; they occupy the same
+         * {@link #setProgress(int , int , boolean)}; they occupy the same
          * location in the standard template.
          */
-        public Builder setSubText(CharSequence text) {
+        public Builder setSubText(CharSequence text)
+        {
             mSubText = text;
             return this;
         }
@@ -359,7 +394,8 @@ public class NotificationCompat {
          * is equivalent to setContentInfo, although it might show the number in
          * a different font size for readability.
          */
-        public Builder setNumber(int number) {
+        public Builder setNumber(int number)
+        {
             mNumber = number;
             return this;
         }
@@ -367,7 +403,8 @@ public class NotificationCompat {
         /**
          * Set the large text at the right-hand side of the notification.
          */
-        public Builder setContentInfo(CharSequence info) {
+        public Builder setContentInfo(CharSequence info)
+        {
             mContentInfo = info;
             return this;
         }
@@ -376,7 +413,8 @@ public class NotificationCompat {
          * Set the progress this notification represents, which may be
          * represented as a {@link android.widget.ProgressBar}.
          */
-        public Builder setProgress(int max, int progress, boolean indeterminate) {
+        public Builder setProgress(int max, int progress, boolean indeterminate)
+        {
             mProgressMax = max;
             mProgress = progress;
             mProgressIndeterminate = indeterminate;
@@ -386,7 +424,8 @@ public class NotificationCompat {
         /**
          * Supply a custom RemoteViews to use instead of the standard one.
          */
-        public Builder setContent(RemoteViews views) {
+        public Builder setContent(RemoteViews views)
+        {
             mNotification.contentView = views;
             return this;
         }
@@ -400,7 +439,8 @@ public class NotificationCompat {
          * read {@link Notification#contentIntent Notification.contentIntent}
          * for how to correctly use this.
          */
-        public Builder setContentIntent(PendingIntent intent) {
+        public Builder setContentIntent(PendingIntent intent)
+        {
             mContentIntent = intent;
             return this;
         }
@@ -413,7 +453,8 @@ public class NotificationCompat {
          * is not sent when the application calls
          * {@link NotificationManager#cancel NotificationManager.cancel(int)}.
          */
-        public Builder setDeleteIntent(PendingIntent intent) {
+        public Builder setDeleteIntent(PendingIntent intent)
+        {
             mNotification.deleteIntent = intent;
             return this;
         }
@@ -426,12 +467,13 @@ public class NotificationCompat {
          * to a particular time. If this facility is used for something else,
          * please give the user an option to turn it off and use a normal
          * notification, as this can be extremely disruptive.
-         * 
+         *
          * @param intent The pending intent to launch.
          * @param highPriority Passing true will cause this notification to be
          *            sent even if other notifications are suppressed.
          */
-        public Builder setFullScreenIntent(PendingIntent intent, boolean highPriority) {
+        public Builder setFullScreenIntent(PendingIntent intent, boolean highPriority)
+        {
             mFullScreenIntent = intent;
             setFlag(FLAG_HIGH_PRIORITY, highPriority);
             return this;
@@ -441,7 +483,8 @@ public class NotificationCompat {
          * Set the text that is displayed in the status bar when the
          * notification first arrives.
          */
-        public Builder setTicker(CharSequence tickerText) {
+        public Builder setTicker(CharSequence tickerText)
+        {
             mNotification.tickerText = tickerText;
             return this;
         }
@@ -451,7 +494,8 @@ public class NotificationCompat {
          * notification first arrives, and also a RemoteViews object that may be
          * displayed instead on some devices.
          */
-        public Builder setTicker(CharSequence tickerText, RemoteViews views) {
+        public Builder setTicker(CharSequence tickerText, RemoteViews views)
+        {
             mNotification.tickerText = tickerText;
             mTickerView = views;
             return this;
@@ -460,7 +504,8 @@ public class NotificationCompat {
         /**
          * Set the large icon that is shown in the ticker and notification.
          */
-        public Builder setLargeIcon(Bitmap icon) {
+        public Builder setLargeIcon(Bitmap icon)
+        {
             mLargeIcon = icon;
             return this;
         }
@@ -468,7 +513,8 @@ public class NotificationCompat {
         /**
          * Set the sound to play. It will play on the default stream.
          */
-        public Builder setSound(Uri sound) {
+        public Builder setSound(Uri sound)
+        {
             mNotification.sound = sound;
             mNotification.audioStreamType = Notification.STREAM_DEFAULT;
             return this;
@@ -476,11 +522,12 @@ public class NotificationCompat {
 
         /**
          * Set the sound to play. It will play on the stream you supply.
-         * 
+         *
          * @see #STREAM_DEFAULT
          * @see AudioManager for the <code>STREAM_</code> constants.
          */
-        public Builder setSound(Uri sound, int streamType) {
+        public Builder setSound(Uri sound, int streamType)
+        {
             mNotification.sound = sound;
             mNotification.audioStreamType = streamType;
             return this;
@@ -488,11 +535,12 @@ public class NotificationCompat {
 
         /**
          * Set the vibration pattern to use.
-         * 
+         *
          * @see android.os.Vibrator for a discussion of the <code>pattern</code>
          *      parameter.
          */
-        public Builder setVibrate(long[] pattern) {
+        public Builder setVibrate(long[] pattern)
+        {
             mNotification.vibrate = pattern;
             return this;
         }
@@ -502,13 +550,14 @@ public class NotificationCompat {
          * as well as the rate. The rate is specified in terms of the number of
          * milliseconds to be on and then the number of milliseconds to be off.
          */
-        public Builder setLights(int argb, int onMs, int offMs) {
+        public Builder setLights(int argb, int onMs, int offMs)
+        {
             mNotification.ledARGB = argb;
             mNotification.ledOnMS = onMs;
             mNotification.ledOffMS = offMs;
             boolean showLights = mNotification.ledOnMS != 0 && mNotification.ledOffMS != 0;
             mNotification.flags = (mNotification.flags & ~Notification.FLAG_SHOW_LIGHTS)
-                            | (showLights ? Notification.FLAG_SHOW_LIGHTS : 0);
+                    | (showLights ? Notification.FLAG_SHOW_LIGHTS : 0);
             return this;
         }
 
@@ -524,7 +573,8 @@ public class NotificationCompat {
          * not affected by the "Clear all" button.
          * </ul>
          */
-        public Builder setOngoing(boolean ongoing) {
+        public Builder setOngoing(boolean ongoing)
+        {
             setFlag(Notification.FLAG_ONGOING_EVENT, ongoing);
             return this;
         }
@@ -533,7 +583,8 @@ public class NotificationCompat {
          * Set this flag if you would only like the sound, vibrate and ticker to
          * be played if the notification is not already showing.
          */
-        public Builder setOnlyAlertOnce(boolean onlyAlertOnce) {
+        public Builder setOnlyAlertOnce(boolean onlyAlertOnce)
+        {
             setFlag(Notification.FLAG_ONLY_ALERT_ONCE, onlyAlertOnce);
             return this;
         }
@@ -544,7 +595,8 @@ public class NotificationCompat {
          * with {@link #setDeleteIntent} will be broadcast when the notification
          * is canceled.
          */
-        public Builder setAutoCancel(boolean autoCancel) {
+        public Builder setAutoCancel(boolean autoCancel)
+        {
             setFlag(Notification.FLAG_AUTO_CANCEL, autoCancel);
             return this;
         }
@@ -559,18 +611,24 @@ public class NotificationCompat {
          * <p>
          * For all default values, use {@link Notification#DEFAULT_ALL}.
          */
-        public Builder setDefaults(int defaults) {
+        public Builder setDefaults(int defaults)
+        {
             mNotification.defaults = defaults;
-            if ((defaults & Notification.DEFAULT_LIGHTS) != 0) {
+            if ((defaults & Notification.DEFAULT_LIGHTS) != 0)
+            {
                 mNotification.flags |= Notification.FLAG_SHOW_LIGHTS;
             }
             return this;
         }
 
-        private void setFlag(int mask, boolean value) {
-            if (value) {
+        private void setFlag(int mask, boolean value)
+        {
+            if (value)
+            {
                 mNotification.flags |= mask;
-            } else {
+            }
+            else
+            {
                 mNotification.flags &= ~mask;
             }
         }
@@ -584,7 +642,8 @@ public class NotificationCompat {
          * a determination about how to interpret notification priority as
          * described in MUMBLE MUMBLE.
          */
-        public Builder setPriority(int pri) {
+        public Builder setPriority(int pri)
+        {
             mPriority = pri;
             return this;
         }
@@ -592,25 +651,29 @@ public class NotificationCompat {
         /**
          * Add an action to this notification. Actions are typically displayed
          * by the system as a button adjacent to the notification content.
-         * 
+         *
          * @param icon Resource ID of a drawable that represents the action.
          * @param title Text describing the action.
          * @param intent PendingIntent to be fired when the action is invoked.
          */
-        public Builder addAction(int icon, CharSequence title, PendingIntent intent) {
+        public Builder addAction(int icon, CharSequence title, PendingIntent intent)
+        {
             mActions.add(new Action(icon, title, intent));
             return this;
         }
 
         /**
          * Add a rich notification style to be applied at build time.
-         * 
+         *
          * @param style Object responsible for modifying the notification style.
          */
-        public Builder setStyle(Style style) {
-            if (mStyle != style) {
+        public Builder setStyle(Style style)
+        {
+            if (mStyle != style)
+            {
                 mStyle = style;
-                if (mStyle != null) {
+                if (mStyle != null)
+                {
                     mStyle.setBuilder(this);
                 }
             }
@@ -621,16 +684,18 @@ public class NotificationCompat {
          * @deprecated Use {@link #build()} instead.
          */
         @Deprecated
-        public Notification getNotification() {
-            return (Notification)IMPL.build(this);
+        public Notification getNotification()
+        {
+            return (Notification) IMPL.build(this);
         }
 
         /**
          * Combine all of the options that have been set and return a new
          * {@link Notification} object.
          */
-        public Notification build() {
-            return (Notification)IMPL.build(this);
+        public Notification build()
+        {
+            return (Notification) IMPL.build(this);
         }
     }
 
@@ -638,24 +703,30 @@ public class NotificationCompat {
      * An object that can apply a rich notification style to a
      * {@link Notification.Builder} object.
      */
-    public static abstract class Style {
+    public static abstract class Style
+    {
         Builder mBuilder;
         CharSequence mBigContentTitle;
         CharSequence mSummaryText;
         boolean mSummaryTextSet = false;
 
-        public void setBuilder(Builder builder) {
-            if (mBuilder != builder) {
+        public void setBuilder(Builder builder)
+        {
+            if (mBuilder != builder)
+            {
                 mBuilder = builder;
-                if (mBuilder != null) {
+                if (mBuilder != null)
+                {
                     mBuilder.setStyle(this);
                 }
             }
         }
 
-        public Notification build() {
+        public Notification build()
+        {
             Notification notification = null;
-            if (mBuilder != null) {
+            if (mBuilder != null)
+            {
                 notification = mBuilder.build();
             }
             return notification;
@@ -666,22 +737,25 @@ public class NotificationCompat {
      * Helper class for generating large-format notifications that include a
      * large image attachment. This class is a "rebuilder": It attaches to a
      * Builder object and modifies its behavior, like so:
-     * 
+     *
      * <pre class="prettyprint">
      * Notification noti = new Notification.Builder().setContentTitle(&quot;New photo from &quot; + sender.toString())
      *                 .setContentText(subject).setSmallIcon(R.drawable.new_post).setLargeIcon(aBitmap)
      *                 .setStyle(new Notification.BigPictureStyle().bigPicture(aBigBitmap)).build();
      * </pre>
-     * 
+     *
      * @see Notification#bigContentView
      */
-    public static class BigPictureStyle extends Style {
+    public static class BigPictureStyle extends Style
+    {
         Bitmap mPicture;
 
-        public BigPictureStyle() {
+        public BigPictureStyle()
+        {
         }
 
-        public BigPictureStyle(Builder builder) {
+        public BigPictureStyle(Builder builder)
+        {
             setBuilder(builder);
         }
 
@@ -689,7 +763,8 @@ public class NotificationCompat {
          * Overrides ContentTitle in the big form of the template. This defaults
          * to the value passed to setContentTitle().
          */
-        public BigPictureStyle setBigContentTitle(CharSequence title) {
+        public BigPictureStyle setBigContentTitle(CharSequence title)
+        {
             mBigContentTitle = title;
             return this;
         }
@@ -698,7 +773,8 @@ public class NotificationCompat {
          * Set the first line of text after the detail section in the big form
          * of the template.
          */
-        public BigPictureStyle setSummaryText(CharSequence cs) {
+        public BigPictureStyle setSummaryText(CharSequence cs)
+        {
             mSummaryText = cs;
             mSummaryTextSet = true;
             return this;
@@ -708,7 +784,8 @@ public class NotificationCompat {
          * Provide the bitmap to be used as the payload for the BigPicture
          * notification.
          */
-        public BigPictureStyle bigPicture(Bitmap b) {
+        public BigPictureStyle bigPicture(Bitmap b)
+        {
             mPicture = b;
             return this;
         }
@@ -718,22 +795,25 @@ public class NotificationCompat {
      * Helper class for generating large-format notifications that include a lot
      * of text. This class is a "rebuilder": It attaches to a Builder object and
      * modifies its behavior, like so:
-     * 
+     *
      * <pre class="prettyprint">
      * Notification noti = new Notification.Builder().setContentTitle(&quot;New mail from &quot; + sender.toString())
      *                 .setContentText(subject).setSmallIcon(R.drawable.new_mail).setLargeIcon(aBitmap)
      *                 .setStyle(new Notification.BigTextStyle().bigText(aVeryLongString)).build();
      * </pre>
-     * 
+     *
      * @see Notification#bigContentView
      */
-    public static class BigTextStyle extends Style {
+    public static class BigTextStyle extends Style
+    {
         CharSequence mBigText;
 
-        public BigTextStyle() {
+        public BigTextStyle()
+        {
         }
 
-        public BigTextStyle(Builder builder) {
+        public BigTextStyle(Builder builder)
+        {
             setBuilder(builder);
         }
 
@@ -741,7 +821,8 @@ public class NotificationCompat {
          * Overrides ContentTitle in the big form of the template. This defaults
          * to the value passed to setContentTitle().
          */
-        public BigTextStyle setBigContentTitle(CharSequence title) {
+        public BigTextStyle setBigContentTitle(CharSequence title)
+        {
             mBigContentTitle = title;
             return this;
         }
@@ -750,7 +831,8 @@ public class NotificationCompat {
          * Set the first line of text after the detail section in the big form
          * of the template.
          */
-        public BigTextStyle setSummaryText(CharSequence cs) {
+        public BigTextStyle setSummaryText(CharSequence cs)
+        {
             mSummaryText = cs;
             mSummaryTextSet = true;
             return this;
@@ -760,7 +842,8 @@ public class NotificationCompat {
          * Provide the longer text to be displayed in the big form of the
          * template in place of the content text.
          */
-        public BigTextStyle bigText(CharSequence cs) {
+        public BigTextStyle bigText(CharSequence cs)
+        {
             mBigText = cs;
             return this;
         }
@@ -770,7 +853,7 @@ public class NotificationCompat {
      * Helper class for generating large-format notifications that include a
      * list of (up to 5) strings. This class is a "rebuilder": It attaches to a
      * Builder object and modifies its behavior, like so:
-     * 
+     *
      * <pre class="prettyprint">
      * Notification noti = new Notification.Builder()
      *                 .setContentTitle(&quot;5 New mails from &quot; + sender.toString())
@@ -780,16 +863,19 @@ public class NotificationCompat {
      *                 .setStyle(new Notification.InboxStyle().addLine(str1).addLine(str2).setContentTitle(&quot;&quot;)
      *                                 .setSummaryText(&quot;+3 more&quot;)).build();
      * </pre>
-     * 
+     *
      * @see Notification#bigContentView
      */
-    public static class InboxStyle extends Style {
+    public static class InboxStyle extends Style
+    {
         ArrayList<CharSequence> mTexts = new ArrayList<CharSequence>();
 
-        public InboxStyle() {
+        public InboxStyle()
+        {
         }
 
-        public InboxStyle(Builder builder) {
+        public InboxStyle(Builder builder)
+        {
             setBuilder(builder);
         }
 
@@ -797,7 +883,8 @@ public class NotificationCompat {
          * Overrides ContentTitle in the big form of the template. This defaults
          * to the value passed to setContentTitle().
          */
-        public InboxStyle setBigContentTitle(CharSequence title) {
+        public InboxStyle setBigContentTitle(CharSequence title)
+        {
             mBigContentTitle = title;
             return this;
         }
@@ -806,7 +893,8 @@ public class NotificationCompat {
          * Set the first line of text after the detail section in the big form
          * of the template.
          */
-        public InboxStyle setSummaryText(CharSequence cs) {
+        public InboxStyle setSummaryText(CharSequence cs)
+        {
             mSummaryText = cs;
             mSummaryTextSet = true;
             return this;
@@ -815,18 +903,21 @@ public class NotificationCompat {
         /**
          * Append a line to the digest section of the Inbox notification.
          */
-        public InboxStyle addLine(CharSequence cs) {
+        public InboxStyle addLine(CharSequence cs)
+        {
             mTexts.add(cs);
             return this;
         }
     }
 
-    public static class Action {
+    public static class Action
+    {
         public int icon;
         public CharSequence title;
         public PendingIntent actionIntent;
 
-        public Action(int icon_, CharSequence title_, PendingIntent intent_) {
+        public Action(int icon_, CharSequence title_, PendingIntent intent_)
+        {
             this.icon = icon_;
             this.title = title_;
             this.actionIntent = intent_;

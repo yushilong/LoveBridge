@@ -14,26 +14,28 @@
 
 package com.lovebridge.chat.activity;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.lovebridge.R;
 import com.lovebridge.chat.moden.ChatUser;
 
-public class ForwardMessageActivity extends PickContactNoCheckboxActivity {
+public class ForwardMessageActivity extends PickContactNoCheckboxActivity
+{
     private ChatUser selectUser;
     private String forward_msg_id;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         forward_msg_id = getIntent().getStringExtra("forward_msg_id");
     }
 
     @Override
-    protected void onListItemClick(int position) {
-        if (position != 0) {
+    protected void onListItemClick(int position)
+    {
+        if (position != 0)
+        {
             selectUser = contactAdapter.getItem(position);
             Intent intent = new Intent(ForwardMessageActivity.this, AlertActivity.class);
             intent.putExtra("cancel", true);
@@ -44,11 +46,16 @@ public class ForwardMessageActivity extends PickContactNoCheckboxActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            try {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (resultCode == RESULT_OK)
+        {
+            try
+            {
                 ChatActivity.activityInstance.finish();
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
             }
             Intent intent = new Intent(this, ChatActivity.class);
             if (selectUser == null)
@@ -58,9 +65,7 @@ public class ForwardMessageActivity extends PickContactNoCheckboxActivity {
             intent.putExtra("forward_msg_id", forward_msg_id);
             startActivity(intent);
             finish();
-
         }
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

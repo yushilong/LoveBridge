@@ -16,17 +16,12 @@
 
 package com.lovebridge.library.volley;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-import java.util.concurrent.PriorityBlockingQueue;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import android.os.Handler;
 import android.os.Looper;
+
+import java.util.*;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A request dispatch queue with a thread pool of dispatchers. Calling
@@ -34,7 +29,8 @@ import android.os.Looper;
  * from either cache or network on a worker thread, and then delivering a parsed
  * response on the main thread.
  */
-public class RequestQueue {
+public class RequestQueue
+{
     /**
      * Used for generating monotonically-increasing sequence numbers for
      * requests.
@@ -78,14 +74,15 @@ public class RequestQueue {
     /**
      * Creates the worker pool. Processing will not begin until {@link #start()}
      * is called.
-     * 
+     *
      * @param cache A Cache to use for persisting responses to disk
      * @param network A Network interface for performing HTTP requests
      * @param threadPoolSize Number of network dispatcher threads to create
      * @param delivery A ResponseDelivery interface for posting responses and
      *            errors
      */
-    public RequestQueue(Cache cache, Network network, int threadPoolSize, ResponseDelivery delivery) {
+    public RequestQueue(Cache cache, Network network, int threadPoolSize, ResponseDelivery delivery)
+    {
         mCache = cache;
         mNetwork = network;
         mDispatchers = new NetworkDispatcher[threadPoolSize];
@@ -95,37 +92,41 @@ public class RequestQueue {
     /**
      * Creates the worker pool. Processing will not begin until {@link #start()}
      * is called.
-     * 
+     *
      * @param cache A Cache to use for persisting responses to disk
      * @param network A Network interface for performing HTTP requests
      * @param threadPoolSize Number of network dispatcher threads to create
      */
-    public RequestQueue(Cache cache, Network network, int threadPoolSize) {
+    public RequestQueue(Cache cache, Network network, int threadPoolSize)
+    {
         this(cache, network, threadPoolSize, new ExecutorDelivery(new Handler(Looper.getMainLooper())));
     }
 
     /**
      * Creates the worker pool. Processing will not begin until {@link #start()}
      * is called.
-     * 
+     *
      * @param cache A Cache to use for persisting responses to disk
      * @param network A Network interface for performing HTTP requests
      */
-    public RequestQueue(Cache cache, Network network) {
+    public RequestQueue(Cache cache, Network network)
+    {
         this(cache, network, DEFAULT_NETWORK_THREAD_POOL_SIZE);
     }
 
     /**
      * Starts the dispatchers in this queue.
      */
-    public void start() {
+    public void start()
+    {
         stop(); // Make sure any currently running dispatchers are stopped.
         // Create the cache dispatcher and start it.
         mCacheDispatcher = new CacheDispatcher(mCacheQueue, mNetworkQueue, mCache, mDelivery);
         mCacheDispatcher.start();
         // Create network dispatchers (and corresponding threads) up to the pool
         // size.
-        for (int i = 0; i < mDispatchers.length; i++) {
+        for (int i = 0; i < mDispatchers.length; i++)
+        {
             NetworkDispatcher networkDispatcher = new NetworkDispatcher(mNetworkQueue, mNetwork, mCache, mDelivery);
             mDispatchers[i] = networkDispatcher;
             networkDispatcher.start();
@@ -135,12 +136,16 @@ public class RequestQueue {
     /**
      * Stops the cache and network dispatchers.
      */
-    public void stop() {
-        if (mCacheDispatcher != null) {
+    public void stop()
+    {
+        if (mCacheDispatcher != null)
+        {
             mCacheDispatcher.quit();
         }
-        for (int i = 0; i < mDispatchers.length; i++) {
-            if (mDispatchers[i] != null) {
+        for (int i = 0; i < mDispatchers.length; i++)
+        {
+            if (mDispatchers[i] != null)
+            {
                 mDispatchers[i].quit();
             }
         }
@@ -149,14 +154,16 @@ public class RequestQueue {
     /**
      * Gets a sequence number.
      */
-    public int getSequenceNumber() {
+    public int getSequenceNumber()
+    {
         return mSequenceGenerator.incrementAndGet();
     }
 
     /**
      * Gets the {@link Cache} instance being used.
      */
-    public Cache getCache() {
+    public Cache getCache()
+    {
         return mCache;
     }
 
@@ -164,19 +171,24 @@ public class RequestQueue {
      * A simple predicate or filter interface for Requests, for use by
      * {@link RequestQueue#cancelAll(RequestFilter)}.
      */
-    public interface RequestFilter {
+    public interface RequestFilter
+    {
         public boolean apply(Request<?> request);
     }
 
     /**
      * Cancels all requests in this queue for which the given filter applies.
-     * 
+     *
      * @param filter The filtering function to use
      */
-    public void cancelAll(RequestFilter filter) {
-        synchronized (mCurrentRequests) {
-            for (Request<?> request : mCurrentRequests) {
-                if (filter.apply(request)) {
+    public void cancelAll(RequestFilter filter)
+    {
+        synchronized (mCurrentRequests)
+        {
+            for (Request<?> request : mCurrentRequests)
+            {
+                if (filter.apply(request))
+                {
                     request.cancel();
                 }
             }
@@ -187,13 +199,17 @@ public class RequestQueue {
      * Cancels all requests in this queue with the given tag. Tag must be
      * non-null and equality is by identity.
      */
-    public void cancelAll(final Object tag) {
-        if (tag == null) {
+    public void cancelAll(final Object tag)
+    {
+        if (tag == null)
+        {
             throw new IllegalArgumentException("Cannot cancelAll with a null tag");
         }
-        cancelAll(new RequestFilter() {
+        cancelAll(new RequestFilter()
+        {
             @Override
-            public boolean apply(Request<?> request) {
+            public boolean apply(Request<?> request)
+            {
                 return request.getTag() == tag;
             }
         });
@@ -201,15 +217,17 @@ public class RequestQueue {
 
     /**
      * Adds a Request to the dispatch queue.
-     * 
+     *
      * @param request The request to service
      * @return The passed-in request
      */
-    public <T> Request<T> add(Request<T> request) {
+    public <T> Request<T> add(Request<T> request)
+    {
         // Tag the request as belonging to this queue and add it to the set of
         // current requests.
         request.setRequestQueue(this);
-        synchronized (mCurrentRequests) {
+        synchronized (mCurrentRequests)
+        {
             mCurrentRequests.add(request);
         }
         // Process requests in the order they are added.
@@ -217,26 +235,33 @@ public class RequestQueue {
         request.addMarker("add-to-queue");
         // If the request is uncacheable, skip the cache queue and go straight
         // to the network.
-        if (!request.shouldCache()) {
+        if (!request.shouldCache())
+        {
             mNetworkQueue.add(request);
             return request;
         }
         // Insert request into stage if there's already a request with the same
         // cache key in flight.
-        synchronized (mWaitingRequests) {
+        synchronized (mWaitingRequests)
+        {
             String cacheKey = request.getCacheKey();
-            if (mWaitingRequests.containsKey(cacheKey)) {
+            if (mWaitingRequests.containsKey(cacheKey))
+            {
                 // There is already a request in flight. Queue up.
                 Queue<Request<?>> stagedRequests = mWaitingRequests.get(cacheKey);
-                if (stagedRequests == null) {
+                if (stagedRequests == null)
+                {
                     stagedRequests = new LinkedList<Request<?>>();
                 }
                 stagedRequests.add(request);
                 mWaitingRequests.put(cacheKey, stagedRequests);
-                if (VolleyLog.DEBUG) {
+                if (VolleyLog.DEBUG)
+                {
                     VolleyLog.v("Request for cacheKey=%s is in flight, putting on hold.", cacheKey);
                 }
-            } else {
+            }
+            else
+            {
                 // Insert 'null' queue for this cacheKey, indicating there is
                 // now a request in
                 // flight.
@@ -255,17 +280,23 @@ public class RequestQueue {
      * <code>request.shouldCache()</code>.
      * </p>
      */
-    void finish(Request<?> request) {
+    void finish(Request<?> request)
+    {
         // Remove from the set of requests currently being processed.
-        synchronized (mCurrentRequests) {
+        synchronized (mCurrentRequests)
+        {
             mCurrentRequests.remove(request);
         }
-        if (request.shouldCache()) {
-            synchronized (mWaitingRequests) {
+        if (request.shouldCache())
+        {
+            synchronized (mWaitingRequests)
+            {
                 String cacheKey = request.getCacheKey();
                 Queue<Request<?>> waitingRequests = mWaitingRequests.remove(cacheKey);
-                if (waitingRequests != null) {
-                    if (VolleyLog.DEBUG) {
+                if (waitingRequests != null)
+                {
+                    if (VolleyLog.DEBUG)
+                    {
                         VolleyLog.v("Releasing %d waiting requests for cacheKey=%s.", waitingRequests.size(), cacheKey);
                     }
                     // Process all queued up requests. They won't be considered

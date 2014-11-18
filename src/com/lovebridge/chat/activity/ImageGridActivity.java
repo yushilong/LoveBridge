@@ -1,39 +1,40 @@
-
 package com.lovebridge.chat.activity;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-
 import com.lovebridge.chat.fragment.ImageGridFragment;
 import com.lovebridge.library.YARActivity;
 
-public class ImageGridActivity extends YARActivity {
-
+public class ImageGridActivity extends YARActivity
+{
     private static final String TAG = "ImageGridActivity";
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
-
     }
 
     @Override
-    public int doGetContentViewId() {
+    public int doGetContentViewId()
+    {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public void doInitSubViews(View containerView) {
+    public void doInitSubViews(View containerView)
+    {
         // TODO Auto-generated method stub
-
     }
 
     @Override
-    public void doInitDataes() {
+    public void doInitDataes()
+    {
         // TODO Auto-generated method stub
-        if (getSupportFragmentManager().findFragmentByTag(TAG) == null) {
+        if (getSupportFragmentManager().findFragmentByTag(TAG) == null)
+        {
             final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(android.R.id.content, new ImageGridFragment(), TAG);
             ft.commit();
@@ -41,9 +42,8 @@ public class ImageGridActivity extends YARActivity {
     }
 
     @Override
-    public void doAfter() {
+    public void doAfter()
+    {
         // TODO Auto-generated method stub
-
     }
-
 }

@@ -18,18 +18,21 @@ package com.lovebridge.library.volley;
 
 /**
  * Encapsulates a parsed response for delivery.
- * 
+ *
  * @param <T> Parsed type of this response
  */
-public class Response<T> {
+public class Response<T>
+{
     /** Callback interface for delivering parsed responses. */
-    public interface Listener<T> {
+    public interface Listener<T>
+    {
         /** Called when a response is received. */
         public void onResponse(T response);
     }
 
     /** Callback interface for delivering error responses. */
-    public interface ErrorListener {
+    public interface ErrorListener
+    {
         /**
          * Callback method that an error has been occurred with the provided
          * error code and optional user-readable message.
@@ -38,7 +41,8 @@ public class Response<T> {
     }
 
     /** Returns a successful response containing the parsed result. */
-    public static <T> Response<T> success(T result, Cache.Entry cacheEntry) {
+    public static <T> Response<T> success(T result, Cache.Entry cacheEntry)
+    {
         return new Response<T>(result, cacheEntry);
     }
 
@@ -46,7 +50,8 @@ public class Response<T> {
      * Returns a failed response containing the given error code and an optional
      * localized message displayed to the user.
      */
-    public static <T> Response<T> error(VolleyError error) {
+    public static <T> Response<T> error(VolleyError error)
+    {
         return new Response<T>(error);
     }
 
@@ -65,17 +70,20 @@ public class Response<T> {
     /**
      * Returns whether this response is considered successful.
      */
-    public boolean isSuccess() {
+    public boolean isSuccess()
+    {
         return error == null;
     }
 
-    private Response(T result, Cache.Entry cacheEntry) {
+    private Response(T result, Cache.Entry cacheEntry)
+    {
         this.result = result;
         this.cacheEntry = cacheEntry;
         this.error = null;
     }
 
-    private Response(VolleyError error) {
+    private Response(VolleyError error)
+    {
         this.result = null;
         this.cacheEntry = null;
         this.error = error;

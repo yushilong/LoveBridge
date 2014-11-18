@@ -1,9 +1,4 @@
-
 package com.lovebridge.chat.activity;
-
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -25,136 +20,143 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.text.TextUtils;
-import android.view.Surface;
-import android.view.SurfaceHolder;
+import android.view.*;
 import android.view.SurfaceHolder.Callback;
-import android.view.SurfaceView;
-import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.easemob.util.EMLog;
 import com.easemob.util.PathUtil;
 import com.lovebridge.R;
 import com.lovebridge.chat.utils.Utils;
 import com.lovebridge.library.YARActivity;
 
-public class RecorderVideoActivity extends YARActivity implements OnClickListener, Callback, OnErrorListener,
-                OnInfoListener {
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
+public class RecorderVideoActivity extends YARActivity implements OnClickListener, Callback, OnErrorListener,
+        OnInfoListener
+{
     private final static String CLASS_LABEL = "RecordActivity";
     private PowerManager.WakeLock mWakeLock;
     private ImageView btnStart;// 开始录制按钮
     private ImageView btnStop;// 停止录制按钮
     private MediaRecorder mediarecorder;// 录制视频的类
     private SurfaceView surfaceview;// 显示视频的控件
-
     private SurfaceHolder surfaceHolder;
     String localPath = "";// 录制的视频路径
     private Camera mCamera;
     // 预览的宽高
     private int previewWidth = 480;
     private int previewHeight = 480;
-
     Parameters cameraParameters = null;
-
     // 分别为 默认摄像头（后置）、默认调用摄像头的分辨率、被选择的摄像头（前置或者后置）
     int defaultCameraId = -1, defaultScreenResolution = -1, cameraSelection = 0;
     int defaultVideoFrameRate = -1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);// 去掉标题栏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);// 设置全屏
         // 选择支持半透明模式，在有surfaceview的activity中使用
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
         setContentView(R.layout.recorder_activity);
-        PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, CLASS_LABEL);
         mWakeLock.acquire();
-
-        btnStart = (ImageView)findViewById(R.id.recorder_start);
-        btnStop = (ImageView)findViewById(R.id.recorder_stop);
+        btnStart = (ImageView) findViewById(R.id.recorder_start);
+        btnStop = (ImageView) findViewById(R.id.recorder_stop);
         btnStart.setOnClickListener(this);
         btnStop.setOnClickListener(this);
-        surfaceview = (SurfaceView)this.findViewById(R.id.surfaceview);
+        surfaceview = (SurfaceView) this.findViewById(R.id.surfaceview);
         SurfaceHolder holder = surfaceview.getHolder();// 取得holder
         holder.addCallback(this); // holder加入回调接口
         // setType必须设置，要不出错.
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
 
-    public void back(View view) {
-
-        if (mediarecorder != null) {
+    public void back(View view)
+    {
+        if (mediarecorder != null)
+        {
             // 停止录制
             mediarecorder.stop();
             // 释放资源
             mediarecorder.release();
             mediarecorder = null;
         }
-        try {
+        try
+        {
             mCamera.reconnect();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             Toast.makeText(this, "reconect fail", 0).show();
         }
         finish();
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
-        if (mWakeLock == null) {
+        if (mWakeLock == null)
+        {
             // 获取唤醒锁,保持屏幕常亮
-            PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
+            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
             mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, CLASS_LABEL);
             mWakeLock.acquire();
         }
     }
 
-    private void handleSurfaceChanged() {
-        if (mCamera == null) {
+    private void handleSurfaceChanged()
+    {
+        if (mCamera == null)
+        {
             finish();
             return;
         }
-
         boolean hasSupportRate = false;
         List<Integer> supportedPreviewFrameRates = mCamera.getParameters().getSupportedPreviewFrameRates();
-        if (supportedPreviewFrameRates != null && supportedPreviewFrameRates.size() > 0) {
+        if (supportedPreviewFrameRates != null && supportedPreviewFrameRates.size() > 0)
+        {
             Collections.sort(supportedPreviewFrameRates);
-            for (int i = 0; i < supportedPreviewFrameRates.size(); i++) {
+            for (int i = 0; i < supportedPreviewFrameRates.size(); i++)
+            {
                 int supportRate = supportedPreviewFrameRates.get(i);
-
-                if (supportRate == 15) {
+                if (supportRate == 15)
+                {
                     hasSupportRate = true;
                 }
-
             }
-            if (hasSupportRate) {
+            if (hasSupportRate)
+            {
                 defaultVideoFrameRate = 15;
-            } else {
+            }
+            else
+            {
                 defaultVideoFrameRate = supportedPreviewFrameRates.get(0);
             }
-
         }
-
         System.out.println("supportedPreviewFrameRates" + supportedPreviewFrameRates);
-
         // 获取摄像头的所有支持的分辨率
         List<Camera.Size> resolutionList = Utils.getResolutionList(mCamera);
-        if (resolutionList != null && resolutionList.size() > 0) {
+        if (resolutionList != null && resolutionList.size() > 0)
+        {
             Collections.sort(resolutionList, new Utils.ResolutionComparator());
             Camera.Size previewSize = null;
-            if (defaultScreenResolution == -1) {
+            if (defaultScreenResolution == -1)
+            {
                 boolean hasSize = false;
                 // 如果摄像头支持640*480，那么强制设为640*480
-                for (int i = 0; i < resolutionList.size(); i++) {
+                for (int i = 0; i < resolutionList.size(); i++)
+                {
                     Size size = resolutionList.get(i);
-                    if (size != null && size.width == 640 && size.height == 480) {
+                    if (size != null && size.width == 640 && size.height == 480)
+                    {
                         previewSize = size;
                         previewWidth = previewSize.width;
                         previewHeight = previewSize.height;
@@ -163,34 +165,35 @@ public class RecorderVideoActivity extends YARActivity implements OnClickListene
                     }
                 }
                 // 如果不支持设为中间的那个
-                if (!hasSize) {
+                if (!hasSize)
+                {
                     int mediumResolution = resolutionList.size() / 2;
                     if (mediumResolution >= resolutionList.size())
                         mediumResolution = resolutionList.size() - 1;
                     previewSize = resolutionList.get(mediumResolution);
                     previewWidth = previewSize.width;
                     previewHeight = previewSize.height;
-
                 }
-
             }
-
         }
-
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         super.onPause();
-        if (mWakeLock != null) {
+        if (mWakeLock != null)
+        {
             mWakeLock.release();
             mWakeLock = null;
         }
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
             case R.id.recorder_start:
                 mCamera.unlock();
                 mediarecorder = new MediaRecorder();// 创建mediarecorder对象
@@ -204,13 +207,13 @@ public class RecorderVideoActivity extends YARActivity implements OnClickListene
                 mediarecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
                 // 设置录制的视频编码h263 h264
                 mediarecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
-
                 // 设置视频录制的分辨率。必须放在设置编码和格式的后面，否则报错
                 mediarecorder.setVideoSize(previewWidth, previewHeight);
                 // 设置视频的比特率
                 mediarecorder.setVideoEncodingBitRate(384 * 1024);
                 // // 设置录制的视频帧率。必须放在设置编码和格式的后面，否则报错
-                if (defaultVideoFrameRate != -1) {
+                if (defaultVideoFrameRate != -1)
+                {
                     mediarecorder.setVideoFrameRate(defaultVideoFrameRate);
                 }
                 mediarecorder.setPreviewDisplay(surfaceHolder.getSurface());
@@ -219,7 +222,8 @@ public class RecorderVideoActivity extends YARActivity implements OnClickListene
                 mediarecorder.setOutputFile(localPath);
                 mediarecorder.setOnErrorListener(this);
                 mediarecorder.setOnInfoListener(this);
-                try {
+                try
+                {
                     // 准备录制
                     mediarecorder.prepare();
                     // 开始录制
@@ -227,71 +231,78 @@ public class RecorderVideoActivity extends YARActivity implements OnClickListene
                     Toast.makeText(this, "录像开始", Toast.LENGTH_SHORT).show();
                     btnStart.setVisibility(View.INVISIBLE);
                     btnStop.setVisibility(View.VISIBLE);
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
+                }
+                catch (IllegalStateException e)
+                {
                     e.printStackTrace();
                 }
-
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.recorder_stop:
-
-                if (mediarecorder != null) {
+                if (mediarecorder != null)
+                {
                     // 停止录制
                     mediarecorder.stop();
                     // 释放资源
                     mediarecorder.release();
                     mediarecorder = null;
                 }
-                try {
+                try
+                {
                     mCamera.reconnect();
-                } catch (IOException e) {
+                }
+                catch (IOException e)
+                {
                     Toast.makeText(this, "reconect fail", 0).show();
                 }
                 btnStart.setVisibility(View.VISIBLE);
                 btnStop.setVisibility(View.INVISIBLE);
-
                 new AlertDialog.Builder(this).setMessage("是否发送？")
-                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(DialogInterface arg0, int arg1) {
-                                        arg0.dismiss();
-                                        sendVideo(null);
-
-                                    }
-                                }).setNegativeButton(R.string.cancel, null).show();
-
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1)
+                            {
+                                arg0.dismiss();
+                                sendVideo(null);
+                            }
+                        }).setNegativeButton(R.string.cancel, null).show();
                 break;
-
             default:
                 break;
         }
     }
 
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
+    {
         // 将holder，这个holder为开始在oncreat里面取得的holder，将它赋给surfaceHolder
         surfaceHolder = holder;
-
     }
 
     @Override
-    public void surfaceCreated(SurfaceHolder holder) {
+    public void surfaceCreated(SurfaceHolder holder)
+    {
         // 将holder，这个holder为开始在oncreat里面取得的holder，将它赋给surfaceHolder
         surfaceHolder = holder;
-        try {
+        try
+        {
             initpreview();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             showFailDialog();
             return;
         }
         handleSurfaceChanged();
-
     }
 
     @Override
-    public void surfaceDestroyed(SurfaceHolder arg0) {
+    public void surfaceDestroyed(SurfaceHolder arg0)
+    {
         // surfaceDestroyed的时候同时对象设置为null
         surfaceview = null;
         surfaceHolder = null;
@@ -299,54 +310,65 @@ public class RecorderVideoActivity extends YARActivity implements OnClickListene
         releaseCamera();
     }
 
-    protected void releaseCamera() {
-        try {
-            if (mCamera != null) {
+    protected void releaseCamera()
+    {
+        try
+        {
+            if (mCamera != null)
+            {
                 mCamera.stopPreview();
                 mCamera.release();
                 mCamera = null;
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
         }
     }
 
     @SuppressLint("NewApi")
-    protected void initpreview() throws Exception {
-        try {
-
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO) {
+    protected void initpreview() throws Exception
+    {
+        try
+        {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO)
+            {
                 int numberOfCameras = Camera.getNumberOfCameras();
                 CameraInfo cameraInfo = new CameraInfo();
-                for (int i = 0; i < numberOfCameras; i++) {
+                for (int i = 0; i < numberOfCameras; i++)
+                {
                     Camera.getCameraInfo(i, cameraInfo);
-                    if (cameraInfo.facing == cameraSelection) {
+                    if (cameraInfo.facing == cameraSelection)
+                    {
                         defaultCameraId = i;
                     }
                 }
-
             }
-            if (mCamera != null) {
+            if (mCamera != null)
+            {
                 mCamera.stopPreview();
             }
-
             mCamera = Camera.open(CameraInfo.CAMERA_FACING_BACK);
             mCamera.setPreviewDisplay(surfaceHolder);
             setCameraDisplayOrientation(this, CameraInfo.CAMERA_FACING_BACK, mCamera);
             mCamera.startPreview();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             EMLog.e("###", e.getMessage());
             throw new Exception(e.getMessage());
         }
-
     }
 
     @SuppressLint("NewApi")
-    public static void setCameraDisplayOrientation(Activity activity, int cameraId, android.hardware.Camera camera) {
+    public static void setCameraDisplayOrientation(Activity activity, int cameraId, android.hardware.Camera camera)
+    {
         android.hardware.Camera.CameraInfo info = new android.hardware.Camera.CameraInfo();
         android.hardware.Camera.getCameraInfo(cameraId, info);
         int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
         int degrees = 0;
-        switch (rotation) {
+        switch (rotation)
+        {
             case Surface.ROTATION_0:
                 degrees = 0;
                 break;
@@ -360,12 +382,14 @@ public class RecorderVideoActivity extends YARActivity implements OnClickListene
                 degrees = 270;
                 break;
         }
-
         int result;
-        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT)
+        {
             result = (info.orientation + degrees) % 360;
             result = (360 - result) % 360; // compensate the mirror
-        } else { // back-facing
+        }
+        else
+        { // back-facing
             result = (info.orientation - degrees + 360) % 360;
         }
         camera.setDisplayOrientation(result);
@@ -373,16 +397,18 @@ public class RecorderVideoActivity extends YARActivity implements OnClickListene
 
     MediaScannerConnection msc = null;
 
-    public void sendVideo(View view) {
-        if (TextUtils.isEmpty(localPath)) {
+    public void sendVideo(View view)
+    {
+        if (TextUtils.isEmpty(localPath))
+        {
             EMLog.e("Recorder", "recorder fail please try again!");
             return;
         }
-
-        msc = new MediaScannerConnection(this, new MediaScannerConnectionClient() {
-
+        msc = new MediaScannerConnection(this, new MediaScannerConnectionClient()
+        {
             @Override
-            public void onScanCompleted(String path, Uri uri) {
+            public void onScanCompleted(String path, Uri uri)
+            {
                 System.out.println("scanner completed");
                 msc.disconnect();
                 setResult(RESULT_OK, getIntent().putExtra("uri", uri));
@@ -390,78 +416,79 @@ public class RecorderVideoActivity extends YARActivity implements OnClickListene
             }
 
             @Override
-            public void onMediaScannerConnected() {
+            public void onMediaScannerConnected()
+            {
                 msc.scanFile(localPath, "video/*");
             }
         });
         msc.connect();
-
     }
 
     @Override
-    public void onInfo(MediaRecorder arg0, int arg1, int arg2) {
+    public void onInfo(MediaRecorder arg0, int arg1, int arg2)
+    {
         // TODO Auto-generated method stub
-
     }
 
     @Override
-    public void onError(MediaRecorder arg0, int arg1, int arg2) {
+    public void onError(MediaRecorder arg0, int arg1, int arg2)
+    {
         // TODO Auto-generated method stub
-
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         super.onDestroy();
         releaseCamera();
-
-        if (mWakeLock != null) {
+        if (mWakeLock != null)
+        {
             mWakeLock.release();
             mWakeLock = null;
         }
-
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         back(null);
     }
 
-    private void showFailDialog() {
+    private void showFailDialog()
+    {
         new AlertDialog.Builder(this).setTitle("提示").setMessage("打开设备失败！")
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-
-                            }
-                        }).setCancelable(false).show();
-
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        finish();
+                    }
+                }).setCancelable(false).show();
     }
 
     @Override
-    public int doGetContentViewId() {
+    public int doGetContentViewId()
+    {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public void doInitSubViews(View containerView) {
+    public void doInitSubViews(View containerView)
+    {
         // TODO Auto-generated method stub
-
     }
 
     @Override
-    public void doInitDataes() {
+    public void doInitDataes()
+    {
         // TODO Auto-generated method stub
-
     }
 
     @Override
-    public void doAfter() {
+    public void doAfter()
+    {
         // TODO Auto-generated method stub
-
     }
-
 }

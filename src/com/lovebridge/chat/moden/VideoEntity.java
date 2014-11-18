@@ -1,7 +1,7 @@
-
 package com.lovebridge.chat.moden;
 
-public class VideoEntity {
+public class VideoEntity
+{
     public int ID;
     public String title;
     public String filePath;

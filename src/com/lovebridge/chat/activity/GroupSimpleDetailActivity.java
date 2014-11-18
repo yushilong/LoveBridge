@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupInfo;
@@ -29,7 +28,8 @@ import com.easemob.exceptions.EaseMobException;
 import com.lovebridge.R;
 import com.lovebridge.library.YARActivity;
 
-public class GroupSimpleDetailActivity extends YARActivity {
+public class GroupSimpleDetailActivity extends YARActivity
+{
     private Button btn_add_group;
     private TextView tv_admin;
     private TextView tv_name;
@@ -39,22 +39,31 @@ public class GroupSimpleDetailActivity extends YARActivity {
     private ProgressBar progressBar;
 
     // 加入群聊
-    public void addToGroup(View view) {
+    public void addToGroup(View view)
+    {
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setMessage("正在发送请求...");
         pd.setCanceledOnTouchOutside(false);
         pd.show();
-        new Thread(new Runnable() {
-            public void run() {
-                try {
+        new Thread(new Runnable()
+        {
+            public void run()
+            {
+                try
+                {
                     // 如果是membersOnly的群，需要申请加入，不能直接join
-                    if (group.isMembersOnly()) {
+                    if (group.isMembersOnly())
+                    {
                         EMGroupManager.getInstance().applyJoinToGroup(groupid, "求加入");
-                    } else {
+                    }
+                    else
+                    {
                         EMGroupManager.getInstance().joinGroup(groupid);
                     }
-                    runOnUiThread(new Runnable() {
-                        public void run() {
+                    runOnUiThread(new Runnable()
+                    {
+                        public void run()
+                        {
                             pd.dismiss();
                             if (group.isMembersOnly())
                                 Toast.makeText(GroupSimpleDetailActivity.this, "发送请求成功，等待群主同意", 0).show();
@@ -63,10 +72,14 @@ public class GroupSimpleDetailActivity extends YARActivity {
                             btn_add_group.setEnabled(false);
                         }
                     });
-                } catch (final EaseMobException e) {
+                }
+                catch (final EaseMobException e)
+                {
                     e.printStackTrace();
-                    runOnUiThread(new Runnable() {
-                        public void run() {
+                    runOnUiThread(new Runnable()
+                    {
+                        public void run()
+                        {
                             pd.dismiss();
                             Toast.makeText(GroupSimpleDetailActivity.this, "加入群聊失败：" + e.getMessage(), 0).show();
                         }
@@ -76,43 +89,49 @@ public class GroupSimpleDetailActivity extends YARActivity {
         }).start();
     }
 
-    public void back(View view) {
+    public void back(View view)
+    {
         finish();
     }
 
     @Override
-    public int doGetContentViewId() {
+    public int doGetContentViewId()
+    {
         // TODO Auto-generated method stub
         return R.layout.activity_group_simle_details;
     }
 
     @Override
-    public void doInitSubViews(View containerView) {
+    public void doInitSubViews(View containerView)
+    {
         // TODO Auto-generated method stub
-        tv_name = (TextView)findViewById(R.id.name);
-        tv_admin = (TextView)findViewById(R.id.tv_admin);
-        btn_add_group = (Button)findViewById(R.id.btn_add_to_group);
-        tv_introduction = (TextView)findViewById(R.id.tv_introduction);
-        progressBar = (ProgressBar)findViewById(R.id.loading);
+        tv_name = (TextView) findViewById(R.id.name);
+        tv_admin = (TextView) findViewById(R.id.tv_admin);
+        btn_add_group = (Button) findViewById(R.id.btn_add_to_group);
+        tv_introduction = (TextView) findViewById(R.id.tv_introduction);
+        progressBar = (ProgressBar) findViewById(R.id.loading);
     }
 
     @Override
-    public void doInitDataes() {
+    public void doInitDataes()
+    {
         // TODO Auto-generated method stub
-        EMGroupInfo groupInfo = (EMGroupInfo)getIntent().getSerializableExtra("groupinfo");
+        EMGroupInfo groupInfo = (EMGroupInfo) getIntent().getSerializableExtra("groupinfo");
         String groupname = groupInfo.getGroupName();
         groupid = groupInfo.getGroupId();
-
         tv_name.setText(groupname);
-
-        new Thread(new Runnable() {
-
-            public void run() {
+        new Thread(new Runnable()
+        {
+            public void run()
+            {
                 // 从服务器获取详情
-                try {
+                try
+                {
                     group = EMGroupManager.getInstance().getGroupFromServer(groupid);
-                    runOnUiThread(new Runnable() {
-                        public void run() {
+                    runOnUiThread(new Runnable()
+                    {
+                        public void run()
+                        {
                             progressBar.setVisibility(View.INVISIBLE);
                             // 获取详情成功，并且自己不在群中，才让加入群聊按钮可点击
                             if (!group.getMembers().contains(EMChatManager.getInstance().getCurrentUser()))
@@ -122,23 +141,26 @@ public class GroupSimpleDetailActivity extends YARActivity {
                             tv_introduction.setText(group.getDescription());
                         }
                     });
-                } catch (final EaseMobException e) {
+                }
+                catch (final EaseMobException e)
+                {
                     e.printStackTrace();
-                    runOnUiThread(new Runnable() {
-                        public void run() {
+                    runOnUiThread(new Runnable()
+                    {
+                        public void run()
+                        {
                             progressBar.setVisibility(View.INVISIBLE);
                             Toast.makeText(GroupSimpleDetailActivity.this, "获取群聊信息失败: " + e.getMessage(), 1).show();
                         }
                     });
                 }
-
             }
         }).start();
     }
 
     @Override
-    public void doAfter() {
+    public void doAfter()
+    {
         // TODO Auto-generated method stub
-
     }
 }

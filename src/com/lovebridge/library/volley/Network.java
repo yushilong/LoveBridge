@@ -19,10 +19,11 @@ package com.lovebridge.library.volley;
 /**
  * An interface for performing requests.
  */
-public interface Network {
+public interface Network
+{
     /**
      * Performs the specified request.
-     * 
+     *
      * @param request Request to process
      * @return A {@link NetworkResponse} with data and caching metadata; will
      *         never be null

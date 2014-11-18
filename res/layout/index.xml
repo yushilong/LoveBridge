@@ -3,36 +3,40 @@
     android:id="@+id/test"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical" >
 
+    <com.lovebridge.widget.Navigation
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+    </com.lovebridge.widget.Navigation>
+
     <com.lovebridge.library.view.CopyTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/darker_gray"
-        android:padding="5dp"
-        android:text="this is index fragment"
-        android:textColor="@android:color/white" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
+            android:padding="5dp"
+            android:text="this is index fragment"
+            android:textColor="@android:color/white"/>
 
     <com.lovebridge.library.view.DelIconEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
 
     <com.lovebridge.library.view.DelIconEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="testNotification" />
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="testNotification"/>
 
     <ImageView
-        android:id="@+id/iv_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            android:id="@+id/iv_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
 </LinearLayout>

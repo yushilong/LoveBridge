@@ -1,5 +1,10 @@
-
 package com.lovebridge.chat.utils;
+
+import android.content.Context;
+import android.text.Spannable;
+import android.text.Spannable.Factory;
+import android.text.style.ImageSpan;
+import com.lovebridge.R;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,14 +12,8 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.content.Context;
-import android.text.Spannable;
-import android.text.Spannable.Factory;
-import android.text.style.ImageSpan;
-
-import com.lovebridge.R;
-
-public class SmileUtils {
+public class SmileUtils
+{
     public static final String ee_1 = "[):]";
     public static final String ee_2 = "[:D]";
     public static final String ee_3 = "[;)]";
@@ -50,13 +49,11 @@ public class SmileUtils {
     public static final String ee_33 = "[(F)]";
     public static final String ee_34 = "[(W)]";
     public static final String ee_35 = "[(D)]";
-
     private static final Factory spannableFactory = Spannable.Factory.getInstance();
-
     private static final Map<Pattern, Integer> emoticons = new HashMap<Pattern, Integer>();
 
-    static {
-
+    static
+    {
         addPattern(emoticons, ee_1, R.drawable.ee_1);
         addPattern(emoticons, ee_2, R.drawable.ee_2);
         addPattern(emoticons, ee_3, R.drawable.ee_3);
@@ -94,57 +91,65 @@ public class SmileUtils {
         addPattern(emoticons, ee_35, R.drawable.ee_35);
     }
 
-    private static void addPattern(Map<Pattern, Integer> map, String smile, int resource) {
+    private static void addPattern(Map<Pattern, Integer> map, String smile, int resource)
+    {
         map.put(Pattern.compile(Pattern.quote(smile)), resource);
     }
 
     /**
      * replace existing spannable with smiles
-     * 
+     *
      * @param context
      * @param spannable
      * @return
      */
-    public static boolean addSmiles(Context context, Spannable spannable) {
+    public static boolean addSmiles(Context context, Spannable spannable)
+    {
         boolean hasChanges = false;
-        for (Entry<Pattern, Integer> entry : emoticons.entrySet()) {
+        for (Entry<Pattern, Integer> entry : emoticons.entrySet())
+        {
             Matcher matcher = entry.getKey().matcher(spannable);
-            while (matcher.find()) {
+            while (matcher.find())
+            {
                 boolean set = true;
                 for (ImageSpan span : spannable.getSpans(matcher.start(), matcher.end(), ImageSpan.class))
                     if (spannable.getSpanStart(span) >= matcher.start() && spannable.getSpanEnd(span) <= matcher.end())
                         spannable.removeSpan(span);
-                    else {
+                    else
+                    {
                         set = false;
                         break;
                     }
-                if (set) {
+                if (set)
+                {
                     hasChanges = true;
                     spannable.setSpan(new ImageSpan(context, entry.getValue()), matcher.start(), matcher.end(),
-                                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
             }
         }
         return hasChanges;
     }
 
-    public static Spannable getSmiledText(Context context, CharSequence text) {
+    public static Spannable getSmiledText(Context context, CharSequence text)
+    {
         Spannable spannable = spannableFactory.newSpannable(text);
         addSmiles(context, spannable);
         return spannable;
     }
 
-    public static boolean containsKey(String key) {
+    public static boolean containsKey(String key)
+    {
         boolean b = false;
-        for (Entry<Pattern, Integer> entry : emoticons.entrySet()) {
+        for (Entry<Pattern, Integer> entry : emoticons.entrySet())
+        {
             Matcher matcher = entry.getKey().matcher(key);
-            if (matcher.find()) {
+            if (matcher.find())
+            {
                 b = true;
                 break;
             }
         }
-
         return b;
     }
-
 }

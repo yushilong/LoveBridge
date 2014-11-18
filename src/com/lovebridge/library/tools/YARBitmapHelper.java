@@ -120,7 +120,7 @@ public class YARBitmapHelper
 
  *//**
  * 显示人物的圆角图片
- * 
+ *
  * @param imgUrl
  * @param imageView
  */
@@ -132,7 +132,7 @@ public static void displayDefaultPeopleRoundImage(String imgUrl , ImageView imag
 
  *//**
  * 显示人物的非圆角图片
- * 
+ *
  * @param imgUrl
  * @param imageView
  */
@@ -144,7 +144,7 @@ public static void displayDefaultPeopleNotRoundImage(String imgUrl , ImageView i
 
  *//**
  * 显示非人物的圆角图片
- * 
+ *
  * @param imgUrl
  * @param imageView
  */
@@ -156,7 +156,7 @@ public static void displayDefaultNotPeopleRoundImage(String imgUrl , ImageView i
 
  *//**
  * 显示非人物的非圆角图片
- * 
+ *
  * @param imgUrl
  * @param imageView
  */
@@ -168,7 +168,7 @@ public static void displayDefaultNotPeopleNotRoundImage(String imgUrl , ImageVie
 
  *//**
  * 显示非人物的非圆角非缓存图片
- * 
+ *
  * @param imgUrl
  * @param imageView
  */

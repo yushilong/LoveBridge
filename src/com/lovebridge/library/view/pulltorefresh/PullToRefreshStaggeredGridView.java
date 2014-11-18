@@ -22,39 +22,48 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
 import android.view.View;
-
 import com.lovebridge.R;
 import com.lovebridge.library.view.pulltorefresh.internal.EmptyViewMethodAccessor;
 import com.lovebridge.library.view.staggeredGridView.StaggeredGridView;
 
-public class PullToRefreshStaggeredGridView extends PullToRefreshAdapterViewBase<StaggeredGridView> {
-    public PullToRefreshStaggeredGridView(Context context) {
+public class PullToRefreshStaggeredGridView extends PullToRefreshAdapterViewBase<StaggeredGridView>
+{
+    public PullToRefreshStaggeredGridView(Context context)
+    {
         super(context);
     }
 
-    public PullToRefreshStaggeredGridView(Context context, AttributeSet attrs) {
+    public PullToRefreshStaggeredGridView(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
     }
 
-    public PullToRefreshStaggeredGridView(Context context, Mode mode) {
+    public PullToRefreshStaggeredGridView(Context context, Mode mode)
+    {
         super(context, mode);
     }
 
-    public PullToRefreshStaggeredGridView(Context context, Mode mode, AnimationStyle style) {
+    public PullToRefreshStaggeredGridView(Context context, Mode mode, AnimationStyle style)
+    {
         super(context, mode, style);
     }
 
     @Override
-    public final Orientation getPullToRefreshScrollDirection() {
+    public final Orientation getPullToRefreshScrollDirection()
+    {
         return Orientation.VERTICAL;
     }
 
     @Override
-    protected final StaggeredGridView createRefreshableView(Context context, AttributeSet attrs) {
+    protected final StaggeredGridView createRefreshableView(Context context, AttributeSet attrs)
+    {
         final StaggeredGridView gv;
-        if (VERSION.SDK_INT >= VERSION_CODES.GINGERBREAD) {
+        if (VERSION.SDK_INT >= VERSION_CODES.GINGERBREAD)
+        {
             gv = new InternalGridViewSDK9(context, attrs);
-        } else {
+        }
+        else
+        {
             gv = new InternalGridView(context, attrs);
         }
         // Use Generated ID (from res/values/ids.xml)
@@ -62,36 +71,43 @@ public class PullToRefreshStaggeredGridView extends PullToRefreshAdapterViewBase
         return gv;
     }
 
-    class InternalGridView extends StaggeredGridView implements EmptyViewMethodAccessor {
-        public InternalGridView(Context context, AttributeSet attrs) {
+    class InternalGridView extends StaggeredGridView implements EmptyViewMethodAccessor
+    {
+        public InternalGridView(Context context, AttributeSet attrs)
+        {
             super(context, attrs);
         }
 
         @Override
-        public void setEmptyView(View emptyView) {
+        public void setEmptyView(View emptyView)
+        {
             PullToRefreshStaggeredGridView.this.setEmptyView(emptyView);
         }
 
         @Override
-        public void setEmptyViewInternal(View emptyView) {
+        public void setEmptyViewInternal(View emptyView)
+        {
             super.setEmptyView(emptyView);
         }
     }
 
     @TargetApi(9)
-    final class InternalGridViewSDK9 extends InternalGridView {
-        public InternalGridViewSDK9(Context context, AttributeSet attrs) {
+    final class InternalGridViewSDK9 extends InternalGridView
+    {
+        public InternalGridViewSDK9(Context context, AttributeSet attrs)
+        {
             super(context, attrs);
         }
 
         @Override
         protected boolean overScrollBy(int deltaX, int deltaY, int scrollX, int scrollY, int scrollRangeX,
-                                       int scrollRangeY, int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
+                int scrollRangeY, int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent)
+        {
             final boolean returnValue = super.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX,
-                            scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
+                    scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
             // Does all of the hard work...
             OverscrollHelper.overScrollBy(PullToRefreshStaggeredGridView.this, deltaX, scrollX, deltaY, scrollY,
-                            isTouchEvent);
+                    isTouchEvent);
             return returnValue;
         }
     }

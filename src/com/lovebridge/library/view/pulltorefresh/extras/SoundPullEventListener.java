@@ -16,35 +16,38 @@
 
 package com.lovebridge.library.view.pulltorefresh.extras;
 
-import java.util.HashMap;
-
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.view.View;
-
 import com.lovebridge.library.view.pulltorefresh.PullToRefreshBase;
 import com.lovebridge.library.view.pulltorefresh.PullToRefreshBase.Mode;
 import com.lovebridge.library.view.pulltorefresh.PullToRefreshBase.State;
 
-public class SoundPullEventListener<V extends View> implements PullToRefreshBase.OnPullEventListener<V> {
+import java.util.HashMap;
+
+public class SoundPullEventListener<V extends View> implements PullToRefreshBase.OnPullEventListener<V>
+{
     private final Context mContext;
     private final HashMap<State, Integer> mSoundMap;
     private MediaPlayer mCurrentMediaPlayer;
 
     /**
      * Constructor
-     * 
+     *
      * @param context - Context
      */
-    public SoundPullEventListener(Context context) {
+    public SoundPullEventListener(Context context)
+    {
         mContext = context;
         mSoundMap = new HashMap<State, Integer>();
     }
 
     @Override
-    public final void onPullEvent(PullToRefreshBase<V> refreshView, State event, Mode direction) {
+    public final void onPullEvent(PullToRefreshBase<V> refreshView, State event, Mode direction)
+    {
         Integer soundResIdObj = mSoundMap.get(event);
-        if (null != soundResIdObj) {
+        if (null != soundResIdObj)
+        {
             playSound(soundResIdObj.intValue());
         }
     }
@@ -56,37 +59,43 @@ public class SoundPullEventListener<V extends View> implements PullToRefreshBase
      * <p/>
      * If you've already set a sound for a certain event, and add another sound
      * for that event, only the new sound will be played.
-     * 
+     *
      * @param event - The event for which the sound will be played.
      * @param resId - Resource Id of the sound file to be played (e.g.
      *            <var>R.raw.pull_sound</var>)
      */
-    public void addSoundEvent(State event, int resId) {
+    public void addSoundEvent(State event, int resId)
+    {
         mSoundMap.put(event, resId);
     }
 
     /**
      * Clears all of the previously set sounds and events.
      */
-    public void clearSounds() {
+    public void clearSounds()
+    {
         mSoundMap.clear();
     }
 
     /**
      * Gets the current (or last) MediaPlayer instance.
      */
-    public MediaPlayer getCurrentMediaPlayer() {
+    public MediaPlayer getCurrentMediaPlayer()
+    {
         return mCurrentMediaPlayer;
     }
 
-    private void playSound(int resId) {
+    private void playSound(int resId)
+    {
         // Stop current player, if there's one playing
-        if (null != mCurrentMediaPlayer) {
+        if (null != mCurrentMediaPlayer)
+        {
             mCurrentMediaPlayer.stop();
             mCurrentMediaPlayer.release();
         }
         mCurrentMediaPlayer = MediaPlayer.create(mContext, resId);
-        if (null != mCurrentMediaPlayer) {
+        if (null != mCurrentMediaPlayer)
+        {
             mCurrentMediaPlayer.start();
         }
     }

@@ -16,14 +16,12 @@
 
 package com.lovebridge.library.view.pulltorefresh.extras;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.webkit.WebView;
-
-import com.lovebridge.library.view.pulltorefresh.PullToRefreshBase.Mode;
 import com.lovebridge.library.view.pulltorefresh.PullToRefreshWebView;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * An advanced version of {@link PullToRefreshWebView} which delegates the
@@ -46,35 +44,39 @@ import com.lovebridge.library.view.pulltorefresh.PullToRefreshWebView;
  * can happen, and return the result via the callback mechanism. An example can
  * be seen below:
  * <p/>
- * 
+ *
  * <pre>
  * function isReadyForPullDown() {
  *   var result = ...  // Probably using the .scrollTop DOM attribute
  *   ptr.isReadyForPullDownResponse(result);
  * }
- * 
+ *
  * function isReadyForPullUp() {
  *   var result = ...  // Probably using the .scrollBottom DOM attribute
  *   ptr.isReadyForPullUpResponse(result);
  * }
  * </pre>
- * 
+ *
  * @author Chris Banes
  */
-public class PullToRefreshWebView2 extends PullToRefreshWebView {
+public class PullToRefreshWebView2 extends PullToRefreshWebView
+{
     static final String JS_INTERFACE_PKG = "ptr";
     static final String DEF_JS_READY_PULL_DOWN_CALL = "javascript:isReadyForPullDown();";
     static final String DEF_JS_READY_PULL_UP_CALL = "javascript:isReadyForPullUp();";
 
-    public PullToRefreshWebView2(Context context) {
+    public PullToRefreshWebView2(Context context)
+    {
         super(context);
     }
 
-    public PullToRefreshWebView2(Context context, AttributeSet attrs) {
+    public PullToRefreshWebView2(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
     }
 
-    public PullToRefreshWebView2(Context context, Mode mode) {
+    public PullToRefreshWebView2(Context context, Mode mode)
+    {
         super(context, mode);
     }
 
@@ -83,7 +85,8 @@ public class PullToRefreshWebView2 extends PullToRefreshWebView {
     private final AtomicBoolean mIsReadyForPullUp = new AtomicBoolean(false);
 
     @Override
-    protected WebView createRefreshableView(Context context, AttributeSet attrs) {
+    protected WebView createRefreshableView(Context context, AttributeSet attrs)
+    {
         WebView webView = super.createRefreshableView(context, attrs);
         // Need to add JS Interface so we can get the response back
         mJsCallback = new JsValueCallback();
@@ -92,7 +95,8 @@ public class PullToRefreshWebView2 extends PullToRefreshWebView {
     }
 
     @Override
-    protected boolean isReadyForPullStart() {
+    protected boolean isReadyForPullStart()
+    {
         // Call Javascript...
         getRefreshableView().loadUrl(DEF_JS_READY_PULL_DOWN_CALL);
         // Response will be given to JsValueCallback, which will update
@@ -101,7 +105,8 @@ public class PullToRefreshWebView2 extends PullToRefreshWebView {
     }
 
     @Override
-    protected boolean isReadyForPullEnd() {
+    protected boolean isReadyForPullEnd()
+    {
         // Call Javascript...
         getRefreshableView().loadUrl(DEF_JS_READY_PULL_UP_CALL);
         // Response will be given to JsValueCallback, which will update
@@ -111,15 +116,18 @@ public class PullToRefreshWebView2 extends PullToRefreshWebView {
 
     /**
      * Used for response from Javascript
-     * 
+     *
      * @author Chris Banes
      */
-    final class JsValueCallback {
-        public void isReadyForPullUpResponse(boolean response) {
+    final class JsValueCallback
+    {
+        public void isReadyForPullUpResponse(boolean response)
+        {
             mIsReadyForPullUp.set(response);
         }
 
-        public void isReadyForPullDownResponse(boolean response) {
+        public void isReadyForPullDownResponse(boolean response)
+        {
             mIsReadyForPullDown.set(response);
         }
     }

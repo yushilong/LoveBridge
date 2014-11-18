@@ -1,8 +1,4 @@
-
 package com.lovebridge.chat.adapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,23 +12,20 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.SectionIndexer;
-import android.widget.TextView;
-
+import android.widget.*;
 import com.lovebridge.R;
 import com.lovebridge.chat.moden.ChatUser;
 import com.lovebridge.chat.view.Sidebar;
 import com.lovebridge.library.tools.YARConstants;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 简单的好友Adapter实现
  */
-public class ContactAdapter extends ArrayAdapter<ChatUser> implements SectionIndexer {
-
+public class ContactAdapter extends ArrayAdapter<ChatUser> implements SectionIndexer
+{
     private LayoutInflater layoutInflater;
     private EditText query;
     private ImageButton clearSearch;
@@ -41,7 +34,8 @@ public class ContactAdapter extends ArrayAdapter<ChatUser> implements SectionInd
     private Sidebar sidebar;
     private int res;
 
-    public ContactAdapter(Context context, int resource, List<ChatUser> objects, Sidebar sidebar) {
+    public ContactAdapter(Context context, int resource, List<ChatUser> objects, Sidebar sidebar)
+    {
         super(context, resource, objects);
         this.res = resource;
         this.sidebar = sidebar;
@@ -49,127 +43,161 @@ public class ContactAdapter extends ArrayAdapter<ChatUser> implements SectionInd
     }
 
     @Override
-    public int getViewTypeCount() {
+    public int getViewTypeCount()
+    {
         return 2;
     }
 
     @Override
-    public int getItemViewType(int position) {
+    public int getItemViewType(int position)
+    {
         return position == 0 ? 0 : 1;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (position == 0) {// 搜索框
-            if (convertView == null) {
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
+        if (position == 0)
+        {// 搜索框
+            if (convertView == null)
+            {
                 convertView = layoutInflater.inflate(R.layout.search_bar_with_padding, null);
-                query = (EditText)convertView.findViewById(R.id.query);
-                clearSearch = (ImageButton)convertView.findViewById(R.id.search_clear);
-                query.addTextChangedListener(new TextWatcher() {
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                query = (EditText) convertView.findViewById(R.id.query);
+                clearSearch = (ImageButton) convertView.findViewById(R.id.search_clear);
+                query.addTextChangedListener(new TextWatcher()
+                {
+                    public void onTextChanged(CharSequence s, int start, int before, int count)
+                    {
                         getFilter().filter(s);
-                        if (s.length() > 0) {
+                        if (s.length() > 0)
+                        {
                             clearSearch.setVisibility(View.VISIBLE);
                             if (sidebar != null)
                                 sidebar.setVisibility(View.GONE);
-                        } else {
+                        }
+                        else
+                        {
                             clearSearch.setVisibility(View.INVISIBLE);
                             if (sidebar != null)
                                 sidebar.setVisibility(View.VISIBLE);
                         }
                     }
 
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after)
+                    {
                     }
 
-                    public void afterTextChanged(Editable s) {
+                    public void afterTextChanged(Editable s)
+                    {
                     }
                 });
-                clearSearch.setOnClickListener(new OnClickListener() {
+                clearSearch.setOnClickListener(new OnClickListener()
+                {
                     @Override
-                    public void onClick(View v) {
-                        InputMethodManager manager = (InputMethodManager)getContext().getSystemService(
-                                        Context.INPUT_METHOD_SERVICE);
-                        if (((Activity)getContext()).getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
-                            if (((Activity)getContext()).getCurrentFocus() != null)
-                                manager.hideSoftInputFromWindow(((Activity)getContext()).getCurrentFocus()
-                                                .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    public void onClick(View v)
+                    {
+                        InputMethodManager manager = (InputMethodManager) getContext().getSystemService(
+                                Context.INPUT_METHOD_SERVICE);
+                        if (((Activity) getContext()).getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+                            if (((Activity) getContext()).getCurrentFocus() != null)
+                                manager.hideSoftInputFromWindow(((Activity) getContext()).getCurrentFocus()
+                                        .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                         // 清除搜索框文字
                         query.getText().clear();
                     }
                 });
             }
-        } else {
-            if (convertView == null) {
+        }
+        else
+        {
+            if (convertView == null)
+            {
                 convertView = layoutInflater.inflate(res, null);
             }
-
-            ImageView avatar = (ImageView)convertView.findViewById(R.id.avatar);
-            TextView unreadMsgView = (TextView)convertView.findViewById(R.id.unread_msg_number);
-            TextView nameTextview = (TextView)convertView.findViewById(R.id.name);
-            TextView tvHeader = (TextView)convertView.findViewById(R.id.header);
+            ImageView avatar = (ImageView) convertView.findViewById(R.id.avatar);
+            TextView unreadMsgView = (TextView) convertView.findViewById(R.id.unread_msg_number);
+            TextView nameTextview = (TextView) convertView.findViewById(R.id.name);
+            TextView tvHeader = (TextView) convertView.findViewById(R.id.header);
             ChatUser user = getItem(position);
             if (user == null)
                 Log.d("ContactAdapter", position + "");
             // 设置nick，demo里不涉及到完整user，用username代替nick显示
             String username = user.getUsername();
             String header = user.getHeader();
-            if (position == 0 || header != null && !header.equals(getItem(position - 1).getHeader())) {
-                if ("".equals(header)) {
+            if (position == 0 || header != null && !header.equals(getItem(position - 1).getHeader()))
+            {
+                if ("".equals(header))
+                {
                     tvHeader.setVisibility(View.GONE);
-                } else {
+                }
+                else
+                {
                     tvHeader.setVisibility(View.VISIBLE);
                     tvHeader.setText(header);
                 }
-            } else {
+            }
+            else
+            {
                 tvHeader.setVisibility(View.GONE);
             }
             // 显示申请与通知item
-            if (username.equals(YARConstants.NEW_FRIENDS_USERNAME)) {
+            if (username.equals(YARConstants.NEW_FRIENDS_USERNAME))
+            {
                 nameTextview.setText(user.getNick());
                 avatar.setImageResource(R.drawable.new_friends_icon);
-                if (user.getUnreadMsgCount() > 0) {
+                if (user.getUnreadMsgCount() > 0)
+                {
                     unreadMsgView.setVisibility(View.VISIBLE);
                     unreadMsgView.setText(user.getUnreadMsgCount() + "");
-                } else {
+                }
+                else
+                {
                     unreadMsgView.setVisibility(View.INVISIBLE);
                 }
-            } else if (username.equals(YARConstants.GROUP_USERNAME)) {
+            }
+            else if (username.equals(YARConstants.GROUP_USERNAME))
+            {
                 // 群聊item
                 nameTextview.setText(user.getNick());
                 avatar.setImageResource(R.drawable.groups_icon);
-            } else {
+            }
+            else
+            {
                 nameTextview.setText(username);
                 if (unreadMsgView != null)
                     unreadMsgView.setVisibility(View.INVISIBLE);
                 avatar.setImageResource(R.drawable.default_avatar);
             }
         }
-
         return convertView;
     }
 
     @Override
-    public ChatUser getItem(int position) {
+    public ChatUser getItem(int position)
+    {
         return position == 0 ? new ChatUser() : super.getItem(position - 1);
     }
 
     @Override
-    public int getCount() {
+    public int getCount()
+    {
         // 有搜索框，count+1
         return super.getCount() + 1;
     }
 
-    public int getPositionForSection(int section) {
+    public int getPositionForSection(int section)
+    {
         return positionOfSection.get(section);
     }
 
-    public int getSectionForPosition(int position) {
+    public int getSectionForPosition(int position)
+    {
         return sectionOfPosition.get(position);
     }
 
     @Override
-    public Object[] getSections() {
+    public Object[] getSections()
+    {
         positionOfSection = new SparseIntArray();
         sectionOfPosition = new SparseIntArray();
         int count = getCount();
@@ -177,12 +205,13 @@ public class ContactAdapter extends ArrayAdapter<ChatUser> implements SectionInd
         list.add(getContext().getString(R.string.search_header));
         positionOfSection.put(0, 0);
         sectionOfPosition.put(0, 0);
-        for (int i = 1; i < count; i++) {
-
+        for (int i = 1; i < count; i++)
+        {
             String letter = getItem(i).getHeader();
             System.err.println("contactadapter getsection getHeader:" + letter + " name:" + getItem(i).getUsername());
             int section = list.size() - 1;
-            if (list.get(section) != null && !list.get(section).equals(letter)) {
+            if (list.get(section) != null && !list.get(section).equals(letter))
+            {
                 list.add(letter);
                 section++;
                 positionOfSection.put(section, i);
@@ -191,5 +220,4 @@ public class ContactAdapter extends ArrayAdapter<ChatUser> implements SectionInd
         }
         return list.toArray(new String[list.size()]);
     }
-
 }

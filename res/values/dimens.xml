@@ -14,5 +14,12 @@
     <dimen name="image_thumbnail_size">100dp</dimen>
     <dimen name="image_thumbnail_spacing">1dp</dimen>
     <dimen name="default_bottom_view_height">3dp</dimen>
-
+    <dimen name="default_actionscontentview_spacing">64dip</dimen>
+    <dimen name="default_actionscontentview_actions_spacing">0dip</dimen>
+    <integer name="default_actionscontentview_fade_max_value">170</integer>
+    <integer name="default_actionscontentview_fling_duration">900</integer>
+    <dimen name="default_actionscontentview_swiping_edge_width">24dip</dimen>
+    <dimen name="divider_size">.9dp</dimen>
+    <dimen name="divider_large_size">1.5dp</dimen>
+    <dimen name="actions_spacing">44dp</dimen>
 </resources>

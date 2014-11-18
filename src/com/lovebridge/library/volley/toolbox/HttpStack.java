@@ -16,18 +16,18 @@
 
 package com.lovebridge.library.volley.toolbox;
 
-import java.io.IOException;
-import java.util.Map;
-
-import org.apache.http.HttpResponse;
-
 import com.lovebridge.library.volley.AuthFailureError;
 import com.lovebridge.library.volley.Request;
+import org.apache.http.HttpResponse;
+
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * An HTTP stack abstraction.
  */
-public interface HttpStack {
+public interface HttpStack
+{
     /**
      * Performs an HTTP request with the given parameters.
      * <p>
@@ -35,13 +35,12 @@ public interface HttpStack {
      * sent otherwise, and the Content-Type header is set to
      * request.getPostBodyContentType().
      * </p>
-     * 
+     *
      * @param request the request to perform
      * @param additionalHeaders additional headers to be sent together with
      *            {@link Request#getHeaders()}
      * @return the HTTP response
      */
     public HttpResponse performRequest(Request<?> request, Map<String, String> additionalHeaders) throws IOException,
-                    AuthFailureError;
-
+            AuthFailureError;
 }

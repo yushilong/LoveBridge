@@ -16,47 +16,38 @@
 
 package com.lovebridge.library.volley.ex;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.lovebridge.library.volley.*;
+import com.lovebridge.library.volley.Response.ErrorListener;
+import com.lovebridge.library.volley.Response.Listener;
+import com.lovebridge.library.volley.toolbox.HttpHeaderParser;
+
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.lovebridge.library.volley.AuthFailureError;
-import com.lovebridge.library.volley.NetworkResponse;
-import com.lovebridge.library.volley.ParseError;
-import com.lovebridge.library.volley.Request;
-import com.lovebridge.library.volley.Response;
-import com.lovebridge.library.volley.Response.ErrorListener;
-import com.lovebridge.library.volley.Response.Listener;
-import com.lovebridge.library.volley.VolleyLog;
-import com.lovebridge.library.volley.toolbox.HttpHeaderParser;
 
 /**
  * Custom implementation of Request<T> class which converts the HttpResponse
  * obtained to Java class objects. Uses GSON library, to parse the response
  * obtained. Ref - JsonRequest<T>
- * 
+ *
  * @author Mani Selvaraj
  */
-
-public class YARGsonRequest<T> extends Request<T> {
-
+public class YARGsonRequest<T> extends Request<T>
+{
     /** Charset for request. */
     private static final String PROTOCOL_CHARSET = "utf-8";
-
     /** Content type for request. */
     private static final String PROTOCOL_CONTENT_TYPE = String.format("application/json; charset=%s", PROTOCOL_CHARSET);
-
     private final Listener<T> mListener;
-
     private final String mRequestBody;
-
     private Gson mGson;
     private Class<T> mJavaClass;
 
     public YARGsonRequest(int method, String url, Class<T> cls, String requestBody, Listener<T> listener,
-                    ErrorListener errorListener) {
+            ErrorListener errorListener)
+    {
         super(method, url, errorListener);
         mGson = new Gson();
         mJavaClass = cls;
@@ -65,45 +56,56 @@ public class YARGsonRequest<T> extends Request<T> {
     }
 
     @Override
-    protected void deliverResponse(T response) {
+    protected void deliverResponse(T response)
+    {
         mListener.onResponse(response);
     }
 
     private Map<String, String> headers = new HashMap<String, String>();
 
     @Override
-    public Map<String, String> getHeaders() throws AuthFailureError {
+    public Map<String, String> getHeaders() throws AuthFailureError
+    {
         return headers;
     }
 
     @Override
-    protected Response<T> parseNetworkResponse(NetworkResponse response) {
-        try {
+    protected Response<T> parseNetworkResponse(NetworkResponse response)
+    {
+        try
+        {
             String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
             T parsedGSON = mGson.fromJson(jsonString, mJavaClass);
             return Response.success(parsedGSON, HttpHeaderParser.parseCacheHeaders(response));
-
-        } catch (UnsupportedEncodingException e) {
+        }
+        catch (UnsupportedEncodingException e)
+        {
             return Response.error(new ParseError(e));
-        } catch (JsonSyntaxException je) {
+        }
+        catch (JsonSyntaxException je)
+        {
             return Response.error(new ParseError(je));
         }
     }
 
     @Override
-    public String getBodyContentType() {
+    public String getBodyContentType()
+    {
         return PROTOCOL_CONTENT_TYPE;
     }
 
     @Override
-    public byte[] getBody() {
-        try {
+    public byte[] getBody()
+    {
+        try
+        {
             return mRequestBody == null ? null : mRequestBody.getBytes(PROTOCOL_CHARSET);
-        } catch (UnsupportedEncodingException uee) {
+        }
+        catch (UnsupportedEncodingException uee)
+        {
             VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody,
-                            PROTOCOL_CHARSET);
+                    PROTOCOL_CHARSET);
             return null;
         }
     }
-
 }

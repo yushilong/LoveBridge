@@ -1,7 +1,7 @@
-
 package com.lovebridge.library.view.viewpagerindicator;
 
-public interface IconPagerAdapter {
+public interface IconPagerAdapter
+{
     /**
      * Get icon representing the page at {@code index} in the adapter.
      */
