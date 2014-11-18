@@ -16,7 +16,8 @@
 package com.lovebridge.chat.view.chats;
 
 import android.view.animation.Animation;
-import shared.ui.actionscontentview.EffectsController.Effect;
+
+import com.lovebridge.chat.view.chats.EffectsController.Effect;
 
 public interface ContainerController {
 

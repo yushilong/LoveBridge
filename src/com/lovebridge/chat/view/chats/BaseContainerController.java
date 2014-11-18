@@ -13,63 +13,74 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.lovebridge.chat.view.chats;
 
 import android.graphics.Matrix;
 import android.view.View;
 import android.view.animation.Animation;
-import shared.ui.actionscontentview.EffectsController.Effect;
 
-public class BaseContainerController implements ContainerController {
+import com.lovebridge.chat.view.chats.EffectsController.Effect;
 
+public class BaseContainerController implements ContainerController
+{
     private final View view;
     private final EffectsController mEffectsController = new EffectsController();
-
     private boolean mIgnoreTouchEvents = false;
     private int mFadeFactor = 0;
 
-    public BaseContainerController(View view) {
+    public BaseContainerController(View view)
+    {
         this.view = view;
     }
 
     @Override
-    public void setIgnoreTouchEvents(boolean ignore) {
+    public void setIgnoreTouchEvents(boolean ignore)
+    {
         mIgnoreTouchEvents = ignore;
     }
 
     @Override
-    public boolean isIgnoringTouchEvents() {
+    public boolean isIgnoringTouchEvents()
+    {
         return mIgnoreTouchEvents;
     }
 
-    void initializeEffects() {
+    void initializeEffects()
+    {
         mEffectsController.initialize(view);
     }
 
-    Matrix getEffectsMatrix() {
+    Matrix getEffectsMatrix()
+    {
         return mEffectsController.getEffectsMatrix();
     }
 
-    float getEffectsAlpha() {
+    float getEffectsAlpha()
+    {
         return mEffectsController.getEffectsAlpha();
     }
 
     @Override
-    public void setEffects(Animation effects) {
+    public void setEffects(Animation effects)
+    {
         mEffectsController.setEffects(effects);
     }
 
     @Override
-    public void setEffects(int resId) {
+    public void setEffects(int resId)
+    {
         mEffectsController.setEffects(view.getContext(), resId);
     }
 
     @Override
-    public Effect[] getEffects() {
+    public Effect[] getEffects()
+    {
         return mEffectsController.getEffects();
     }
 
-    int getFadeFactor() {
+    int getFadeFactor()
+    {
         return mFadeFactor;
     }
 
@@ -79,17 +90,17 @@ public class BaseContainerController implements ContainerController {
      * @param factor     - factor of scrolling. Can be in range from 0f to 1f.
      * @param fadeFactor - fade factor for current scroll factor.
      */
-    public void onScroll(float factor, int fadeFactor, boolean isOpening, boolean enableEffects) {
+    public void onScroll(float factor , int fadeFactor , boolean isOpening , boolean enableEffects)
+    {
         mFadeFactor = fadeFactor;
-
         final boolean updateEffects;
         if (enableEffects)
             updateEffects = mEffectsController.apply(factor, isOpening ? EffectsController.EFFECT_OPEN : EffectsController.EFFECT_CLOSE);
-        else {
+        else
+        {
             mEffectsController.reset();
             updateEffects = false;
         }
-
         if (updateEffects || mFadeFactor > 0)
             view.postInvalidate();
     }

@@ -1,4 +1,9 @@
+
 package com.lovebridge.application;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
@@ -9,6 +14,14 @@ import android.content.pm.PackageManager;
 import android.os.Process;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.easemob.chat.ConnectionListener;
+import com.easemob.chat.EMChat;
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMChatOptions;
+import com.easemob.chat.EMMessage;
+import com.easemob.chat.EMMessage.ChatType;
+import com.easemob.chat.OnNotificationClickListener;
 import com.lovebridge.chat.activity.ChatActivity;
 import com.lovebridge.chat.moden.ChatUser;
 import com.lovebridge.db.UserDao;
@@ -16,10 +29,6 @@ import com.lovebridge.index.TabActivity;
 import com.lovebridge.library.api.YARVolley;
 import com.lovebridge.library.tools.YARNetUtils;
 import com.lovebridge.library.tools.YARPreferenceUtils;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 public class MainApplication extends Application
 {
@@ -81,7 +90,7 @@ public class MainApplication extends Application
                 }
                 else
                 { // 群聊信息
-                    // message.getTo()为群聊id
+                  // message.getTo()为群聊id
                     intent.putExtra("groupId", message.getTo());
                     intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
                 }
@@ -106,11 +115,8 @@ public class MainApplication extends Application
             {
                 if (info.pid == pID)
                 {
-                    CharSequence c = pm.getApplicationLabel(pm.getApplicationInfo(info.processName,
-                            PackageManager.GET_META_DATA));
-                    Log.d("Process",
-                            "Id: " + info.pid + " ProcessName: " + info.processName + "  Label: "
-                                    + c.toString());
+                    CharSequence c = pm.getApplicationLabel(pm.getApplicationInfo(info.processName, PackageManager.GET_META_DATA));
+                    Log.d("Process", "Id: " + info.pid + " ProcessName: " + info.processName + "  Label: " + c.toString());
                     processName = c.toString();
                     processName = info.processName;
                     return processName;
@@ -157,7 +163,6 @@ public class MainApplication extends Application
         {
         }
     }
-
     public final String PREF_USERNAME = "username";
     private String userName = null;
     private static final String PREF_PWD = "pwd";
