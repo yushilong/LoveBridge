@@ -10,7 +10,7 @@
         android:ellipsize="none"
         android:paddingBottom="@dimen/tabs_title_padding_fix_for_vertical_alignment"
         android:singleLine="true"
-        android:textColor="?color_tab_text_title"
+        android:textColor="@color/tab_text_title_night"
         android:textSize="18.0sp" />
 
     <RelativeLayout
@@ -25,7 +25,7 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="@dimen/tabs_avatar_horizontal_padding"
             android:layout_marginTop="@dimen/tabs_avatar_vertical_padding"
-            android:alpha="?alpha_tab_avatar" />
+            android:alpha="0.7" />
 
         <TextView
             android:id="@+id/unread_indicator"
@@ -34,11 +34,11 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="@dimen/tabs_unread_margin_left"
             android:layout_marginTop="@dimen/tabs_unread_margin_top"
-            android:background="?drawable_unread_indicator"
+            android:background="@drawable/unread_indicator"
             android:gravity="center"
             android:minWidth="16.0dip"
             android:paddingBottom="2.0dip"
-            android:textColor="?color_tab_unread_indicator_text"
+            android:textColor="@color/tab_unread_indicator_text_night"
             android:textSize="11.0sp" />
     </RelativeLayout>
 

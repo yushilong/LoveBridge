@@ -3,13 +3,14 @@ package com.lovebridge.chat.fragment;
 
 import android.view.View;
 
+import com.lovebridge.R;
 import com.lovebridge.library.YARBaseFragment;
 
 public class ChatFragment extends YARBaseFragment {
 
     @Override
     public int doGetContentViewId() {
-        return 0;
+        return R.layout.content;
     }
 
     @Override

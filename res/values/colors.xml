@@ -350,4 +350,10 @@
     <color name="actions_bg">#ff3c3c3c</color>
     <color name="actions_divider">#ff888888</color>
     <color name="color_e24946">#e24946</color>
+    <color name="tab_background">#ffe8e8e8</color>
+    <color name="emoji_picker_shadow">#18000000</color>
+    <color name="tab_text_title_night">#ffcccccc</color>
+    <color name="tab_unread_indicator_background">#ff000000</color>
+    <color name="tab_unread_indicator_text_night">#ff000000</color>
+
 </resources>

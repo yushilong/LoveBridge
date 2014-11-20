@@ -81,10 +81,11 @@ public class ChatTabLayout extends RelativeLayout {
         Addresses addresses = chatTabEntry.getAddresses();
         this.avatar.clearAnimation();
         this.title.clearAnimation();
-        CachedChatTabInfo object = ChatTabLayout.cache.get(addresses);
-        if (object != null) {
-            this.updateContent(((CachedChatTabInfo)object));
+        CachedChatTabInfo info = ChatTabLayout.cache.get(addresses);
+        if (info != null) {
+            this.updateContent(info);
         } else {
+            this.title.setText("消息");
             this.title.setVisibility(4);
             this.unreadIndicator.setVisibility(8);
             ScaleAnimation scaleAnimation = new ScaleAnimation(0f, 1f, 0f, 1f,

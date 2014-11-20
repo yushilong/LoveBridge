@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="?color_tab_background" >
+    android:background="@color/tab_background" >
 
     <FrameLayout
         android:layout_width="fill_parent"
@@ -29,7 +29,7 @@
                 android:overScrollMode="never"
                 android:scrollbars="none" />
 
-            <com.hellotext.tabs.FooterTabLayout
+            <com.lovebridge.chat.view.tabs.FooterTabLayout
                 android:id="@+id/footer"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/tabs_footer_height"
@@ -37,7 +37,7 @@
         </RelativeLayout>
     </FrameLayout>
 
-    <com.hellotext.tabs.NewChatTabLayout
+    <com.lovebridge.chat.view.tabs.NewChatTabLayout
         android:id="@+id/newChat"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/tabs_new_chat_height"
@@ -49,10 +49,10 @@
         android:layout_height="10.0dip"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/tabs_footer_height"
-        android:background="?color_tab_background"
+        android:background="@color/tab_background"
         android:visibility="gone" />
 
-    <com.hellotext.tabs.StickyChatTabLayout
+    <com.lovebridge.chat.view.tabs.StickyChatTabLayout
         android:id="@+id/stickyChatTab"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/tabs_tab_height"

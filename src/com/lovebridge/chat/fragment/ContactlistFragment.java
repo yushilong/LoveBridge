@@ -1,23 +1,37 @@
+
 package com.lovebridge.chat.fragment;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.view.*;
+import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.easemob.chat.EMContactManager;
 import com.easemob.exceptions.EaseMobException;
 import com.lovebridge.R;
 import com.lovebridge.application.MainApplication;
-import com.lovebridge.chat.activity.ChatActivity;
 import com.lovebridge.chat.activity.GroupsActivity;
+import com.lovebridge.chat.activity.MainActivity;
 import com.lovebridge.chat.activity.NewFriendsMsgActivity;
 import com.lovebridge.chat.adapter.ContactAdapter;
 import com.lovebridge.chat.moden.ChatUser;
@@ -27,11 +41,7 @@ import com.lovebridge.db.UserDao;
 import com.lovebridge.library.YARBaseFragment;
 import com.lovebridge.library.tools.YARConstants;
 
-import java.util.*;
-import java.util.Map.Entry;
-
-public class ContactlistFragment extends YARBaseFragment
-{
+public class ContactlistFragment extends YARBaseFragment {
     private ContactAdapter adapter;
     private List<ChatUser> contactList;
     private ListView listView;
@@ -40,32 +50,26 @@ public class ContactlistFragment extends YARBaseFragment
     private InputMethodManager inputMethodManager;
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
-    {
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         // 长按前两个不弹menu
-        if (((AdapterContextMenuInfo) menuInfo).position > 2)
-        {
+        if (((AdapterContextMenuInfo)menuInfo).position > 2) {
             getActivity().getMenuInflater().inflate(R.menu.context_contact_list, menu);
         }
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item)
-    {
-        if (item.getItemId() == R.id.delete_contact)
-        {
-            ChatUser tobeDeleteUser = adapter.getItem(((AdapterContextMenuInfo) item.getMenuInfo()).position);
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.delete_contact) {
+            ChatUser tobeDeleteUser = adapter.getItem(((AdapterContextMenuInfo)item.getMenuInfo()).position);
             // 删除此联系人
             deleteContact(tobeDeleteUser);
             // 删除相关的邀请消息
             InviteMessgeDao dao = new InviteMessgeDao(getActivity());
             dao.deleteMessage(tobeDeleteUser.getUsername());
             return true;
-        }
-        else if (item.getItemId() == R.id.add_to_blacklist)
-        {
-            ChatUser user = adapter.getItem(((AdapterContextMenuInfo) item.getMenuInfo()).position);
+        } else if (item.getItemId() == R.id.add_to_blacklist) {
+            ChatUser user = adapter.getItem(((AdapterContextMenuInfo)item.getMenuInfo()).position);
             moveToBlacklist(user.getUsername());
             return true;
         }
@@ -73,64 +77,50 @@ public class ContactlistFragment extends YARBaseFragment
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden)
-    {
+    public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         this.hidden = hidden;
-        if (!hidden)
-        {
+        if (!hidden) {
             refresh();
         }
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
-        if (!hidden)
-        {
+        if (!hidden) {
             refresh();
         }
     }
 
     /**
      * 删除联系人
-     *
+     * 
      * @param toDeleteUser
      */
-    public void deleteContact(final ChatUser tobeDeleteUser)
-    {
+    public void deleteContact(final ChatUser tobeDeleteUser) {
         final ProgressDialog pd = new ProgressDialog(getActivity());
         pd.setMessage("正在删除...");
         pd.setCanceledOnTouchOutside(false);
         pd.show();
-        new Thread(new Runnable()
-        {
-            public void run()
-            {
-                try
-                {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
                     EMContactManager.getInstance().deleteContact(tobeDeleteUser.getUsername());
                     // 删除db和内存中此用户的数据
                     UserDao dao = new UserDao(getActivity());
                     dao.deleteContact(tobeDeleteUser.getUsername());
                     MainApplication.getInstance().getContactList().remove(tobeDeleteUser.getUsername());
-                    getActivity().runOnUiThread(new Runnable()
-                    {
-                        public void run()
-                        {
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
                             pd.dismiss();
                             adapter.remove(tobeDeleteUser);
                             adapter.notifyDataSetChanged();
                         }
                     });
-                }
-                catch (final Exception e)
-                {
-                    getActivity().runOnUiThread(new Runnable()
-                    {
-                        public void run()
-                        {
+                } catch (final Exception e) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
                             pd.dismiss();
                             Toast.makeText(getActivity(), "删除失败: " + e.getMessage(), 1).show();
                         }
@@ -143,36 +133,26 @@ public class ContactlistFragment extends YARBaseFragment
     /**
      * 把user移入到黑名单
      */
-    private void moveToBlacklist(final String username)
-    {
+    private void moveToBlacklist(final String username) {
         final ProgressDialog pd = new ProgressDialog(getActivity());
         pd.setMessage("正在移入黑名单...");
         pd.setCanceledOnTouchOutside(false);
         pd.show();
-        new Thread(new Runnable()
-        {
-            public void run()
-            {
-                try
-                {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
                     // 加入到黑名单
                     EMContactManager.getInstance().addUserToBlackList(username, true);
-                    getActivity().runOnUiThread(new Runnable()
-                    {
-                        public void run()
-                        {
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
                             pd.dismiss();
                             Toast.makeText(getActivity(), "移入黑名单成功", 0).show();
                         }
                     });
-                }
-                catch (EaseMobException e)
-                {
+                } catch (EaseMobException e) {
                     e.printStackTrace();
-                    getActivity().runOnUiThread(new Runnable()
-                    {
-                        public void run()
-                        {
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
                             pd.dismiss();
                             Toast.makeText(getActivity(), "移入黑名单失败", 0).show();
                         }
@@ -183,44 +163,34 @@ public class ContactlistFragment extends YARBaseFragment
     }
 
     // 刷新ui
-    public void refresh()
-    {
-        try
-        {
+    public void refresh() {
+        try {
             // 可能会在子线程中调到这方法
-            getActivity().runOnUiThread(new Runnable()
-            {
-                public void run()
-                {
+            getActivity().runOnUiThread(new Runnable() {
+                public void run() {
                     getContactList();
                     adapter.notifyDataSetChanged();
                 }
             });
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void getContactList()
-    {
+    private void getContactList() {
         contactList.clear();
         Map<String, ChatUser> users = MainApplication.getInstance().getContactList();
         Iterator<Entry<String, ChatUser>> iterator = users.entrySet().iterator();
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             Entry<String, ChatUser> entry = iterator.next();
             if (!entry.getKey().equals(YARConstants.NEW_FRIENDS_USERNAME)
-                    && !entry.getKey().equals(YARConstants.GROUP_USERNAME))
+                            && !entry.getKey().equals(YARConstants.GROUP_USERNAME))
                 contactList.add(entry.getValue());
         }
         // 排序
-        Collections.sort(contactList, new Comparator<ChatUser>()
-        {
+        Collections.sort(contactList, new Comparator<ChatUser>() {
             @Override
-            public int compare(ChatUser lhs, ChatUser rhs)
-            {
+            public int compare(ChatUser lhs, ChatUser rhs) {
                 return lhs.getUsername().compareTo(rhs.getUsername());
             }
         });
@@ -231,25 +201,22 @@ public class ContactlistFragment extends YARBaseFragment
     }
 
     @Override
-    public int doGetContentViewId()
-    {
+    public int doGetContentViewId() {
         // TODO Auto-generated method stub
         return R.layout.fragment_contact_list;
     }
 
     @Override
-    public void doInitSubViews(View containerView)
-    {
+    public void doInitSubViews(View containerView) {
         // TODO Auto-generated method stub
-        inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        listView = (ListView) containerView.findViewById(R.id.list);
-        sidebar = (Sidebar) containerView.findViewById(R.id.sidebar);
+        inputMethodManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        listView = (ListView)containerView.findViewById(R.id.list);
+        sidebar = (Sidebar)containerView.findViewById(R.id.sidebar);
         sidebar.setListView(listView);
     }
 
     @Override
-    public void doInitDataes()
-    {
+    public void doInitDataes() {
         // TODO Auto-generated method stub
         contactList = new ArrayList<ChatUser>();
         // 获取设置contactlist
@@ -257,44 +224,34 @@ public class ContactlistFragment extends YARBaseFragment
         // 设置adapter
         adapter = new ContactAdapter(getActivity(), R.layout.row_contact, contactList, sidebar);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new OnItemClickListener()
-        {
+        listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String username = adapter.getItem(position).getUsername();
-                if (YARConstants.NEW_FRIENDS_USERNAME.equals(username))
-                {
+                if (YARConstants.NEW_FRIENDS_USERNAME.equals(username)) {
                     // 进入申请与通知页面
                     ChatUser user = MainApplication.getInstance().getContactList()
-                            .get(YARConstants.NEW_FRIENDS_USERNAME);
+                                    .get(YARConstants.NEW_FRIENDS_USERNAME);
                     user.setUnreadMsgCount(0);
                     startActivity(new Intent(getActivity(), NewFriendsMsgActivity.class));
-                }
-                else if (YARConstants.GROUP_USERNAME.equals(username))
-                {
+                } else if (YARConstants.GROUP_USERNAME.equals(username)) {
                     // 进入群聊列表页面
                     startActivity(new Intent(getActivity(), GroupsActivity.class));
-                }
-                else
-                {
+                } else {
                     // demo中直接进入聊天页面，实际一般是进入用户详情页
-                    startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId",
-                            adapter.getItem(position).getUsername()));
+                    startActivity(new Intent(getActivity(), MainActivity.class).putExtra("userId",
+                                    adapter.getItem(position).getUsername()));
                 }
             }
         });
-        listView.setOnTouchListener(new OnTouchListener()
-        {
+        listView.setOnTouchListener(new OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
+            public boolean onTouch(View v, MotionEvent event) {
                 // 隐藏软键盘
-                if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
-                {
+                if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
                     if (getActivity().getCurrentFocus() != null)
                         inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
-                                InputMethodManager.HIDE_NOT_ALWAYS);
+                                        InputMethodManager.HIDE_NOT_ALWAYS);
                 }
                 return false;
             }
@@ -303,8 +260,7 @@ public class ContactlistFragment extends YARBaseFragment
     }
 
     @Override
-    public void doAfter()
-    {
+    public void doAfter() {
         // TODO Auto-generated method stub
     }
 

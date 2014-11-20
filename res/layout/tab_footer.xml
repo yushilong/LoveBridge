@@ -6,8 +6,7 @@
         android:layout_width="@dimen/tabs_footer_button_width"
         android:layout_height="@dimen/tabs_footer_height"
         android:layout_toLeftOf="@+id/settingsIcon"
-        android:scaleType="center"
-        android:src="?drawable_ic_peeking_help" />
+        android:scaleType="center" />
 
     <ImageView
         android:id="@+id/settingsIcon"
@@ -16,15 +15,15 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="10.0dip"
         android:scaleType="center"
-        android:src="?drawable_ic_peeking_gear" />
+        android:src="@drawable/ic_peeking_gear_night" />
 
     <ImageView
         android:id="@+id/openIcon"
         android:layout_width="@dimen/tabs_closed_width"
         android:layout_height="@dimen/tabs_footer_height"
-        android:background="?color_tab_background"
+        android:background="@color/tab_background"
         android:paddingBottom="2.0dip"
         android:scaleType="center"
-        android:src="?drawable_ic_peeking_hamburger" />
+        android:src="@drawable/ic_peeking_hamburger_night" />
 
 </merge>

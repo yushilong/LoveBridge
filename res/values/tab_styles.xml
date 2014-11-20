@@ -67,4 +67,8 @@
         <item name="android:textColor">@color/powderblue</item>
     </style>
 
+    <style name="dayTheme" parent="@style/noActionBarNoTitleBar">
+        <item name="color_tab_background">@color/tab_background</item>
+    </style>
+
 </resources>
