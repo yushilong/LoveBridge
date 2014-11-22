@@ -355,5 +355,10 @@
     <color name="tab_text_title_night">#ffcccccc</color>
     <color name="tab_unread_indicator_background">#ff000000</color>
     <color name="tab_unread_indicator_text_night">#ff000000</color>
-
-</resources>
+    <color name="chat_composer_text">#ff000000</color>
+    <color name="chat_composer_text_hint">#ffb8b8b8</color>
+    <color name="chat_composer_text_night">#ffffffff</color>
+    <color name="shadow_border">#18000000</color>
+    <color name="emoji_picker_background_night">#ff0a0a0a</color>
+    <color name="emoji_picker_background">#fff5f5f5</color>
+</resources>

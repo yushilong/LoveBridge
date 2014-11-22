@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.lovebridge.R;
 import com.lovebridge.chat.fragment.ChatFragment;
+import com.lovebridge.chat.fragment.EmojiPickerFragment.Listener;
 import com.lovebridge.chat.view.tabs.ChatTabEntry;
 import com.lovebridge.chat.view.tabs.FooterTabLayout;
 import com.lovebridge.chat.view.tabs.NewChatTabLayout;
@@ -28,7 +29,7 @@ import com.lovebridge.chat.view.tabs.TabsFragment;
 import com.lovebridge.chat.view.tabs.TabsLayout;
 import com.lovebridge.library.YARActivity;
 
-public class MainActivity extends YARActivity implements ChatTabEntry.Listener, FooterTabLayout.Listener,
+public class MainActivity extends YARActivity implements Listener, ChatTabEntry.Listener, FooterTabLayout.Listener,
                 NewChatTabLayout.Listener, TabsFragment.Listener {
     public static String ACTION_RESTART = null;
     public static String ACTION_START_FACEBOOK_SYNC = null;

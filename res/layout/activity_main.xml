@@ -42,6 +42,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center" />
             </FrameLayout>
+
+            <fragment
+                android:id="@+id/composer"
+                android:name="com.lovebridge.chat.fragment.ComposerFragment"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true" />
         </RelativeLayout>
     </com.lovebridge.chat.view.tabs.TabsLayout>
 
@@ -51,5 +58,13 @@
         android:layout_height="1.0dip"
         android:layout_alignBottom="@+id/tabsLayout"
         android:background="@color/emoji_picker_shadow" />
+
+    <fragment
+        android:id="@+id/emoji_picker_fragment"
+        android:name="com.lovebridge.chat.fragment.EmojiPickerFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/tabsLayout"
+        android:visibility="gone" />
 
 </RelativeLayout>

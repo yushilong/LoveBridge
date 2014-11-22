@@ -69,6 +69,15 @@
 
     <style name="dayTheme" parent="@style/noActionBarNoTitleBar">
         <item name="color_tab_background">@color/tab_background</item>
+        <item name="drawable_btn_show_emoji_picker_statelist">@drawable/btn_show_emoji_picker_statelist</item>
+        <item name="drawable_btn_send_statelist">@drawable/btn_send_statelist</item>
+        <item name="drawable_btn_camera_gallery_statelist">@drawable/btn_camera_gallery_statelist_night</item>
+        <item name="color_chat_composer_text">@color/chat_composer_text</item>
+        <item name="drawable_btn_show_keyboard">@drawable/btn_show_keyboard</item>
+        <item name="color_shadow_border">@color/shadow_border</item>
+        <item name="drawable_tapcam_overlay_composer">@drawable/tapcam_overlay_composer</item>
+        <item name="color_emoji_picker_background">@color/emoji_picker_background_night</item>
+        <item name="color_chat_background">@color/white</item>
     </style>
 
 </resources>
