@@ -74,7 +74,7 @@ public class EmojiUtils {
     private static final int EMOJI_SINGLE_CODEPOINT = 0xFFFFFFFF;
     private static BitmapLruCache cache;
     private static Context context;
- 
+
     static {
         EmojiUtils.EMOJIS = new SparseIntArray();
         EmojiUtils.EMOJI_BY_CATEGORY = new HashMap<String, List>();
@@ -104,22 +104,19 @@ public class EmojiUtils {
             int i = 0;
             int k = 0;
             while (i < s.length()) {
-
                 int j = s.codePointAt(i);
                 k = Character.charCount(j);
                 int l = EMOJIS.get(j);
-                if (l == 0) {
-                    continue;
-                }
-                if (l != -1) {
-                    if (i + k >= s.length() || l != s.codePointAt(i + k)) {
-                        continue;
+                if (l != 0) {
+                    if (l != -1) {
+                        if (i + k >= s.length() || l != s.codePointAt(i + k)) {
+                            k += Character.charCount(l);
+                        }
                     }
-                    k += Character.charCount(l);
+                    spannablestring.setSpan(new EmojiSpan(context, getBitmap(j, size), size), i, i + k, 33);
                 }
-                spannablestring.setSpan(new EmojiSpan(context, getBitmap(j, size), size), i, i + k, 33);
+                i += k;
             }
-            i += k;
         }
         return spannablestring;
     }
@@ -130,18 +127,19 @@ public class EmojiUtils {
         }
 
         EmojiBitmapKey emojiUtils = new EmojiUtils().new EmojiBitmapKey(codePoint, size);
-        Object object = EmojiUtils.cache.get(emojiUtils);
-        if (object == null) {
-            Bitmap bitmap = EmojiUtils.getFullBitmap(codePoint);
+        Bitmap bitmap = (Bitmap)EmojiUtils.cache.get(emojiUtils);
+        if (bitmap == null) {
+            bitmap = EmojiUtils.getFullBitmap(codePoint);
             int i = ImageUtils.dpToPx((double)size.getValue());
-            if (i != bitmap.getWidth()) {
-                bitmap = Bitmap.createScaledBitmap(bitmap, i, i, true);
+            if (bitmap != null) {
+                if (i != bitmap.getWidth()) {
+                    bitmap = Bitmap.createScaledBitmap(bitmap, i, i, true);
+                }
+                EmojiUtils.cache.put(emojiUtils, bitmap);
             }
 
-            EmojiUtils.cache.put(emojiUtils, bitmap);
         }
-
-        return ((Bitmap)object);
+        return bitmap;
     }
 
     public static Bitmap getCachedBitmap(int codePoint, Size size) {
@@ -195,7 +193,7 @@ public class EmojiUtils {
                 String name = parser.getName();
                 switch (eventType) {
                     case XmlPullParser.START_DOCUMENT:
- 
+
                         break;
                     case XmlPullParser.START_TAG:
 
@@ -210,7 +208,7 @@ public class EmojiUtils {
                             String string2 = parser.getAttributeValue(null, "cp2");
                             SparseIntArray sparseIntArray = EmojiUtils.EMOJIS;
                             int i1 = integer.intValue();
-                            int i2 = string2 != null ? Integer.parseInt(string2) : 0xFFFFFFFF;
+                            int i2 = string2 != null ? Integer.parseInt(string2) : -1;
                             try {
                                 sparseIntArray.put(i1, i2);
                                 list.add(integer);

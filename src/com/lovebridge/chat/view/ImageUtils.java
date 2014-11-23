@@ -13,6 +13,7 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 
+import com.lovebridge.application.MainApplication;
 import com.lovebridge.chat.utils.IOUtils;
 
 public class ImageUtils {
@@ -46,17 +47,15 @@ public class ImageUtils {
         float calculateScale(int arg1, int arg2, int arg3);
     }
 
-    private static Context context;
-
     public ImageUtils() {
         super();
     }
 
-    public static Bitmap decodeBitmapFromUri(Uri uri, BitmapFactory.Options options) {
+    public static Bitmap decodeBitmapFromUri(Context context, Uri uri, BitmapFactory.Options options) {
         Bitmap bitmap = null;
         InputStream inputStream = null;
         try {
-            inputStream = ImageUtils.context.getContentResolver().openInputStream(uri);
+            inputStream = context.getContentResolver().openInputStream(uri);
             bitmap = BitmapFactory.decodeStream(inputStream, null, options);
         } catch (Throwable throwable) {
             IOUtils.closeQuietly(inputStream);
@@ -66,7 +65,7 @@ public class ImageUtils {
     }
 
     public static int dpToPx(double dp) {
-        return ((int)Math.round((((double)ImageUtils.context.getResources().getDisplayMetrics().density)) * dp));
+        return ((int)Math.round(MainApplication.getInstance().getResources().getDisplayMetrics().density * dp));
     }
 
     public static Bitmap getOrientedImageResizedToFill(Uri imageUri, final int maxWidth, final int maxHeight,
@@ -106,9 +105,9 @@ public class ImageUtils {
         });
     }
 
-    public static String getRealPathFromURI(Uri uri) {
+    public static String getRealPathFromURI(Context context, Uri uri) {
         String string = uri.getPath();
-        Cursor cursor = ImageUtils.context.getContentResolver().query(uri, new String[] { "_data" }, null, null, null);
+        Cursor cursor = context.getContentResolver().query(uri, new String[] { "_data" }, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
             int i = cursor.getColumnIndex("_data");
@@ -122,15 +121,11 @@ public class ImageUtils {
         return string;
     }
 
-    public static void setContext(Context context) {
-        ImageUtils.context = context;
-    }
-
     private static Bitmap getOrientedImageResized(Uri imageUri, boolean scaleUp, ImageScaleCalculator scaleCalculator)
                     throws IOException {
         Bitmap bitmap1;
         int i = 0;
-        String string = ImageUtils.getRealPathFromURI(imageUri);
+        String string = ImageUtils.getRealPathFromURI(MainApplication.getInstance(), imageUri);
         if (string != null) {
             switch (new ExifInterface(string).getAttributeInt("Orientation", 1)) {
                 case 3: {
@@ -144,15 +139,14 @@ public class ImageUtils {
                 }
             }
         }
-        BitmapFactory.Options bitmapFactory$Options = new BitmapFactory.Options();
-        bitmapFactory$Options.inJustDecodeBounds = true;
-        ImageUtils.decodeBitmapFromUri(imageUri, bitmapFactory$Options);
-        float f = scaleCalculator.calculateScale(i, bitmapFactory$Options.outWidth, bitmapFactory$Options.outHeight);
         BitmapFactory.Options bitmapFactory = new BitmapFactory.Options();
+        bitmapFactory.inJustDecodeBounds = true;
+        ImageUtils.decodeBitmapFromUri(MainApplication.getInstance(), imageUri, bitmapFactory);
+        float f = scaleCalculator.calculateScale(i, bitmapFactory.outWidth, bitmapFactory.outHeight);
         bitmapFactory.inSampleSize = ((int)(1f / f));
         bitmapFactory.inPurgeable = true;
         bitmapFactory.inInputShareable = true;
-        Bitmap bitmap = ImageUtils.decodeBitmapFromUri(imageUri, bitmapFactory);
+        Bitmap bitmap = ImageUtils.decodeBitmapFromUri(MainApplication.getInstance(), imageUri, bitmapFactory);
         if (bitmap == null) {
             bitmap1 = null;
         } else {
