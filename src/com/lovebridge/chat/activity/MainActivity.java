@@ -3,14 +3,12 @@ package com.lovebridge.chat.activity;
 
 import java.util.Arrays;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
@@ -21,30 +19,26 @@ import android.widget.Toast;
 
 import com.lovebridge.R;
 import com.lovebridge.chat.fragment.ChatFragment;
+import com.lovebridge.chat.fragment.TabsFragment;
 import com.lovebridge.chat.fragment.EmojiPickerFragment.Listener;
 import com.lovebridge.chat.view.tabs.ChatTabEntry;
 import com.lovebridge.chat.view.tabs.FooterTabLayout;
 import com.lovebridge.chat.view.tabs.NewChatTabLayout;
-import com.lovebridge.chat.view.tabs.TabsFragment;
 import com.lovebridge.chat.view.tabs.TabsLayout;
 import com.lovebridge.library.YARActivity;
 
 public class MainActivity extends YARActivity implements Listener, ChatTabEntry.Listener, FooterTabLayout.Listener,
                 NewChatTabLayout.Listener, TabsFragment.Listener {
     public static String ACTION_RESTART = null;
-    public static String ACTION_START_FACEBOOK_SYNC = null;
     public static String EXTRA_SHOW_KEYBOARD = null;
     public static String EXTRA_THREAD_ID = null;
     private static volatile long activeThreadId;
     private ViewGroup content;
-    private BroadcastReceiver facebookSyncReceiver;
     private TabsFragment tabs;
     private TabsLayout tabsLayout;
 
     static {
         MainActivity.ACTION_RESTART = String.valueOf(MainActivity.class.getPackage().getName()) + ".activity_restart";
-        MainActivity.ACTION_START_FACEBOOK_SYNC = String.valueOf(MainActivity.class.getPackage().getName())
-                        + ".start_facebook_sync";
         MainActivity.EXTRA_SHOW_KEYBOARD = String.valueOf(MainActivity.class.getPackage().getName()) + ".show_keyboard";
         MainActivity.EXTRA_THREAD_ID = String.valueOf(MainActivity.class.getPackage().getName()) + ".thread_id";
     }
@@ -74,7 +68,6 @@ public class MainActivity extends YARActivity implements Listener, ChatTabEntry.
                 if (resultCode != 1) {
                     return;
                 }
-                this.showFacebookSyncStartDialog();
                 break;
             }
         }
@@ -96,15 +89,6 @@ public class MainActivity extends YARActivity implements Listener, ChatTabEntry.
         this.tabs.selectDefaultTab(threadId);
     }
 
-    public void onDestroy() {
-        super.onDestroy();
-
-    }
-
-    public void onHelpClick() {
-
-    }
-
     public void onNewChatClick() {
         this.openNewChat();
     }
@@ -115,9 +99,6 @@ public class MainActivity extends YARActivity implements Listener, ChatTabEntry.
 
     public void onPause() {
         super.onPause();
-        if (this.facebookSyncReceiver != null) {
-            LocalBroadcastManager.getInstance(((Context)this)).unregisterReceiver(this.facebookSyncReceiver);
-        }
     }
 
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -165,11 +146,6 @@ public class MainActivity extends YARActivity implements Listener, ChatTabEntry.
         long l;
         Intent intent = this.getIntent();
         if ((intent.getFlags() & 0x100000) == 0) {
-            if (MainActivity.ACTION_START_FACEBOOK_SYNC.equals(intent.getAction())) {
-                this.setIntent(null);
-                this.showFacebookSyncStartDialog();
-            }
-
             if (("android.intent.action.VIEW".equals(intent.getAction()))
                             && ("vnd.android-dir/mms-sms".equals(intent.getType()))) {
                 l = intent.getLongExtra("thread_id", 0);
@@ -267,10 +243,6 @@ public class MainActivity extends YARActivity implements Listener, ChatTabEntry.
         this.tabs.refresh();
     }
 
-    private void showFacebookSyncStartDialog() {
-
-    }
-
     @Override
     public int doGetContentViewId() {
         // TODO Auto-generated method stub
@@ -293,6 +265,12 @@ public class MainActivity extends YARActivity implements Listener, ChatTabEntry.
 
     @Override
     public void doAfter() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onHelpClick() {
         // TODO Auto-generated method stub
 
     }

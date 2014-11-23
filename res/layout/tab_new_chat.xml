@@ -5,6 +5,7 @@
         android:id="@+id/active_background"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:background="@drawable/active_tab_new_chat"
         android:visibility="invisible" />
 
     <ImageView

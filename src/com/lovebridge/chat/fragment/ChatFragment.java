@@ -10,7 +10,7 @@ public class ChatFragment extends YARBaseFragment {
 
     @Override
     public int doGetContentViewId() {
-        return R.layout.content;
+        return R.layout.fragment_chat;
     }
 
     @Override

@@ -19,7 +19,7 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
 public class TabsLayout extends LinearLayout {
-    public static final int ANIMATION_TIME = 0xB4;
+    private static final int ANIMATION_TIME = 0xB4;
     public static final double TABS_OPEN_PERCENT = 0.67;
     private GestureDetector gestureDetector;
     private View tabs;
@@ -59,11 +59,10 @@ public class TabsLayout extends LinearLayout {
             if (velocity > 0f) {
                 int i1 = this.tabsParams.width;
                 int i2 = open ? this.tabsOpenWidth : this.tabsClosedWidth;
-                this.valueAnimator.setDuration(((long)(((int)Math.min(180f, (((float)(Math.abs(i1 - i2) * 0x3E8)))
-                                / velocity)))));
+                this.valueAnimator.setDuration((long)(Math.min(180f, Math.abs(i1 - i2) * 1000) / velocity));
                 this.valueAnimator.setInterpolator(new LinearInterpolator());
             } else {
-                this.valueAnimator.setDuration(0xB4);
+                this.valueAnimator.setDuration(ANIMATION_TIME);
             }
 
             this.valueAnimator.addUpdateListener(new AnimatorUpdateListener() {
@@ -156,10 +155,10 @@ public class TabsLayout extends LinearLayout {
                 boolean bool = false;
                 float f = 2f;
                 if (Math.abs(distanceX) > Math.abs(distanceY) * f) {
-                    TabsLayout.this.setTabsWidth(Math.round((((float)TabsLayout.this.tabsParams.width)) - distanceX));
+                    TabsLayout.this.setTabsWidth(Math.round((TabsLayout.this.tabsParams.width) - distanceX));
                     bool = true;
                 } else if (TabsLayout.this.tabsParams.width > TabsLayout.this.tabsClosedWidth
-                                && e1.getX() > (((float)TabsLayout.this.tabsParams.width))
+                                && e1.getX() > (TabsLayout.this.tabsParams.width)
                                 && Math.abs(distanceY) > Math.abs(distanceX) * f) {
                     TabsLayout.this.animate(false);
                 }

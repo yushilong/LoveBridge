@@ -2,6 +2,7 @@
 package com.lovebridge.chat.view.tabs;
 
 import com.lovebridge.R;
+import com.lovebridge.chat.fragment.TabsFragment;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -51,7 +52,7 @@ public class NewChatTabLayout extends RelativeLayout implements TabsFragment.Sel
         listener.onNewChatClick();
     }
 
-    protected void setListener(Listener listener) {
+    public void setListener(Listener listener) {
         this.listener = listener;
     }
 }

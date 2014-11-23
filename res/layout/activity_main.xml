@@ -23,7 +23,7 @@
 
         <fragment
             android:id="@+id/tabs"
-            android:name="com.lovebridge.chat.view.tabs.TabsFragment"
+            android:name="com.lovebridge.chat.fragment.TabsFragment"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent" />
 

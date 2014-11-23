@@ -5,7 +5,7 @@ import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
-import com.lovebridge.chat.view.tabs.TabsFragment.SelectableTab;
+import com.lovebridge.chat.fragment.TabsFragment.SelectableTab;
 
 public class ChatTabEntry implements SelectableTab {
     public interface Listener {

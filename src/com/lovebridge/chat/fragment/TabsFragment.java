@@ -1,5 +1,5 @@
 
-package com.lovebridge.chat.view.tabs;
+package com.lovebridge.chat.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +19,12 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.lovebridge.R;
+import com.lovebridge.chat.view.tabs.ChatTabEntry;
+import com.lovebridge.chat.view.tabs.ChatTabLayout;
+import com.lovebridge.chat.view.tabs.FooterTabLayout;
+import com.lovebridge.chat.view.tabs.NewChatTabLayout;
+import com.lovebridge.chat.view.tabs.SMSMessage;
+import com.lovebridge.chat.view.tabs.StickyChatTabLayout;
 
 public class TabsFragment extends Fragment {
 
@@ -172,10 +178,10 @@ public class TabsFragment extends Fragment {
             ChatTabEntry localChatTabEntry = (ChatTabEntry)this.tabs.get(0);
             if (localChatTabEntry.getThreadId() != paramLong) {
                 localChatTabEntry.selectTab();
-                return;
+            } else {
+                this.newChatTabLayout.selectTab();
             }
         }
-        this.newChatTabLayout.selectTab();
     }
 
     public static void setTabsScrollTime() {
