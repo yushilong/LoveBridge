@@ -190,12 +190,12 @@ public class TabsFragment extends Fragment {
 
     private void buildTabs() {
         for (int i = 0; i < 20; i++) {
-            SMSMessage msg = new SMSMessage(i, "消息" + i, i, false, System.currentTimeMillis(), "" + i + "", i + 1);
+            SMSMessage msg = new SMSMessage(i, "消息" + i, 1, false, System.currentTimeMillis(), "" + i + "", i + 1);
             ChatTabEntry item = new ChatTabEntry(getActivity(), msg);
             tabs.add(item);
         }
 
-        TabsFragment.this.selectDefaultTab(0);
+        TabsFragment.this.selectDefaultTab(1);
     }
 
     public static boolean tabsRecentlyScrolled() {

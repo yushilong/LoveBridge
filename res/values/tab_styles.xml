@@ -78,6 +78,8 @@
         <item name="drawable_tapcam_overlay_composer">@drawable/tapcam_overlay_composer</item>
         <item name="color_emoji_picker_background">@color/emoji_picker_background_night</item>
         <item name="color_chat_background">@color/white</item>
+        <item name="drawable_bg_tab_solid_top">@drawable/bg_tab_solid_top</item>
+        <item name="drawable_active_tab">@drawable/active_tab</item>
     </style>
 
 </resources>

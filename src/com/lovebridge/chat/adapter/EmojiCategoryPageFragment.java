@@ -15,7 +15,7 @@ import com.lovebridge.chat.utils.EmojiUtils;
 
 public class EmojiCategoryPageFragment extends EmojiPageFragment {
     public static final String EMOJI_PAGE_KEY = "emoji_page_key";
-    private List emoji;
+    private List<?> emoji;
 
     public EmojiCategoryPageFragment() {
         super();
@@ -44,7 +44,7 @@ public class EmojiCategoryPageFragment extends EmojiPageFragment {
         this.getEmojiPicker().emojiInserted((Integer)this.getEmoji().get(position), true);
     }
 
-    protected List getEmoji() {
+    protected List<?> getEmoji() {
         return this.emoji;
     }
 }

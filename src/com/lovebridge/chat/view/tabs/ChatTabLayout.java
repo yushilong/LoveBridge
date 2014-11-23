@@ -88,6 +88,8 @@ public class ChatTabLayout extends RelativeLayout {
             this.title.setText("消息");
             this.title.setVisibility(4);
             this.unreadIndicator.setVisibility(8);
+            CachedChatTabInfo result = new CachedChatTabInfo(addresses.getBitmap(getContext()), addresses.getTitle());
+            ChatTabLayout.cache.put(addresses, result);
             ScaleAnimation scaleAnimation = new ScaleAnimation(0f, 1f, 0f, 1f,
                             ((float)(ChatTabLayout.this.avatar.getWidth() / 2)),
                             ((float)(ChatTabLayout.this.avatar.getHeight() / 2)));
@@ -95,7 +97,7 @@ public class ChatTabLayout extends RelativeLayout {
             ((Animation)scaleAnimation).setFillAfter(true);
             ChatTabLayout.this.avatar.startAnimation(((Animation)scaleAnimation));
             AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
-            ((Animation)alphaAnimation).setDuration(0x64);
+            ((Animation)alphaAnimation).setDuration(100);
             ((Animation)alphaAnimation).setFillAfter(true);
             ChatTabLayout.this.title.startAnimation(((Animation)alphaAnimation));
         }

@@ -4,6 +4,11 @@ package com.lovebridge.chat.view.tabs;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+
+import com.lovebridge.chat.utils.AvatarUtils;
+
 public class Addresses {
     private List<Address> addresses;
 
@@ -19,6 +24,14 @@ public class Addresses {
 
     public Address getAddress() {
         return this.addresses.get(0);
+    }
+
+    public Address getAddress(int i) {
+        return this.addresses.get(i);
+    }
+
+    public Bitmap getBitmap(Context context) {
+        return AvatarUtils.getCircularBitmap(context, this);
     }
 
     public String getTitle() {

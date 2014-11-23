@@ -3,6 +3,7 @@ package com.lovebridge.chat.view.tabs;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lovebridge.R;
+import com.lovebridge.chat.activity.MainActivity;
 import com.nineoldandroids.view.ViewHelper;
 
 public class StickyChatTabLayout extends RelativeLayout {
@@ -60,15 +62,14 @@ public class StickyChatTabLayout extends RelativeLayout {
         ListAdapter listAdapter = this.listView.getAdapter();
         int i = 0;
         while (i < ((Adapter)listAdapter).getCount()) {
-            Object object = ((Adapter)listAdapter).getItem(i);
-            if (((ChatTabEntry)object).getThreadId() == i) {
-                this.configureViewForEntry(((ChatTabEntry)object));
+            ChatTabEntry chatTabEntry = (ChatTabEntry)((Adapter)listAdapter).getItem(i);
+            if (chatTabEntry.getThreadId() == MainActivity.getActiveThreadId()) {
+                this.configureViewForEntry(chatTabEntry);
                 this.activeTabIndex = i;
+                break;
             } else {
                 ++i;
-                continue;
             }
-            break;
         }
         this.updatePosition();
     }
@@ -148,6 +149,15 @@ public class StickyChatTabLayout extends RelativeLayout {
     }
 
     private void setup() {
+        // setBackgroundResource(getResourceId(this.getContext(),
+        // R.attr.drawable_active_tab));
+        setBackgroundResource(R.drawable.active_tab);
         this.setPadding(0, 0, 0, 0);
+    }
+
+    public static int getResourceId(Context context, int attrId) {
+        TypedValue typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(attrId, typedValue, true);
+        return typedValue.resourceId;
     }
 }

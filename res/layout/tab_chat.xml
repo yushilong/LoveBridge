@@ -25,7 +25,8 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="@dimen/tabs_avatar_horizontal_padding"
             android:layout_marginTop="@dimen/tabs_avatar_vertical_padding"
-            android:alpha="0.7" />
+            android:alpha="0.7"
+            android:src="@drawable/app_pref_bg" />
 
         <TextView
             android:id="@+id/unread_indicator"

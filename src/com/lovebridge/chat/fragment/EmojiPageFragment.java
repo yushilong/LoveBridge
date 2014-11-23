@@ -76,7 +76,7 @@ public abstract class EmojiPageFragment extends Fragment {
 
     protected abstract void emojiClicked(int arg1);
 
-    protected abstract List getEmoji();
+    protected abstract List<?> getEmoji();
 
     protected EmojiPickerFragment getEmojiPicker() {
         return (EmojiPickerFragment)this.getFragmentManager().findFragmentById(R.id.emoji_picker_fragment);
