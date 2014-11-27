@@ -1,208 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="adSize" format="string" />
-    <attr name="adSizes" format="string" />
-    <attr name="adUnitId" format="string" />
+    <attr name="adSize" format="string"/>
+    <attr name="adSizes" format="string"/>
+    <attr name="adUnitId" format="string"/>
     <attr name="mapType">
-        <enum name="hybrid" value="4" />
-        <enum name="none" value="0" />
-        <enum name="normal" value="1" />
-        <enum name="satellite" value="2" />
-        <enum name="terrain" value="3" />
+        <enum name="hybrid" value="4"/>
+        <enum name="none" value="0"/>
+        <enum name="normal" value="1"/>
+        <enum name="satellite" value="2"/>
+        <enum name="terrain" value="3"/>
     </attr>
-    <attr name="cameraBearing" format="float" />
-    <attr name="cameraTargetLat" format="float" />
-    <attr name="cameraTargetLng" format="float" />
-    <attr name="cameraTilt" format="float" />
-    <attr name="cameraZoom" format="float" />
-    <attr name="uiCompass" format="boolean" />
-    <attr name="uiRotateGestures" format="boolean" />
-    <attr name="uiScrollGestures" format="boolean" />
-    <attr name="uiTiltGestures" format="boolean" />
-    <attr name="uiZoomControls" format="boolean" />
-    <attr name="uiZoomGestures" format="boolean" />
-    <attr name="useViewLifecycle" format="boolean" />
-    <attr name="zOrderOnTop" format="boolean" />
+    <attr name="cameraBearing" format="float"/>
+    <attr name="cameraTargetLat" format="float"/>
+    <attr name="cameraTargetLng" format="float"/>
+    <attr name="cameraTilt" format="float"/>
+    <attr name="cameraZoom" format="float"/>
+    <attr name="uiCompass" format="boolean"/>
+    <attr name="uiRotateGestures" format="boolean"/>
+    <attr name="uiScrollGestures" format="boolean"/>
+    <attr name="uiTiltGestures" format="boolean"/>
+    <attr name="uiZoomControls" format="boolean"/>
+    <attr name="uiZoomGestures" format="boolean"/>
+    <attr name="useViewLifecycle" format="boolean"/>
+    <attr name="zOrderOnTop" format="boolean"/>
     <attr name="theme">
-        <enum name="holo_dark" value="0" />
-        <enum name="holo_light" value="1" />
+        <enum name="holo_dark" value="0"/>
+        <enum name="holo_light" value="1"/>
     </attr>
     <attr name="environment">
-        <enum name="production" value="1" />
-        <enum name="sandbox" value="0" />
-        <enum name="strict_sandbox" value="2" />
+        <enum name="production" value="1"/>
+        <enum name="sandbox" value="0"/>
+        <enum name="strict_sandbox" value="2"/>
     </attr>
-    <attr name="fragmentStyle" format="reference" />
+    <attr name="fragmentStyle" format="reference"/>
     <attr name="fragmentMode">
-        <enum name="buyButton" value="1" />
-        <enum name="selectionDetails" value="2" />
+        <enum name="buyButton" value="1"/>
+        <enum name="selectionDetails" value="2"/>
     </attr>
     <attr name="buyButtonHeight" format="dimension">
-        <enum name="match_parent" value="-1" />
-        <enum name="wrap_content" value="-2" />
+        <enum name="match_parent" value="-1"/>
+        <enum name="wrap_content" value="-2"/>
     </attr>
     <attr name="buyButtonWidth" format="dimension">
-        <enum name="match_parent" value="-1" />
-        <enum name="wrap_content" value="-2" />
+        <enum name="match_parent" value="-1"/>
+        <enum name="wrap_content" value="-2"/>
     </attr>
     <attr name="buyButtonText">
-        <enum name="book_now" value="3" />
-        <enum name="buy_now" value="2" />
-        <enum name="buy_with_google" value="1" />
+        <enum name="book_now" value="3"/>
+        <enum name="buy_now" value="2"/>
+        <enum name="buy_with_google" value="1"/>
     </attr>
     <attr name="buyButtonAppearance">
-        <enum name="classic" value="1" />
-        <enum name="grayscale" value="2" />
-        <enum name="monochrome" value="3" />
+        <enum name="classic" value="1"/>
+        <enum name="grayscale" value="2"/>
+        <enum name="monochrome" value="3"/>
     </attr>
-    <attr name="maskedWalletDetailsTextAppearance" format="reference" />
-    <attr name="maskedWalletDetailsHeaderTextAppearance" format="reference" />
-    <attr name="maskedWalletDetailsBackground" format="reference|color" />
-    <attr name="maskedWalletDetailsButtonTextAppearance" format="reference" />
-    <attr name="maskedWalletDetailsButtonBackground" format="reference|color" />
-    <attr name="maskedWalletDetailsLogoTextColor" format="color" />
+    <attr name="maskedWalletDetailsTextAppearance" format="reference"/>
+    <attr name="maskedWalletDetailsHeaderTextAppearance" format="reference"/>
+    <attr name="maskedWalletDetailsBackground" format="reference|color"/>
+    <attr name="maskedWalletDetailsButtonTextAppearance" format="reference"/>
+    <attr name="maskedWalletDetailsButtonBackground" format="reference|color"/>
+    <attr name="maskedWalletDetailsLogoTextColor" format="color"/>
     <attr name="maskedWalletDetailsLogoImageType">
-        <enum name="classic" value="1" />
-        <enum name="monochrome" value="2" />
+        <enum name="classic" value="1"/>
+        <enum name="monochrome" value="2"/>
     </attr>
-    <attr name="show_pictures" format="boolean" />
-    <attr name="extra_fields" format="string" />
-    <attr name="show_title_bar" format="boolean" />
-    <attr name="title_text" format="string" />
-    <attr name="done_button_text" format="string" />
-    <attr name="title_bar_background" format="reference" />
-    <attr name="done_button_background" format="reference" />
-    <attr name="multi_select" format="boolean" />
-    <attr name="radius_in_meters" format="integer" />
-    <attr name="results_limit" format="integer" />
-    <attr name="search_text" format="string" />
-    <attr name="show_search_box" format="boolean" />
-    <attr name="confirm_logout" format="boolean" />
-    <attr name="fetch_user_info" format="boolean" />
-    <attr name="login_text" format="string" />
-    <attr name="logout_text" format="string" />
+    <attr name="show_pictures" format="boolean"/>
+    <attr name="extra_fields" format="string"/>
+    <attr name="show_title_bar" format="boolean"/>
+    <attr name="title_text" format="string"/>
+    <attr name="done_button_text" format="string"/>
+    <attr name="title_bar_background" format="reference"/>
+    <attr name="done_button_background" format="reference"/>
+    <attr name="multi_select" format="boolean"/>
+    <attr name="radius_in_meters" format="integer"/>
+    <attr name="results_limit" format="integer"/>
+    <attr name="search_text" format="string"/>
+    <attr name="show_search_box" format="boolean"/>
+    <attr name="confirm_logout" format="boolean"/>
+    <attr name="fetch_user_info" format="boolean"/>
+    <attr name="login_text" format="string"/>
+    <attr name="logout_text" format="string"/>
     <attr name="preset_size">
-        <enum name="normal" value="-3" />
-        <enum name="large" value="-4" />
-        <enum name="small" value="-2" />
+        <enum name="normal" value="-3"/>
+        <enum name="large" value="-4"/>
+        <enum name="small" value="-2"/>
     </attr>
-    <attr name="is_cropped" format="boolean" />
-    <attr name="color_chat_attachment_title" format="reference|color" />
-    <attr name="color_chat_background" format="reference|color" />
-    <attr name="color_chat_composer_text" format="reference|color" />
-    <attr name="color_chat_composer_text_hint" format="reference|color" />
-    <attr name="color_chat_entry_name" format="reference|color" />
-    <attr name="color_chat_entry_text_message" format="reference|color" />
-    <attr name="color_chat_entry_text_other" format="reference|color" />
-    <attr name="color_chat_entry_text_you" format="reference|color" />
-    <attr name="color_chat_entry_time" format="reference|color" />
-    <attr name="color_chat_entry_timestamp_background" format="reference|color" />
-    <attr name="color_chat_header_phone_number" format="reference|color" />
-    <attr name="color_chat_image_background" format="reference|color" />
-    <attr name="color_chat_recipient_number" format="reference|color" />
-    <attr name="color_conflicting_apps_background" format="reference|color" />
-    <attr name="color_conflicting_apps_primary" format="reference|color" />
-    <attr name="color_conflicting_apps_secondary" format="reference|color" />
-    <attr name="color_conflicting_apps_entry_statelist" format="reference" />
-    <attr name="color_emoji_picker_background" format="reference|color" />
-    <attr name="color_emoji_picker_shadow" format="reference|color" />
-    <attr name="color_group_chat_participant" format="reference|color" />
-    <attr name="color_header_background" format="reference|color" />
-    <attr name="color_help_background" format="reference" />
-    <attr name="color_help_button_caption_statelist" format="reference" />
-    <attr name="color_help_expanded_background" format="reference" />
-    <attr name="color_help_title" format="reference" />
-    <attr name="color_help_summary" format="reference" />
-    <attr name="color_invite_button_caption_statelist" format="reference" />
-    <attr name="color_invite_chat_header_button" format="reference|color" />
-    <attr name="color_invite_chat_header_button_pressed" format="reference|color" />
-    <attr name="color_media_sms_checkbox_background_pressed" format="reference|color" />
-    <attr name="color_media_sms_explainer_background" format="reference|color" />
-    <attr name="color_media_sms_explainer_primary" format="reference|color" />
-    <attr name="color_media_sms_explainer_secondary" format="reference|color" />
-    <attr name="color_new_chat_recipient" format="reference|color" />
-    <attr name="color_ott_auth_background" format="reference|color" />
-    <attr name="color_ott_auth_hint" format="reference|color" />
-    <attr name="color_ott_auth_primary" format="reference|color" />
-    <attr name="color_ott_auth_secondary" format="reference|color" />
-    <attr name="color_ott_auth_skip_statelist" format="reference|color" />
-    <attr name="color_people_picker_background" format="reference|color" />
-    <attr name="color_people_picker_edit_text_background" format="reference|color" />
-    <attr name="color_people_picker_error_text" format="reference|color" />
-    <attr name="color_people_picker_header" format="reference|color" />
-    <attr name="color_people_picker_header_background" format="reference|color" />
-    <attr name="color_people_picker_image_background" format="reference|color" />
-    <attr name="color_people_picker_phone_number" format="reference|color" />
-    <attr name="color_recipients_name_statelist" format="reference" />
-    <attr name="color_recipients_number_statelist" format="reference" />
-    <attr name="color_settings_background" format="reference|color" />
-    <attr name="color_settings_summary" format="reference|color" />
-    <attr name="color_settings_title" format="reference|color" />
-    <attr name="color_shadow_border" format="reference|color" />
-    <attr name="color_tab_active_text_title" format="reference|color" />
-    <attr name="color_tab_avatar_background" format="reference|color" />
-    <attr name="color_tab_background" format="reference|color" />
-    <attr name="color_tab_text_title" format="reference|color" />
-    <attr name="color_tab_unread_indicator_background" format="reference|color" />
-    <attr name="color_tab_unread_indicator_text" format="reference|color" />
-    <attr name="drawable_active_tab" format="reference" />
-    <attr name="drawable_active_tab_new_chat" format="reference" />
-    <attr name="drawable_arrow_down" format="reference" />
-    <attr name="drawable_arrow_up" format="reference" />
-    <attr name="drawable_bg_edit_text" format="reference" />
-    <attr name="drawable_bg_tab_solid_top" format="reference" />
-    <attr name="drawable_btn_attachment_other_statelist" format="reference" />
-    <attr name="drawable_btn_attachment_you_statelist" format="reference" />
-    <attr name="drawable_btn_back_statelist" format="reference" />
-    <attr name="drawable_btn_backspace_statelist" format="reference" />
-    <attr name="drawable_btn_call_statelist" format="reference" />
-    <attr name="drawable_btn_chevron_statelist" format="reference" />
-    <attr name="drawable_btn_contact_statelist" format="reference" />
-    <attr name="drawable_btn_donate_1_statelist" format="reference" />
-    <attr name="drawable_btn_donate_2_statelist" format="reference" />
-    <attr name="drawable_btn_donate_3_statelist" format="reference" />
-    <attr name="drawable_btn_done_statelist" format="reference" />
-    <attr name="drawable_btn_email_statelist" format="reference" />
-    <attr name="drawable_btn_play_other_statelist" format="reference" />
-    <attr name="drawable_btn_play_you_statelist" format="reference" />
-    <attr name="drawable_btn_next_statelist" format="reference" />
-    <attr name="drawable_btn_retry_statelist" format="reference" />
-    <attr name="drawable_btn_show_emoji_picker_statelist" format="reference" />
-    <attr name="drawable_btn_show_keyboard" format="reference" />
-    <attr name="drawable_btn_skip_statelist" format="reference" />
-    <attr name="drawable_btn_trash_statelist" format="reference" />
-    <attr name="drawable_btn_camera_gallery_statelist" format="reference" />
-    <attr name="drawable_chat_header_participant_selected" format="reference" />
-    <attr name="drawable_checkbox_statelist" format="reference" />
-    <attr name="drawable_error_icon" format="reference" />
-    <attr name="drawable_ic_arrow_normal" format="reference" />
-    <attr name="drawable_ic_arrow_expanded" format="reference" />
-    <attr name="drawable_ic_back" format="reference" />
-    <attr name="drawable_ic_checkmark" format="reference" />
-    <attr name="drawable_ic_chevron" format="reference" />
-    <attr name="drawable_ic_indicator_read" format="reference" />
-    <attr name="drawable_ic_indicator_sending" format="reference" />
-    <attr name="drawable_ic_indicator_sent" format="reference" />
-    <attr name="drawable_ic_invite_statelist" format="reference" />
-    <attr name="drawable_ic_message" format="reference" />
-    <attr name="drawable_ic_peeking_gear" format="reference" />
-    <attr name="drawable_ic_peeking_hamburger" format="reference" />
-    <attr name="drawable_ic_peeking_help" format="reference" />
-    <attr name="drawable_ic_peeking_new_chat_plus" format="reference" />
-    <attr name="drawable_ic_tab_nature_statelist" format="reference" />
-    <attr name="drawable_ic_tab_objects_statelist" format="reference" />
-    <attr name="drawable_ic_tab_people_statelist" format="reference" />
-    <attr name="drawable_ic_tab_places_statelist" format="reference" />
-    <attr name="drawable_ic_tab_recent_statelist" format="reference" />
-    <attr name="drawable_ic_tab_symbols_statelist" format="reference" />
-    <attr name="drawable_btn_send_statelist" format="reference" />
-    <attr name="drawable_media_sms_explainer" format="reference" />
-    <attr name="drawable_signatures" format="reference" />
-    <attr name="drawable_text_view_bottom_border" format="reference" />
-    <attr name="drawable_unread_indicator" format="reference" />
-    <attr name="alpha_tab_avatar" format="float" />
-    <attr name="theme_name" format="string" />
-    <attr name="drawable_tapcam_overlay_composer" format="reference" />
-    <attr name="drawable_tap_overlay_full" format="reference" />
-    <attr name="drawable_settings_entry_background_statelist" format="reference" />
+    <attr name="is_cropped" format="boolean"/>
+    <attr name="color_chat_attachment_title" format="reference|color"/>
+    <attr name="color_chat_background" format="reference|color"/>
+    <attr name="color_chat_composer_text" format="reference|color"/>
+    <attr name="color_chat_composer_text_hint" format="reference|color"/>
+    <attr name="color_chat_entry_name" format="reference|color"/>
+    <attr name="color_chat_entry_text_message" format="reference|color"/>
+    <attr name="color_chat_entry_text_other" format="reference|color"/>
+    <attr name="color_chat_entry_text_you" format="reference|color"/>
+    <attr name="color_chat_entry_time" format="reference|color"/>
+    <attr name="color_chat_entry_timestamp_background" format="reference|color"/>
+    <attr name="color_chat_header_phone_number" format="reference|color"/>
+    <attr name="color_chat_image_background" format="reference|color"/>
+    <attr name="color_chat_recipient_number" format="reference|color"/>
+    <attr name="color_conflicting_apps_background" format="reference|color"/>
+    <attr name="color_conflicting_apps_primary" format="reference|color"/>
+    <attr name="color_conflicting_apps_secondary" format="reference|color"/>
+    <attr name="color_conflicting_apps_entry_statelist" format="reference"/>
+    <attr name="color_emoji_picker_background" format="reference|color"/>
+    <attr name="color_emoji_picker_shadow" format="reference|color"/>
+    <attr name="color_group_chat_participant" format="reference|color"/>
+    <attr name="color_header_background" format="reference|color"/>
+    <attr name="color_help_background" format="reference"/>
+    <attr name="color_help_button_caption_statelist" format="reference"/>
+    <attr name="color_help_expanded_background" format="reference"/>
+    <attr name="color_help_title" format="reference"/>
+    <attr name="color_help_summary" format="reference"/>
+    <attr name="color_invite_button_caption_statelist" format="reference"/>
+    <attr name="color_invite_chat_header_button" format="reference|color"/>
+    <attr name="color_invite_chat_header_button_pressed" format="reference|color"/>
+    <attr name="color_media_sms_checkbox_background_pressed" format="reference|color"/>
+    <attr name="color_media_sms_explainer_background" format="reference|color"/>
+    <attr name="color_media_sms_explainer_primary" format="reference|color"/>
+    <attr name="color_media_sms_explainer_secondary" format="reference|color"/>
+    <attr name="color_new_chat_recipient" format="reference|color"/>
+    <attr name="color_ott_auth_background" format="reference|color"/>
+    <attr name="color_ott_auth_hint" format="reference|color"/>
+    <attr name="color_ott_auth_primary" format="reference|color"/>
+    <attr name="color_ott_auth_secondary" format="reference|color"/>
+    <attr name="color_ott_auth_skip_statelist" format="reference|color"/>
+    <attr name="color_people_picker_background" format="reference|color"/>
+    <attr name="color_people_picker_edit_text_background" format="reference|color"/>
+    <attr name="color_people_picker_error_text" format="reference|color"/>
+    <attr name="color_people_picker_header" format="reference|color"/>
+    <attr name="color_people_picker_header_background" format="reference|color"/>
+    <attr name="color_people_picker_image_background" format="reference|color"/>
+    <attr name="color_people_picker_phone_number" format="reference|color"/>
+    <attr name="color_recipients_name_statelist" format="reference"/>
+    <attr name="color_recipients_number_statelist" format="reference"/>
+    <attr name="color_settings_background" format="reference|color"/>
+    <attr name="color_settings_summary" format="reference|color"/>
+    <attr name="color_settings_title" format="reference|color"/>
+    <attr name="color_shadow_border" format="reference|color"/>
+    <attr name="color_tab_active_text_title" format="reference|color"/>
+    <attr name="color_tab_avatar_background" format="reference|color"/>
+    <attr name="color_tab_background" format="reference|color"/>
+    <attr name="color_tab_text_title" format="reference|color"/>
+    <attr name="color_tab_unread_indicator_background" format="reference|color"/>
+    <attr name="color_tab_unread_indicator_text" format="reference|color"/>
+    <attr name="drawable_active_tab" format="reference"/>
+    <attr name="drawable_active_tab_new_chat" format="reference"/>
+    <attr name="drawable_arrow_down" format="reference"/>
+    <attr name="drawable_arrow_up" format="reference"/>
+    <attr name="drawable_bg_edit_text" format="reference"/>
+    <attr name="drawable_bg_tab_solid_top" format="reference"/>
+    <attr name="drawable_btn_attachment_other_statelist" format="reference"/>
+    <attr name="drawable_btn_attachment_you_statelist" format="reference"/>
+    <attr name="drawable_btn_back_statelist" format="reference"/>
+    <attr name="drawable_btn_backspace_statelist" format="reference"/>
+    <attr name="drawable_btn_call_statelist" format="reference"/>
+    <attr name="drawable_btn_chevron_statelist" format="reference"/>
+    <attr name="drawable_btn_contact_statelist" format="reference"/>
+    <attr name="drawable_btn_donate_1_statelist" format="reference"/>
+    <attr name="drawable_btn_donate_2_statelist" format="reference"/>
+    <attr name="drawable_btn_donate_3_statelist" format="reference"/>
+    <attr name="drawable_btn_done_statelist" format="reference"/>
+    <attr name="drawable_btn_email_statelist" format="reference"/>
+    <attr name="drawable_btn_play_other_statelist" format="reference"/>
+    <attr name="drawable_btn_play_you_statelist" format="reference"/>
+    <attr name="drawable_btn_next_statelist" format="reference"/>
+    <attr name="drawable_btn_retry_statelist" format="reference"/>
+    <attr name="drawable_btn_show_emoji_picker_statelist" format="reference"/>
+    <attr name="drawable_btn_show_keyboard" format="reference"/>
+    <attr name="drawable_btn_skip_statelist" format="reference"/>
+    <attr name="drawable_btn_trash_statelist" format="reference"/>
+    <attr name="drawable_btn_camera_gallery_statelist" format="reference"/>
+    <attr name="drawable_chat_header_participant_selected" format="reference"/>
+    <attr name="drawable_checkbox_statelist" format="reference"/>
+    <attr name="drawable_error_icon" format="reference"/>
+    <attr name="drawable_ic_arrow_normal" format="reference"/>
+    <attr name="drawable_ic_arrow_expanded" format="reference"/>
+    <attr name="drawable_ic_back" format="reference"/>
+    <attr name="drawable_ic_checkmark" format="reference"/>
+    <attr name="drawable_ic_chevron" format="reference"/>
+    <attr name="drawable_ic_indicator_read" format="reference"/>
+    <attr name="drawable_ic_indicator_sending" format="reference"/>
+    <attr name="drawable_ic_indicator_sent" format="reference"/>
+    <attr name="drawable_ic_invite_statelist" format="reference"/>
+    <attr name="drawable_ic_message" format="reference"/>
+    <attr name="drawable_ic_peeking_gear" format="reference"/>
+    <attr name="drawable_ic_peeking_hamburger" format="reference"/>
+    <attr name="drawable_ic_peeking_help" format="reference"/>
+    <attr name="drawable_ic_peeking_new_chat_plus" format="reference"/>
+    <attr name="drawable_ic_tab_nature_statelist" format="reference"/>
+    <attr name="drawable_ic_tab_objects_statelist" format="reference"/>
+    <attr name="drawable_ic_tab_people_statelist" format="reference"/>
+    <attr name="drawable_ic_tab_places_statelist" format="reference"/>
+    <attr name="drawable_ic_tab_recent_statelist" format="reference"/>
+    <attr name="drawable_ic_tab_symbols_statelist" format="reference"/>
+    <attr name="drawable_btn_send_statelist" format="reference"/>
+    <attr name="drawable_media_sms_explainer" format="reference"/>
+    <attr name="drawable_signatures" format="reference"/>
+    <attr name="drawable_text_view_bottom_border" format="reference"/>
+    <attr name="drawable_unread_indicator" format="reference"/>
+    <attr name="alpha_tab_avatar" format="float"/>
+    <attr name="theme_name" format="string"/>
+    <attr name="drawable_tapcam_overlay_composer" format="reference"/>
+    <attr name="drawable_tap_overlay_full" format="reference"/>
+    <attr name="drawable_settings_entry_background_statelist" format="reference"/>
 </resources>

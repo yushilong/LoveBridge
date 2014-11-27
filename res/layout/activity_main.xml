@@ -1,70 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/activity_root"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+                android:id="@+id/activity_root"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
     <FrameLayout
-        android:id="@+id/focus_black_hole"
-        android:layout_width="0.0dip"
-        android:layout_height="0.0dip"
-        android:focusable="true"
-        android:focusableInTouchMode="true" />
+            android:id="@+id/focus_black_hole"
+            android:layout_width="0.0dip"
+            android:layout_height="0.0dip"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
 
     <SurfaceView
-        android:layout_width="0.0dip"
-        android:layout_height="0.0dip"
-        android:visibility="gone" />
+            android:layout_width="0.0dip"
+            android:layout_height="0.0dip"
+            android:visibility="gone"/>
 
     <com.lovebridge.chat.view.tabs.TabsLayout
-        android:id="@+id/tabsLayout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+            android:id="@+id/tabsLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
 
         <fragment
-            android:id="@+id/tabs"
-            android:name="com.lovebridge.chat.fragment.TabsFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent" />
+                android:id="@+id/tabs"
+                android:name="com.lovebridge.chat.fragment.TabsFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"/>
 
         <RelativeLayout
-            android:id="@+id/content_holder"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+                android:id="@+id/content_holder"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
             <FrameLayout
-                android:id="@+id/content"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" >
+                    android:id="@+id/content"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
 
                 <ProgressBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"/>
             </FrameLayout>
 
             <fragment
-                android:id="@+id/composer"
-                android:name="com.lovebridge.chat.fragment.ComposerFragment"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true" />
+                    android:id="@+id/composer"
+                    android:name="com.lovebridge.chat.fragment.ComposerFragment"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"/>
         </RelativeLayout>
     </com.lovebridge.chat.view.tabs.TabsLayout>
 
     <View
-        android:id="@+id/emoji_shadow"
-        android:layout_width="fill_parent"
-        android:layout_height="1.0dip"
-        android:layout_alignBottom="@+id/tabsLayout"
-        android:background="@color/emoji_picker_shadow" />
+            android:id="@+id/emoji_shadow"
+            android:layout_width="fill_parent"
+            android:layout_height="1.0dip"
+            android:layout_alignBottom="@+id/tabsLayout"
+            android:background="@color/emoji_picker_shadow"/>
 
     <fragment
-        android:id="@+id/emoji_picker_fragment"
-        android:name="com.lovebridge.chat.fragment.EmojiPickerFragment"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@id/tabsLayout"
-        android:visibility="gone" />
+            android:id="@+id/emoji_picker_fragment"
+            android:name="com.lovebridge.chat.fragment.EmojiPickerFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@id/tabsLayout"
+            android:visibility="gone"/>
 
 </RelativeLayout>

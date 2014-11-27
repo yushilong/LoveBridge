@@ -60,7 +60,6 @@ public class FindFragment extends YARBaseFragment
         // TODO Auto-generated method stub
     }
 
-
     @Override
     public int getTheme()
     {

@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/emoji_picker_background" >
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/emoji_picker_background">
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/emoji_pager"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@+id/emoji_toolbar" />
+            android:id="@+id/emoji_pager"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/emoji_toolbar"/>
 
     <LinearLayout
-        android:id="@+id/emoji_toolbar"
-        android:layout_width="fill_parent"
-        android:layout_height="55.0dip"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal" >
+            android:id="@+id/emoji_toolbar"
+            android:layout_width="fill_parent"
+            android:layout_height="55.0dip"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
 
         <GridView
-            android:id="@+id/emoji_tabs_gridview"
-            android:layout_width="0.0dip"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="10.0dip"
-            android:layout_weight="1.0"
-            android:gravity="center"
-            android:horizontalSpacing="0.0dip"
-            android:listSelector="@null"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="0.0dip" />
+                android:id="@+id/emoji_tabs_gridview"
+                android:layout_width="0.0dip"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10.0dip"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:horizontalSpacing="0.0dip"
+                android:listSelector="@null"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="0.0dip"/>
 
         <ImageView
-            android:id="@+id/backspace"
-            android:layout_width="55.0dip"
-            android:layout_height="fill_parent"
-            android:layout_marginRight="5.0dip"
-            android:focusable="false"
-            android:scaleType="center"
-            android:src="@drawable/btn_backspace_statelist" />
+                android:id="@+id/backspace"
+                android:layout_width="55.0dip"
+                android:layout_height="fill_parent"
+                android:layout_marginRight="5.0dip"
+                android:focusable="false"
+                android:scaleType="center"
+                android:src="@drawable/btn_backspace_statelist"/>
     </LinearLayout>
 
 </RelativeLayout>

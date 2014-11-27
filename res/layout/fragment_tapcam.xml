@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
     <com.lovebridge.chat.view.TapCamSurfaceView
-        android:id="@+id/tapcam_viewfinder"
-        android:layout_width="0.0dip"
-        android:layout_height="0.0dip" />
+            android:id="@+id/tapcam_viewfinder"
+            android:layout_width="0.0dip"
+            android:layout_height="0.0dip"/>
 
     <View
-        android:id="@+id/shutter_indicator"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#44ffffff"
-        android:visibility="gone" />
+            android:id="@+id/shutter_indicator"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#44ffffff"
+            android:visibility="gone"/>
 
     <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:scaleType="center"
-        android:src="?drawable_tapcam_overlay_composer" />
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="center"
+            android:src="?drawable_tapcam_overlay_composer"/>
 
 </RelativeLayout>

@@ -19,7 +19,6 @@ package com.lovebridge.chat.view.chats;
 import android.graphics.Matrix;
 import android.view.View;
 import android.view.animation.Animation;
-
 import com.lovebridge.chat.view.chats.EffectsController.Effect;
 
 public class BaseContainerController implements ContainerController
@@ -90,7 +89,7 @@ public class BaseContainerController implements ContainerController
      * @param factor     - factor of scrolling. Can be in range from 0f to 1f.
      * @param fadeFactor - fade factor for current scroll factor.
      */
-    public void onScroll(float factor , int fadeFactor , boolean isOpening , boolean enableEffects)
+    public void onScroll(float factor, int fadeFactor, boolean isOpening, boolean enableEffects)
     {
         mFadeFactor = fadeFactor;
         final boolean updateEffects;

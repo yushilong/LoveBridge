@@ -25,8 +25,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-
-public class GroupPickContactsActivity extends YARActivity {
+public class GroupPickContactsActivity extends YARActivity
+{
     private ListView listView;
     /** 是否为一个新建的群组 */
     protected boolean isCreatingNewGroup;

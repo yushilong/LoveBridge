@@ -18,7 +18,6 @@ import com.lovebridge.library.tools.notificationcompat.AppNotification;
 import com.lovebridge.library.tools.notificationcompat.NotificationCompat;
 import org.json.JSONException;
 import org.json.JSONObject;
-import com.lovebridge.index.TabActivity;
 
 /**
  * @author yushilong

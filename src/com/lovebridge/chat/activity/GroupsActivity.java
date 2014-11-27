@@ -18,8 +18,8 @@ import com.lovebridge.library.YARActivity;
 
 import java.util.List;
 
-
-public class GroupsActivity extends YARActivity {
+public class GroupsActivity extends YARActivity
+{
     private ListView groupListView;
     protected List<EMGroup> grouplist;
     private GroupAdapter groupAdapter;

@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.lovebridge.chat.view.chats;
 
 import android.content.Context;
@@ -24,58 +25,61 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
 
-class ActionsLayout extends FrameLayout {
-
+class ActionsLayout extends FrameLayout
+{
     private BaseContainerController mController = new BaseContainerController(this);
-
     private final Paint mFadePaint = new Paint();
 
-    public ActionsLayout(Context context) {
+    public ActionsLayout(Context context)
+    {
         this(context, null);
     }
 
-    public ActionsLayout(Context context, AttributeSet attrs) {
+    public ActionsLayout(Context context, AttributeSet attrs)
+    {
         this(context, attrs, 0);
     }
 
-    public ActionsLayout(Context context, AttributeSet attrs, int defStyle) {
+    public ActionsLayout(Context context, AttributeSet attrs, int defStyle)
+    {
         super(context, attrs, defStyle);
     }
 
-    public BaseContainerController getController() {
+    public BaseContainerController getController()
+    {
         return mController;
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event)
+    {
         return !mController.isIgnoringTouchEvents() && super.onTouchEvent(event);
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    protected void onSizeChanged(int w, int h, int oldw, int oldh)
+    {
         super.onSizeChanged(w, h, oldw, oldh);
         mController.initializeEffects();
     }
 
     @Override
-    protected void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas)
+    {
         final int saveCount = canvas.save();
         final Matrix m = mController.getEffectsMatrix();
         if (!m.isIdentity())
             canvas.concat(m);
-
         final float alpha = mController.getEffectsAlpha();
         if (alpha != 1f)
             canvas.saveLayerAlpha(0, 0, canvas.getWidth(), canvas.getHeight(), (int) (255 * alpha), Canvas.HAS_ALPHA_LAYER_SAVE_FLAG);
-
         super.dispatchDraw(canvas);
-
         final int fadeFactor = mController.getFadeFactor();
-        if (fadeFactor > 0) {
+        if (fadeFactor > 0)
+        {
             mFadePaint.setColor(Color.argb(fadeFactor, 0, 0, 0));
             canvas.drawRect(0, 0, getWidth(), getHeight(), mFadePaint);
         }
-
         canvas.restoreToCount(saveCount);
     }
 }

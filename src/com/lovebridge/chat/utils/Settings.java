@@ -1,9 +1,9 @@
-
 package com.lovebridge.chat.utils;
 
 import com.lovebridge.R;
 
-public class Settings {
+public class Settings
+{
     private static String DEFAULT_NOTIFICATION_SOUND = "content://settings/system/notification_sound";
     public static SettingBoolean defaultSmsMmsClient;
     public static SettingBoolean displayNotification;
@@ -17,7 +17,8 @@ public class Settings {
     public static SettingBoolean soundChat;
     public static SettingBoolean ott;
 
-    static {
+    static
+    {
         Settings.defaultSmsMmsClient = new SettingBoolean(R.string.pref_default_sms_mms_client_key, true);
         Settings.soundChat = new SettingBoolean(R.string.pref_sound_chat_key, true);
         Settings.displayNotification = new SettingBoolean(R.string.pref_display_notification_key, true);
@@ -31,7 +32,8 @@ public class Settings {
         Settings.readReceipts = new SettingBoolean(R.string.pref_read_receipts_key, true);
     }
 
-    public Settings() {
+    public Settings()
+    {
         super();
     }
 }

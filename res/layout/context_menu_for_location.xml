@@ -18,6 +18,7 @@
             android:text="@string/delete_message"
             android:textColor="@android:color/black"
             android:textSize="20sp"/>
+
     <View
             android:layout_width="match_parent"
             android:layout_height="1px"

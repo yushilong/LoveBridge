@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.lovebridge.chat.view.chats;
 
 import android.annotation.TargetApi;
@@ -23,100 +24,99 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
 
-class ContentLayout extends LinearLayout {
-
-    public interface OnSwipeListener {
+class ContentLayout extends LinearLayout
+{
+    public interface OnSwipeListener
+    {
         public void onSwipe(int scrollPosition);
     }
 
     private final BaseContainerController mController = new BaseContainerController(this);
-
     private final Rect mHitRect = new Rect();
     private final RectF mEffectedHitRect = new RectF();
     private final Paint mFadePaint = new Paint();
-
     private OnSwipeListener mOnSwipeListener;
 
-    public ContentLayout(Context context) {
+    public ContentLayout(Context context)
+    {
         this(context, null);
     }
 
-    public ContentLayout(Context context, AttributeSet attrs) {
+    public ContentLayout(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
-
         // we need to be sure we have horizontal layout to add shadow to left border
         setOrientation(LinearLayout.HORIZONTAL);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public ContentLayout(Context context, AttributeSet attrs, int defStyle) {
+    public ContentLayout(Context context, AttributeSet attrs, int defStyle)
+    {
         super(context, attrs, defStyle);
-
         // we need to be sure we have horizontal layout to add shadow to left border
         setOrientation(LinearLayout.HORIZONTAL);
     }
 
-    public BaseContainerController getController() {
+    public BaseContainerController getController()
+    {
         return mController;
     }
 
-    public void setOnSwipeListener(OnSwipeListener listener) {
+    public void setOnSwipeListener(OnSwipeListener listener)
+    {
         mOnSwipeListener = listener;
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    protected void onSizeChanged(int w, int h, int oldw, int oldh)
+    {
         super.onSizeChanged(w, h, oldw, oldh);
         mController.initializeEffects();
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event)
+    {
         if (mController.isIgnoringTouchEvents())
             return false;
-
         // prevent ray cast of touch events to actions container
         getHitRect(mHitRect);
         mHitRect.offset(-getScrollX(), -getScrollY());
-
         // applying effects
         mEffectedHitRect.set(mHitRect);
         mController.getEffectsMatrix().mapRect(mEffectedHitRect);
-
-        if (mEffectedHitRect.contains((int) event.getX(), (int) event.getY())) {
+        if (mEffectedHitRect.contains((int) event.getX(), (int) event.getY()))
+        {
             return true;
         }
-
         return super.onTouchEvent(event);
     }
 
     @Override
-    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+    protected void onScrollChanged(int l, int t, int oldl, int oldt)
+    {
         super.onScrollChanged(l, t, oldl, oldt);
         if (mOnSwipeListener != null)
             mOnSwipeListener.onSwipe(-getScrollX());
     }
 
     @Override
-    protected void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas)
+    {
         final int saveCount = canvas.save();
-
         final Matrix m = mController.getEffectsMatrix();
         if (!m.isIdentity())
             canvas.concat(m);
-
         final float alpha = mController.getEffectsAlpha();
         if (alpha != 1f)
             canvas.saveLayerAlpha(0, 0, canvas.getWidth(), canvas.getHeight(), (int) (255 * alpha), Canvas.HAS_ALPHA_LAYER_SAVE_FLAG);
-
         super.dispatchDraw(canvas);
-
         final int fadeFactor = mController.getFadeFactor();
-        if (fadeFactor > 0f) {
+        if (fadeFactor > 0f)
+        {
             mFadePaint.setColor(Color.argb(fadeFactor, 0, 0, 0));
             canvas.drawRect(0, 0, getWidth(), getHeight(), mFadePaint);
         }
-
         canvas.restoreToCount(saveCount);
     }
 }

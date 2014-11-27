@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
-        android:id="@+id/title"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/tabs_title_margin_left"
-        android:ellipsize="none"
-        android:paddingBottom="@dimen/tabs_title_padding_fix_for_vertical_alignment"
-        android:singleLine="true"
-        android:textColor="@color/tab_text_title_night"
-        android:textSize="18.0sp" />
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/tabs_title_margin_left"
+            android:ellipsize="none"
+            android:paddingBottom="@dimen/tabs_title_padding_fix_for_vertical_alignment"
+            android:singleLine="true"
+            android:textColor="@color/tab_text_title_night"
+            android:textSize="18.0sp"/>
 
     <RelativeLayout
-        android:id="@+id/avatar_wrapper"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/tabs_tab_height" >
+            android:id="@+id/avatar_wrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/tabs_tab_height">
 
         <ImageView
-            android:id="@+id/avatar"
-            android:layout_width="@dimen/tabs_avatar_size"
-            android:layout_height="@dimen/tabs_avatar_size"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="@dimen/tabs_avatar_horizontal_padding"
-            android:layout_marginTop="@dimen/tabs_avatar_vertical_padding"
-            android:alpha="0.7"
-            android:src="@drawable/app_pref_bg" />
+                android:id="@+id/avatar"
+                android:layout_width="@dimen/tabs_avatar_size"
+                android:layout_height="@dimen/tabs_avatar_size"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="@dimen/tabs_avatar_horizontal_padding"
+                android:layout_marginTop="@dimen/tabs_avatar_vertical_padding"
+                android:alpha="0.7"
+                android:src="@drawable/app_pref_bg"/>
 
         <TextView
-            android:id="@+id/unread_indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="16.0dip"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="@dimen/tabs_unread_margin_left"
-            android:layout_marginTop="@dimen/tabs_unread_margin_top"
-            android:background="@drawable/unread_indicator"
-            android:gravity="center"
-            android:minWidth="16.0dip"
-            android:paddingBottom="2.0dip"
-            android:textColor="@color/tab_unread_indicator_text_night"
-            android:textSize="11.0sp" />
+                android:id="@+id/unread_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="16.0dip"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="@dimen/tabs_unread_margin_left"
+                android:layout_marginTop="@dimen/tabs_unread_margin_top"
+                android:background="@drawable/unread_indicator"
+                android:gravity="center"
+                android:minWidth="16.0dip"
+                android:paddingBottom="2.0dip"
+                android:textColor="@color/tab_unread_indicator_text_night"
+                android:textSize="11.0sp"/>
     </RelativeLayout>
 
 </merge>

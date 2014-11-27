@@ -1,4 +1,3 @@
-
 package com.lovebridge.chat.moden;
 
 import com.easemob.chat.EMContact;

@@ -1,46 +1,53 @@
-
 package com.lovebridge.chat.utils;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.Writer;
+import java.io.*;
 
-public class IOUtils {
+public class IOUtils
+{
     private static final int EOF = 0xFFFFFFFF;
 
-    public IOUtils() {
+    public IOUtils()
+    {
         super();
     }
 
-    public static void closeQuietly(Closeable closable) {
-        if (closable != null) {
-            try {
+    public static void closeQuietly(Closeable closable)
+    {
+        if (closable != null)
+        {
+            try
+            {
                 closable.close();
-            } catch (IOException iOException) {
+            }
+            catch (IOException iOException)
+            {
             }
         }
     }
 
-    public static void copy(InputStream in, OutputStream out, int bufferSize) throws IOException {
+    public static void copy(InputStream in, OutputStream out, int bufferSize) throws IOException
+    {
         byte[] array_b = new byte[bufferSize];
-        while (true) {
+        while (true)
+        {
             int i = in.read(array_b);
-            if (EOF == i) {
+            if (EOF == i)
+            {
                 return;
             }
             out.write(array_b, 0, i);
         }
     }
 
-    public static void copy(InputStream in, Writer out, int bufferSize) throws IOException {
+    public static void copy(InputStream in, Writer out, int bufferSize) throws IOException
+    {
         InputStreamReader inputStreamReader = new InputStreamReader(in);
         char[] array_ch = new char[bufferSize];
-        while (true) {
+        while (true)
+        {
             int i = inputStreamReader.read(array_ch);
-            if (EOF == i) {
+            if (EOF == i)
+            {
                 return;
             }
             out.write(array_ch, 0, i);

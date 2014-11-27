@@ -8,7 +8,6 @@ import com.lovebridge.R;
 import com.lovebridge.chat.fragment.FindFragment;
 import com.lovebridge.library.FragmentTabAdapter;
 import com.lovebridge.library.YARActivity;
-import com.lovebridge.library.YARBaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +17,8 @@ import java.util.List;
  * @date 2014-10-27 上午10:06:58
  * @version 1.0
  */
-
-public class TabActivity extends YARActivity {
+public class TabActivity extends YARActivity
+{
     private RadioGroup rgs;
     public List<Fragment> fragments = new ArrayList<Fragment>();
 
@@ -37,11 +36,11 @@ public class TabActivity extends YARActivity {
         fragments.add(new IndexFragment());
         fragments.add(new RecommendListFragment());
         fragments.add(new FindFragment());
-
-        rgs = (RadioGroup)findViewById(R.id.tabs_rg);
-        FragmentTabAdapter tabAdapter = new FragmentTabAdapter((FragmentActivity)mActivity, fragments,
-                        R.id.tab_content, rgs);
-        tabAdapter.setOnRgsExtraCheckedChangedListener(new FragmentTabAdapter.OnRgsExtraCheckedChangedListener() {
+        rgs = (RadioGroup) findViewById(R.id.tabs_rg);
+        FragmentTabAdapter tabAdapter = new FragmentTabAdapter((FragmentActivity) mActivity, fragments,
+                R.id.tab_content, rgs);
+        tabAdapter.setOnRgsExtraCheckedChangedListener(new FragmentTabAdapter.OnRgsExtraCheckedChangedListener()
+        {
             @Override
             public void OnRgsExtraCheckedChanged(RadioGroup radioGroup, int checkedId, int index)
             {
@@ -69,5 +68,4 @@ public class TabActivity extends YARActivity {
     {
         // TODO Auto-generated method stub
     }
-
 }

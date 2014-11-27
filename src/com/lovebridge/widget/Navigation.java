@@ -1,4 +1,3 @@
-
 package com.lovebridge.widget;
 
 import android.content.Context;
@@ -8,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.lovebridge.R;
 
 /**
@@ -38,7 +36,7 @@ public class Navigation extends LinearLayout
         initView(context, attrs);
     }
 
-    public void initView(Context context , AttributeSet attrs)
+    public void initView(Context context, AttributeSet attrs)
     {
         ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.yar_navigation, this);
         iv_navigation_left = (ImageView) viewGroup.findViewById(R.id.iv_navigation_left);

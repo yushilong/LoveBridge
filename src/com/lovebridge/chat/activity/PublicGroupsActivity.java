@@ -18,7 +18,8 @@ import com.lovebridge.library.YARActivity;
 
 import java.util.List;
 
-public class PublicGroupsActivity extends YARActivity {
+public class PublicGroupsActivity extends YARActivity
+{
     private ProgressBar pb;
     private ListView listView;
     private EditText query;

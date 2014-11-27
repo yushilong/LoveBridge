@@ -366,5 +366,4 @@ public class ImageGridFragment extends YARBaseFragment implements OnItemClickLis
     {
         // TODO Auto-generated method stub
     }
-
 }

@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.lovebridge.chat.view.chats;
 
 import android.view.animation.Animation;
-
 import com.lovebridge.chat.view.chats.EffectsController.Effect;
 
-public interface ContainerController {
-
+public interface ContainerController
+{
     /**
      * Setter for ignore touch events key.
      *

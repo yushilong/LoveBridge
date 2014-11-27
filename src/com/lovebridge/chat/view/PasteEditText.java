@@ -8,7 +8,6 @@ import android.text.ClipboardManager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.EditText;
-
 import com.lovebridge.chat.activity.AlertActivity;
 import com.lovebridge.chat.activity.ChatActivity;
 

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
     <ImageView
-        android:id="@+id/emoji_image"
-        android:layout_width="45.0dip"
-        android:layout_height="55.0dip"
-        android:layout_centerInParent="true"
-        android:scaleType="center" />
+            android:id="@+id/emoji_image"
+            android:layout_width="45.0dip"
+            android:layout_height="55.0dip"
+            android:layout_centerInParent="true"
+            android:scaleType="center"/>
 
     <View
-        android:id="@+id/selected_tab_indicator"
-        android:layout_width="fill_parent"
-        android:layout_height="3.0dip"
-        android:layout_alignParentBottom="true"
-        android:background="#ff333333"
-        android:visibility="gone" />
+            android:id="@+id/selected_tab_indicator"
+            android:layout_width="fill_parent"
+            android:layout_height="3.0dip"
+            android:layout_alignParentBottom="true"
+            android:background="#ff333333"
+            android:visibility="gone"/>
 
 </RelativeLayout>

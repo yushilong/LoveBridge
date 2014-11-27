@@ -1,73 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
     <View
-        android:layout_width="fill_parent"
-        android:layout_height="1.0dip"
-        android:background="@color/shadow_border" />
+            android:layout_width="fill_parent"
+            android:layout_height="1.0dip"
+            android:background="@color/shadow_border"/>
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:gravity="bottom"
-        android:orientation="horizontal" >
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="bottom"
+            android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/emoji_button"
-            android:layout_width="@dimen/chat_entry_padding_you"
-            android:layout_height="@dimen/bottom_row_height"
-            android:scaleType="center"
-            android:src="@drawable/btn_show_emoji_picker_statelist" />
+                android:id="@+id/emoji_button"
+                android:layout_width="@dimen/chat_entry_padding_you"
+                android:layout_height="@dimen/bottom_row_height"
+                android:scaleType="center"
+                android:src="@drawable/btn_show_emoji_picker_statelist"/>
 
         <ImageView
-            android:id="@+id/keyboard_button"
-            android:layout_width="@dimen/chat_entry_padding_you"
-            android:layout_height="@dimen/bottom_row_height"
-            android:scaleType="center"
-            android:src="@drawable/btn_show_keyboard" />
+                android:id="@+id/keyboard_button"
+                android:layout_width="@dimen/chat_entry_padding_you"
+                android:layout_height="@dimen/bottom_row_height"
+                android:scaleType="center"
+                android:src="@drawable/btn_show_keyboard"/>
 
         <EditText
-            android:id="@+id/edit_text"
-            android:layout_width="0.0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:background="@null"
-            android:hint="@string/composer_text_hint"
-            android:imeOptions="flagNoExtractUi"
-            android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
-            android:minHeight="@dimen/bottom_row_height"
-            android:paddingBottom="2.0dip"
-            android:scrollbars="vertical"
-            android:textColor="@color/chat_composer_text"
-            android:textColorHint="@color/chat_composer_text_hint"
-            android:textSize="18.0sp" />
+                android:id="@+id/edit_text"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:background="@null"
+                android:hint="@string/composer_text_hint"
+                android:imeOptions="flagNoExtractUi"
+                android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
+                android:minHeight="@dimen/bottom_row_height"
+                android:paddingBottom="2.0dip"
+                android:scrollbars="vertical"
+                android:textColor="@color/chat_composer_text"
+                android:textColorHint="@color/chat_composer_text_hint"
+                android:textSize="18.0sp"/>
 
         <ImageView
-            android:id="@+id/camera_button"
-            android:layout_width="@dimen/composer_cell_width"
-            android:layout_height="@dimen/composer_cell_height"
-            android:background="@null"
-            android:scaleType="center"
-            android:src="@drawable/btn_camera_gallery_statelist_night" />
+                android:id="@+id/camera_button"
+                android:layout_width="@dimen/composer_cell_width"
+                android:layout_height="@dimen/composer_cell_height"
+                android:background="@null"
+                android:scaleType="center"
+                android:src="@drawable/btn_camera_gallery_statelist_night"/>
 
         <ImageView
-            android:id="@+id/send_button"
-            android:layout_width="@dimen/composer_cell_width"
-            android:layout_height="@dimen/composer_cell_height"
-            android:background="@null"
-            android:scaleType="center"
-            android:src="@drawable/btn_send_statelist"
-            android:visibility="gone" />
+                android:id="@+id/send_button"
+                android:layout_width="@dimen/composer_cell_width"
+                android:layout_height="@dimen/composer_cell_height"
+                android:background="@null"
+                android:scaleType="center"
+                android:src="@drawable/btn_send_statelist"
+                android:visibility="gone"/>
 
         <FrameLayout
-            android:id="@+id/tapcam_fragment_container"
-            android:layout_width="@dimen/composer_cell_width"
-            android:layout_height="@dimen/composer_cell_height"
-            android:visibility="gone" />
+                android:id="@+id/tapcam_fragment_container"
+                android:layout_width="@dimen/composer_cell_width"
+                android:layout_height="@dimen/composer_cell_height"
+                android:visibility="gone"/>
     </LinearLayout>
 
 </LinearLayout>

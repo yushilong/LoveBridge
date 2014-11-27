@@ -55,5 +55,4 @@ public class RecommendListFragment extends YARBaseFragment
     {
         // TODO Auto-generated method stub
     }
-
 }

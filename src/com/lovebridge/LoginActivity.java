@@ -259,7 +259,8 @@ public class LoginActivity extends YARActivity
     {
         // TODO Auto-generated method stub
         // 如果用户名密码都有，直接进入主页面
-        if (MainApplication.getInstance().getUserName() != null && MainApplication.getInstance().getPassword() != null) {
+        if (MainApplication.getInstance().getUserName() != null && MainApplication.getInstance().getPassword() != null)
+        {
             startActivity(new Intent(this, TabActivity.class));
             finish();
         }

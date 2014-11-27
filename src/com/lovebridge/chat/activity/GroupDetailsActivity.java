@@ -36,8 +36,8 @@ import com.lovebridge.library.YARActivity;
 
 import java.util.List;
 
-
-public class GroupDetailsActivity extends YARActivity implements OnClickListener {
+public class GroupDetailsActivity extends YARActivity implements OnClickListener
+{
     private static final String TAG = "GroupDetailsActivity";
     private static final int REQUEST_CODE_ADD_USER = 0;
     private static final int REQUEST_CODE_EXIT = 1;

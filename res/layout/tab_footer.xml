@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
-        android:id="@+id/feedback_icon"
-        android:layout_width="@dimen/tabs_footer_button_width"
-        android:layout_height="@dimen/tabs_footer_height"
-        android:layout_toLeftOf="@+id/settingsIcon"
-        android:scaleType="center" />
+            android:id="@+id/feedback_icon"
+            android:layout_width="@dimen/tabs_footer_button_width"
+            android:layout_height="@dimen/tabs_footer_height"
+            android:layout_toLeftOf="@+id/settingsIcon"
+            android:scaleType="center"/>
 
     <ImageView
-        android:id="@+id/settingsIcon"
-        android:layout_width="@dimen/tabs_footer_button_width"
-        android:layout_height="@dimen/tabs_footer_height"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10.0dip"
-        android:scaleType="center"
-        android:src="@drawable/ic_peeking_gear_night" />
+            android:id="@+id/settingsIcon"
+            android:layout_width="@dimen/tabs_footer_button_width"
+            android:layout_height="@dimen/tabs_footer_height"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10.0dip"
+            android:scaleType="center"
+            android:src="@drawable/ic_peeking_gear_night"/>
 
     <ImageView
-        android:id="@+id/openIcon"
-        android:layout_width="@dimen/tabs_closed_width"
-        android:layout_height="@dimen/tabs_footer_height"
-        android:background="@color/tab_background"
-        android:paddingBottom="2.0dip"
-        android:scaleType="center"
-        android:src="@drawable/ic_peeking_hamburger_night" />
+            android:id="@+id/openIcon"
+            android:layout_width="@dimen/tabs_closed_width"
+            android:layout_height="@dimen/tabs_footer_height"
+            android:background="@color/tab_background"
+            android:paddingBottom="2.0dip"
+            android:scaleType="center"
+            android:src="@drawable/ic_peeking_hamburger_night"/>
 
 </merge>

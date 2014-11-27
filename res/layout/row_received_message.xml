@@ -43,6 +43,7 @@
                 android:minHeight="50dp"
                 android:textColor="#ff000000"
                 android:textSize="15sp"/>
+
         <TextView
                 android:id="@+id/tv_userid"
                 style="@style/chat_text_name_style"
