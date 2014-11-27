@@ -28,7 +28,7 @@ public abstract class YARActivity extends FragmentActivity
         int contentViewId = doGetContentViewId();
         if (contentViewId > 0)
         {
-            View containerView = getLayoutInflater().inflate(doGetContentViewId(), null);
+            View containerView = getLayoutInflater().inflate(contentViewId, null);
             setContentView(containerView);
             doInitSubViews(containerView);
         }

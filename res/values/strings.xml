@@ -66,4 +66,30 @@
     <string name="exit_group">退出</string>
     <string name="connect_conflict">同一帐号已在其他设备登录</string>
     <string name="pressAgainExitApp">再按一次退出应用</string>
+    <string name="composer_text_hint">你好...</string>
+    <string name="emoji_recent_intro">最近使用的表情符号将显示在此处</string>
+    <string name="pref_default_sms_mms_client_key">pref_default_sms_mms_client</string>
+    <string name="pref_sound_chat_key">pref_sound_chat</string>
+    <string name="pref_sound_notification_key">pref_sound_notification</string>
+    <string name="pref_vibrate_key">pref_vibrate</string>
+    <string name="pref_nightmode_key">nightmode</string>
+    <string name="pref_facebook_sync_key">facebook_sync</string>
+    <string name="pref_privacy_policy_key">pref_privacy_policy</string>
+    <string name="pref_emoji_recent_key">pref_emoji_recent</string>
+    <string name="pref_eligibility_cache_key">pref_eligibility_cache</string>
+    <string name="pref_install_id_key">pref_hello_id</string>
+    <string name="pref_invite_reminders_key">invite_reminders</string>
+    <string name="pref_minimum_version_key">minimum_version</string>
+    <string name="pref_update_message_key">update_message</string>
+    <string name="pref_conflicting_apps">conflicting_apps</string>
+    <string name="pref_display_notification_key">wake_up_screen</string>
+    <string name="pref_popover_notification_key">popover_notification</string>
+    <string name="pref_media_sms_send_key">media_sms_send</string>
+    <string name="pref_tapcam_key">tapcam</string>
+    <string name="pref_ott_key">ott</string>
+    <string name="pref_read_receipts_key">read_receipts</string>
+    <string name="compose_error_no_addresses">首先挑选某人来聊天！</string>
+    <string name="ott_dialog_positive_button">开启</string>
+    <string name="ott_dialog_negative_button">稍后</string>
+
 </resources>

@@ -3,43 +3,35 @@ package com.lovebridge.chat.fragment;
 
 import android.view.View;
 
+import com.lovebridge.R;
 import com.lovebridge.library.YARBaseFragment;
 
-/**
- * Created by tao on 14-11-16.
- */
-public class ChatFragment extends YARBaseFragment
-{
+public class ChatFragment extends YARBaseFragment {
+
     @Override
-    public int doGetContentViewId()
-    {
-        return 0;
+    public int doGetContentViewId() {
+        return R.layout.fragment_chat;
     }
 
     @Override
-    public void doInitSubViews(View containerView)
-    {
+    public void doInitSubViews(View containerView) {
     }
 
     @Override
-    public void doInitDataes()
-    {
+    public void doInitDataes() {
     }
 
     @Override
-    public void doAfter()
-    {
+    public void doAfter() {
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
     }
 
     @Override
-    public View getNavigationView()
-    {
+    public View getNavigationView() {
         return super.getNavigationView();
     }
 }

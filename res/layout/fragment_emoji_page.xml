@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:clipToPadding="false"
+        android:fadingEdge="none"
+        android:gravity="center"
+        android:padding="5.0dip"
+        android:scrollbarStyle="outsideOverlay"
+        android:stretchMode="columnWidth" />
+
+    <TextView
+        android:id="@+id/emoji_recent_intro"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:padding="20.0dip"
+        android:text="@string/emoji_recent_intro"
+        android:textColor="#ffaaaaaa"
+        android:textSize="18.0sp" />
+
+</RelativeLayout>
