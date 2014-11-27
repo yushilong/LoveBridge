@@ -4,6 +4,7 @@ import android.view.View;
 import com.lovebridge.R;
 import com.lovebridge.bean.User;
 import com.lovebridge.library.YARBaseFragment;
+import com.lovebridge.library.view.pulltorefresh.PullToRefreshBase;
 import com.lovebridge.library.view.pulltorefresh.PullToRefreshGridView;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class RecommendListFragment extends YARBaseFragment
         // TODO Auto-generated method stub
         mPullToRefreshGridView = (PullToRefreshGridView) containerView.findViewById(R.id.pull_refresh_grid);
         mPullToRefreshGridView.getRefreshableView().setNumColumns(4);
+        mPullToRefreshGridView.setMode(PullToRefreshBase.Mode.BOTH.DISABLED);
         mRecommendListAdapter = new RecommendListAdapter(mActivity, new ArrayList<User>());
         mPullToRefreshGridView.setAdapter(mRecommendListAdapter);
     }
@@ -55,5 +57,4 @@ public class RecommendListFragment extends YARBaseFragment
     {
         // TODO Auto-generated method stub
     }
-
 }

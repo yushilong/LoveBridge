@@ -120,6 +120,7 @@ public class YARAppManager
         }
         catch (Exception e)
         {
+            e.printStackTrace();
         }
     }
 }
