@@ -35,7 +35,7 @@ public class YARRequest
         // TODO Auto-generated constructor stub
         this.url = YARConstants.HOST + apiMethod;
         this.mYarApiListenerImpl = yarApiListenerImpl;
-        this.mYarApiListenerImpl.setmProgressView(mProgressView);
+        this.mYarApiListenerImpl.setProgressView(mProgressView);
         this.requestParams = requestParams;
         initRequest();
     }
@@ -47,8 +47,8 @@ public class YARRequest
         super();
         this.url = YARConstants.HOST + apiMethod;
         this.mYarApiListenerImpl = yarApiListenerImpl;
-        this.mYarApiListenerImpl.setmProgressView(mProgressView);
-        this.mYarApiListenerImpl.setmPullToRefreshBase(pullToRefreshBase);
+        this.mYarApiListenerImpl.setProgressView(mProgressView);
+        this.mYarApiListenerImpl.setPullToRefreshBase(pullToRefreshBase);
         this.requestParams = requestParams;
         initRequest();
     }

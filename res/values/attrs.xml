@@ -102,5 +102,7 @@
         <attr name="title" format="string"/>
         <attr name="image_left" format="reference"/>
         <attr name="image_right" format="reference"/>
+        <attr name="image_left_show" format="boolean"/>
+        <attr name="image_right_show" format="boolean"/>
     </declare-styleable>
 </resources>

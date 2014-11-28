@@ -1,8 +1,8 @@
 package com.lovebridge.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +47,16 @@ public class Navigation extends LinearLayout
         iv_navigation_right = (ImageView) viewGroup.findViewById(R.id.iv_navigation_right);
         tv_navigation_title = (TextView) viewGroup.findViewById(R.id.tv_navigation_title);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.navigation);
-        iv_navigation_left.setImageResource(typedArray.getResourceId(R.styleable.navigation_image_left, R.drawable.btn_back_selector));
+        Boolean show = typedArray.getBoolean(R.styleable.navigation_image_left_show, true);
+        if (show)
+        {
+            iv_navigation_left.setVisibility(VISIBLE);
+            iv_navigation_left.setImageResource(typedArray.getResourceId(R.styleable.navigation_image_left, R.drawable.btn_back_selector));
+        }
+        else
+        {
+            iv_navigation_left.setVisibility(GONE);
+        }
         if (typedArray.hasValue(R.styleable.navigation_image_right))
         {
             int resId = typedArray.getResourceId(R.styleable.navigation_image_right, -1);
@@ -65,16 +74,17 @@ public class Navigation extends LinearLayout
                 tv_navigation_title.setText(resId);
             }
         }
-        typedArray.recycle();
         //
         iv_navigation_left.setOnClickListener(new OnClickListener()
         {
             @Override public void onClick(View v)
             {
-                if (context instanceof Fragment){
-
+                if (context instanceof Activity)
+                {
+                    ((Activity) context).finish();
                 }
             }
         });
+        typedArray.recycle();
     }
 }
