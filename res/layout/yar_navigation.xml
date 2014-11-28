@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-    android:layout_width="match_parent"
-    android:layout_height="46dp"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:background="@color/color_e24946"
-    android:padding="5dp">
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="@color/color_e24946"
+                android:padding="5dp">
 
     <ImageView
-        android:id="@id/iv_navigation_left"
-        android:layout_width="46dp"
-        android:layout_height="46dp"
-        android:src="@drawable/mm_title_back"
-        android:scaleType="centerInside"/>
+            android:id="@id/iv_navigation_left"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:scaleType="centerInside"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"/>
 
     <TextView
-        android:id="@id/tv_navigation_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="center"
-        android:textColor="@android:color/white"/>
+            android:id="@id/tv_navigation_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="center"
+            android:textColor="@android:color/white"/>
 
     <ImageView
-        android:id="@id/iv_navigation_right"
-        android:layout_width="46dp"
-        android:layout_height="46dp"
-        android:src="@drawable/mm_title_remove"
-        android:scaleType="centerInside"/>
+            android:id="@id/iv_navigation_right"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:src="@drawable/mm_title_remove"
+            android:scaleType="centerInside"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
 
 
-</LinearLayout>
+</RelativeLayout>

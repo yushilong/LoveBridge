@@ -11,6 +11,7 @@ import com.lovebridge.chat.fragment.FindFragment;
 import com.lovebridge.library.FragmentTabAdapter;
 import com.lovebridge.library.YARActivity;
 import com.lovebridge.library.tools.YARAppManager;
+import com.lovebridge.recommend.RecommendListFragment;
 
 import java.util.ArrayList;
 import java.util.List;

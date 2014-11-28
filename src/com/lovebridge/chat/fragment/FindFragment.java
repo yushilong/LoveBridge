@@ -6,9 +6,9 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import com.lovebridge.R;
 import com.lovebridge.chat.view.TabPagerIndicator;
-import com.lovebridge.library.YARBaseFragment;
+import com.lovebridge.library.YARFragment;
 
-public class FindFragment extends YARBaseFragment
+public class FindFragment extends YARFragment
 {
     @Override
     public int doGetContentViewId()

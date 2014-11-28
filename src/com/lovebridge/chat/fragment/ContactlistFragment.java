@@ -38,10 +38,11 @@ import com.lovebridge.chat.moden.ChatUser;
 import com.lovebridge.chat.view.Sidebar;
 import com.lovebridge.db.InviteMessgeDao;
 import com.lovebridge.db.UserDao;
-import com.lovebridge.library.YARBaseFragment;
+import com.lovebridge.library.YARFragment;
 import com.lovebridge.library.tools.YARConstants;
 
-public class ContactlistFragment extends YARBaseFragment {
+public class ContactlistFragment extends YARFragment
+{
     private ContactAdapter adapter;
     private List<ChatUser> contactList;
     private ListView listView;

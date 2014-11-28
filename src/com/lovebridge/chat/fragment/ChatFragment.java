@@ -4,9 +4,10 @@ package com.lovebridge.chat.fragment;
 import android.view.View;
 
 import com.lovebridge.R;
-import com.lovebridge.library.YARBaseFragment;
+import com.lovebridge.library.YARFragment;
 
-public class ChatFragment extends YARBaseFragment {
+public class ChatFragment extends YARFragment
+{
 
     @Override
     public int doGetContentViewId() {
