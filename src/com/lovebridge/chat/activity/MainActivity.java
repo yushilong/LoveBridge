@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.lovebridge.R;
 import com.lovebridge.chat.fragment.ChatFragment;
 import com.lovebridge.chat.fragment.EmojiPickerFragment.Listener;
+import com.lovebridge.chat.fragment.NewChatFragment;
 import com.lovebridge.chat.fragment.TabsFragment;
 import com.lovebridge.chat.view.tabs.ChatTabEntry;
 import com.lovebridge.chat.view.tabs.FooterTabLayout;
@@ -218,7 +219,7 @@ public class MainActivity extends YARActivity implements Listener, ChatTabEntry.
                     this.openChat(l, false, string2);
                     return;
                 }
-                this.openNewChat(array_string, string2);
+                this.openNewChat(new String[] { "sms" , "smsto" , "mms" , "mmsto" }, string2);
                 return;
             }
             if (MainActivity.ACTION_RESTART.equals(intent.getAction()))
@@ -235,9 +236,11 @@ public class MainActivity extends YARActivity implements Listener, ChatTabEntry.
             l = intent.getLongExtra(MainActivity.EXTRA_THREAD_ID, 0);
             if (l == 0)
             {
+
                 return;
             }
-            this.openChat(l, intent.getBooleanExtra(MainActivity.EXTRA_SHOW_KEYBOARD, true), null);
+            this.openNewChat(new String[] { "sms" , "smsto" , "mms" , "mmsto" }, "");
+//            this.openChat(l, intent.getBooleanExtra(MainActivity.EXTRA_SHOW_KEYBOARD, true), null);
         }
     }
 
@@ -257,7 +260,7 @@ public class MainActivity extends YARActivity implements Listener, ChatTabEntry.
     {
         this.setActiveTab(-1);
         this.content.removeAllViews();
-        ChatFragment chatFragment = ChatFragment.newInstance(addresses, defaultText);
+        NewChatFragment chatFragment = NewChatFragment.newInstance(addresses, defaultText);
         getSupportFragmentManager().beginTransaction().replace(R.id.content, chatFragment).commit();
     }
 

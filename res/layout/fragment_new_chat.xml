@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="@dimen/chat_entry_padding_other"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/chat_scroll_bar_gutter">
+
+        <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_gravity="top"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1.0dip"
+                android:minHeight="@dimen/chat_header_collapsed_height"
+                android:animateLayoutChanges="true">
+
+            <com.lovebridge.chat.view.RecipientsEditor
+                    android:textSize="15.0sp"
+                    android:textColor="@color/new_chat_recipient"
+                    android:id="@+id/recipients"
+                    android:background="@null"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/recipients_placeholder"
+                    android:maxLines="3"
+                    android:completionThreshold="1"
+                    android:imeOptions="actionDone|flagNoExtractUi"/>
+
+            <TextView
+                    android:textSize="12.0sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/chat_recipient_number"
+                    android:id="@+id/network_indicator"
+                    android:paddingBottom="4.0dip"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:fontFamily="sans-serif-light"/>
+        </LinearLayout>
+
+        <View
+                android:layout_gravity="bottom"
+                android:background="@color/shadow_border"
+                android:layout_width="fill_parent"
+                android:layout_height="1.0dip"/>
+    </FrameLayout>
+
+    <ListView
+            android:id="@+id/suggestions"
+            android:fadingEdge="none"
+            android:layout_width="fill_parent"
+            android:layout_height="0.0dip"
+            android:divider="@null"
+            android:dividerHeight="0.0dip"
+            android:layout_weight="1.0"
+            android:overScrollMode="never"/>
+</LinearLayout>

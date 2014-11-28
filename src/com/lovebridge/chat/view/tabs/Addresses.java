@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import com.lovebridge.chat.utils.AvatarUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Addresses
@@ -16,6 +17,11 @@ public class Addresses
         super();
         this.addresses = new ArrayList<Address>();
         this.addresses.add(address);
+    }
+
+    public Addresses(Collection collection)
+    {
+        addresses = new ArrayList(collection);
     }
 
     public String[] getPhoneNumbers()

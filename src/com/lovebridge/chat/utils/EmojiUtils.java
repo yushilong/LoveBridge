@@ -19,61 +19,10 @@ import java.util.*;
 
 public class EmojiUtils
 {
-    class EmojiBitmapKey
-    {
-        private final int codePoint;
-        private final Size size;
-
-        public EmojiBitmapKey(int codePoint, Size size)
-        {
-            super();
-            this.codePoint = codePoint;
-            this.size = size;
-        }
-
-        public boolean equals(Object obj)
-        {
-            boolean bool = false;
-            if (obj != null)
-            {
-                if ((((EmojiBitmapKey) obj)) == this)
-                {
-                    bool = true;
-                }
-                else if ((obj instanceof EmojiBitmapKey))
-                {
-                    Object object = obj;
-                    if (this.codePoint == ((EmojiBitmapKey) object).codePoint
-                            && this.size == ((EmojiBitmapKey) object).size)
-                    {
-                        bool = true;
-                    }
-                }
-            }
-            return bool;
-        }
-    }
-
-    public enum Size
-    {
-        SMALL("SMALL", 0, 0xE), NORMAL("NORMAL", 1, 0x15), PICKER("PICKER", 2, 0x23), FULL("FULL", 3, 0);
-        private final int value;
-
-        private Size(String arg1, int arg2, int value)
-        {
-            this.value = value;
-        }
-
-        public int getValue()
-        {
-            return this.value;
-        }
-    }
-
-    private static SparseIntArray EMOJIS = null;
-    private static Map<String, List> EMOJI_BY_CATEGORY = null;
     private static final int EMOJI_NOT_FOUND = 0;
     private static final int EMOJI_SINGLE_CODEPOINT = 0xFFFFFFFF;
+    private static SparseIntArray EMOJIS = null;
+    private static Map<String, List> EMOJI_BY_CATEGORY = null;
     private static BitmapLruCache cache;
     private static Context context;
 
@@ -171,23 +120,18 @@ public class EmojiUtils
     public static List getEmojiRecent()
     {
         ArrayList arrayList = new ArrayList(EmojiUtils.getRecentEmojiPreferences().getAll().entrySet());
-        Collections.sort(((List) arrayList), new Comparator()
+        Collections.sort(arrayList, new Comparator<Map.Entry<String, Long>>()
         {
-            public int compare(Object arg2, Object arg3)
+            public int compare(Map.Entry<String, Long> paramAnonymousEntry1, Map.Entry<String, Long> paramAnonymousEntry2)
             {
-                return this.compare(((Map.Entry) arg2), ((Map.Entry) arg3));
-            }
-
-            public int compare(Map.Entry arg3, Map.Entry arg4)
-            {
-                return ((Enum<Size>) arg4.getValue()).compareTo((Size) arg3.getValue());
+                return ((Long) paramAnonymousEntry2.getValue()).compareTo((Long) paramAnonymousEntry1.getValue());
             }
         });
         ArrayList arrayList1 = new ArrayList();
         Iterator iterator = ((List) arrayList).iterator();
         while (iterator.hasNext())
         {
-            // ((List)arrayList1).add(Integer.valueOf(iterator.next().getKey()));
+            arrayList1.add(Integer.valueOf((String) ((Map.Entry) iterator.next()).getKey()));
         }
         return arrayList1;
     }
@@ -323,5 +267,56 @@ public class EmojiUtils
     private static SharedPreferences getRecentEmojiPreferences()
     {
         return EmojiUtils.context.getSharedPreferences("emoji", 0);
+    }
+
+    public enum Size
+    {
+        SMALL("SMALL", 0, 0xE), NORMAL("NORMAL", 1, 0x15), PICKER("PICKER", 2, 0x23), FULL("FULL", 3, 0);
+        private final int value;
+
+        private Size(String arg1, int arg2, int value)
+        {
+            this.value = value;
+        }
+
+        public int getValue()
+        {
+            return this.value;
+        }
+    }
+
+    class EmojiBitmapKey
+    {
+        private final int codePoint;
+        private final Size size;
+
+        public EmojiBitmapKey(int codePoint, Size size)
+        {
+            super();
+            this.codePoint = codePoint;
+            this.size = size;
+        }
+
+        public boolean equals(Object obj)
+        {
+            boolean bool = false;
+            if (obj != null)
+            {
+                if ((((EmojiBitmapKey) obj)) == this)
+                {
+                    bool = true;
+                }
+                else if ((obj instanceof EmojiBitmapKey))
+                {
+                    Object object = obj;
+                    if (this.codePoint == ((EmojiBitmapKey) object).codePoint
+                            && this.size == ((EmojiBitmapKey) object).size)
+                    {
+                        bool = true;
+                    }
+                }
+            }
+            return bool;
+        }
     }
 }

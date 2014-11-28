@@ -362,5 +362,6 @@
     <color name="emoji_picker_background_night">#ff0a0a0a</color>
     <color name="emoji_picker_background">#fff5f5f5</color>
     <color name="tab_avatar_background">#ffbbbbbb</color>
-
+    <color name="new_chat_recipient">#ff333333</color>
+    <color name="chat_recipient_number">#ffaaaaaa</color>
 </resources>
