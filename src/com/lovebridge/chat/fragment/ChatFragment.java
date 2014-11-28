@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import com.lovebridge.R;
 import com.lovebridge.chat.view.tabs.Addresses;
-import com.lovebridge.library.YARBaseFragment;
+import com.lovebridge.library.YARFragment;
 
-public class ChatFragment extends YARBaseFragment
+public class ChatFragment extends YARFragment
 {
     private ComposerFragment composer;
     private long threadId;

@@ -17,17 +17,17 @@ import org.json.JSONObject;
  */
 public class YARApiListenerImpl implements YARApiListener
 {
-    private View mProgressView;
-    private PullToRefreshBase<?> mPullToRefreshBase;
+    private View progressView;
+    private PullToRefreshBase<?> pullToRefreshBase;
 
-    public void setmProgressView(View mProgressView)
+    public void setProgressView(View mProgressView)
     {
-        this.mProgressView = mProgressView;
+        this.progressView = mProgressView;
     }
 
-    public void setmPullToRefreshBase(PullToRefreshBase<?> mPullToRefreshBase)
+    public void setPullToRefreshBase(PullToRefreshBase<?> mPullToRefreshBase)
     {
-        this.mPullToRefreshBase = mPullToRefreshBase;
+        this.pullToRefreshBase = mPullToRefreshBase;
     }
 
     @Override
@@ -64,9 +64,9 @@ public class YARApiListenerImpl implements YARApiListener
     public void onStart()
     {
         // TODO Auto-generated method stub
-        if (mProgressView != null)
+        if (progressView != null)
         {
-            mProgressView.setVisibility(View.VISIBLE);
+            progressView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -74,13 +74,13 @@ public class YARApiListenerImpl implements YARApiListener
     public void onFinish()
     {
         // TODO Auto-generated method stub
-        if (mProgressView != null)
+        if (progressView != null)
         {
-            mProgressView.setVisibility(View.GONE);
+            progressView.setVisibility(View.GONE);
         }
-        if (mPullToRefreshBase != null)
+        if (pullToRefreshBase != null)
         {
-            mPullToRefreshBase.onRefreshComplete();
+            pullToRefreshBase.onRefreshComplete();
         }
     }
 

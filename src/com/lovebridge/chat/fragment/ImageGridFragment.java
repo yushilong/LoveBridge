@@ -27,12 +27,12 @@ import com.lovebridge.chat.utils.Utils;
 import com.lovebridge.chat.view.ImageCache;
 import com.lovebridge.chat.view.ImageResizer;
 import com.lovebridge.chat.view.RecyclingImageView;
-import com.lovebridge.library.YARBaseFragment;
+import com.lovebridge.library.YARFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImageGridFragment extends YARBaseFragment implements OnItemClickListener
+public class ImageGridFragment extends YARFragment implements OnItemClickListener
 {
     private static final String TAG = "ImageGridFragment";
     private int mImageThumbSize;

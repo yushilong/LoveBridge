@@ -24,13 +24,12 @@ import com.lovebridge.chat.moden.ChatUser;
 import com.lovebridge.chat.view.Sidebar;
 import com.lovebridge.db.InviteMessgeDao;
 import com.lovebridge.db.UserDao;
-import com.lovebridge.library.YARBaseFragment;
+import com.lovebridge.library.YARFragment;
 import com.lovebridge.library.tools.YARConstants;
 
 import java.util.*;
-import java.util.Map.Entry;
 
-public class ContactlistFragment extends YARBaseFragment
+public class ContactlistFragment extends YARFragment
 {
     private ContactAdapter adapter;
     private List<ChatUser> contactList;
@@ -95,8 +94,6 @@ public class ContactlistFragment extends YARBaseFragment
 
     /**
      * 删除联系人
-     *
-     * @param toDeleteUser
      */
     public void deleteContact(final ChatUser tobeDeleteUser)
     {
@@ -207,10 +204,10 @@ public class ContactlistFragment extends YARBaseFragment
     {
         contactList.clear();
         Map<String, ChatUser> users = MainApplication.getInstance().getContactList();
-        Iterator<Entry<String, ChatUser>> iterator = users.entrySet().iterator();
+        Iterator<Map.Entry<String, ChatUser>> iterator = users.entrySet().iterator();
         while (iterator.hasNext())
         {
-            Entry<String, ChatUser> entry = iterator.next();
+            Map.Entry<String, ChatUser> entry = iterator.next();
             if (!entry.getKey().equals(YARConstants.NEW_FRIENDS_USERNAME)
                     && !entry.getKey().equals(YARConstants.GROUP_USERNAME))
                 contactList.add(entry.getValue());

@@ -12,7 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import com.lovebridge.R;
 import com.lovebridge.bean.User;
-import com.lovebridge.library.YARBaseFragment;
+import com.lovebridge.library.YARFragment;
 import com.lovebridge.library.api.*;
 import com.lovebridge.library.tools.notificationcompat.AppNotification;
 import com.lovebridge.library.tools.notificationcompat.NotificationCompat;
@@ -24,7 +24,7 @@ import org.json.JSONObject;
  * @date 2014-9-30 下午4:07:02
  * @version 1.0
  */
-public class IndexFragment extends YARBaseFragment implements OnClickListener
+public class IndexFragment extends YARFragment implements OnClickListener
 {
     private NotificationManager mNotifyManager;
     protected NotificationCompat.Builder mBuilder;
