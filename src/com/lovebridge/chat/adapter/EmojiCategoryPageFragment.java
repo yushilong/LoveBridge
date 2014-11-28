@@ -39,7 +39,7 @@ public class EmojiCategoryPageFragment extends EmojiPageFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        view.findViewById(R.id.emoji_recent_intro).setVisibility(8);
+        view.findViewById(R.id.emoji_recent_intro).setVisibility(View.GONE);
         return view;
     }
 

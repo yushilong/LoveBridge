@@ -271,7 +271,7 @@ public class EmojiUtils
 
     public enum Size
     {
-        SMALL("SMALL", 0, 0xE), NORMAL("NORMAL", 1, 0x15), PICKER("PICKER", 2, 0x23), FULL("FULL", 3, 0);
+        SMALL("SMALL", 0, 14), NORMAL("NORMAL", 1, 21), PICKER("PICKER", 2, 35), FULL("FULL", 3, 0);
         private final int value;
 
         private Size(String arg1, int arg2, int value)
@@ -317,6 +317,11 @@ public class EmojiUtils
                 }
             }
             return bool;
+        }
+
+        public int hashCode()
+        {
+            return (this.codePoint + "_" + this.size.getValue()).hashCode();
         }
     }
 }
