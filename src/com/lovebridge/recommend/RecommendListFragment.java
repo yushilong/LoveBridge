@@ -1,4 +1,3 @@
-
 package com.lovebridge.recommend;
 
 import android.content.Intent;
@@ -37,6 +36,9 @@ public class RecommendListFragment extends YARFragment
         // TODO Auto-generated method stub
         mPullToRefreshGridView = (PullToRefreshGridView) containerView.findViewById(R.id.pull_refresh_grid);
         mPullToRefreshGridView.getRefreshableView().setNumColumns(4);
+        mPullToRefreshGridView.getRefreshableView().setPadding(10, 10, 10, 10);
+        mPullToRefreshGridView.getRefreshableView().setVerticalSpacing(10);
+        mPullToRefreshGridView.getRefreshableView().setHorizontalSpacing(10);
         mPullToRefreshGridView.setMode(PullToRefreshBase.Mode.BOTH.DISABLED);
         mRecommendListAdapter = new RecommendListAdapter(mActivity, new ArrayList<User>());
         mPullToRefreshGridView.setAdapter(mRecommendListAdapter);
