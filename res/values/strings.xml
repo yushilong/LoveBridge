@@ -4,7 +4,6 @@
     <string name="app_name">test</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="tab_showgo">Show购</string>
 
     <!-- 聊天 -->
     <string name="text_ack_msg">已读</string>
@@ -92,5 +91,8 @@
     <string name="ott_dialog_positive_button">开启</string>
     <string name="ott_dialog_negative_button">稍后</string>
     <string name="recipients_placeholder">To…</string>
-
+    <string name="titleRecommend">附近推荐</string>
+    <string name="tabRecommend">推荐</string>
+    <string name="tabMessage">信息</string>
+    <string name="tabMine">我的</string>
 </resources>

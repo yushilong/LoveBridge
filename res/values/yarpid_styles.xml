@@ -8,7 +8,7 @@
         <item name="android:button">@null</item>
         <item name="android:gravity">center</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/tab_gray2black</item>
         <item name="android:textSize">13.5sp</item>
         <item name="android:drawablePadding">-4dp</item>
     </style>

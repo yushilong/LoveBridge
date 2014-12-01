@@ -27,20 +27,17 @@
                 android:id="@+id/tab_rb_a"
                 style="@style/homeradiobutton"
                 android:checked="true"
-                android:drawableTop="@drawable/tab_zhuye_bg_selector"
-                android:text="@string/tab_showgo"/>
+                android:text="@string/tabRecommend"/>
 
         <RadioButton
                 android:id="@+id/tab_rb_b"
                 style="@style/homeradiobutton"
-                android:drawableTop="@drawable/tab_zhuye_bg_selector"
-                android:text="@string/tab_showgo"/>
+                android:text="@string/tabMessage"/>
 
         <RadioButton
                 android:id="@+id/tab_rb_c"
                 style="@style/homeradiobutton"
-                android:drawableTop="@drawable/tab_zhuye_bg_selector"
-                android:text="@string/tab_showgo"/>
+                android:text="@string/tabMine"/>
     </RadioGroup>
 
 </LinearLayout>

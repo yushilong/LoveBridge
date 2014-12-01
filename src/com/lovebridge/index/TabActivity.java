@@ -38,9 +38,9 @@ public class TabActivity extends YARActivity
     public void doInitSubViews(View containerView)
     {
         // TODO Auto-generated method stub
-        fragments.add(new IndexFragment());
         fragments.add(new RecommendListFragment());
         fragments.add(new FindFragment());
+        fragments.add(new IndexFragment());
         rgs = (RadioGroup) findViewById(R.id.tabs_rg);
         FragmentTabAdapter tabAdapter = new FragmentTabAdapter((FragmentActivity) mActivity, fragments,
                 R.id.tab_content, rgs);
