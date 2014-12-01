@@ -14,55 +14,43 @@ import com.lovebridge.chat.view.EmojiPreviewImageView;
 
 import java.util.List;
 
-public abstract class EmojiPageFragment extends Fragment
-{
+public abstract class EmojiPageFragment extends Fragment {
     protected BaseAdapter adapter;
     private GridView gridView;
 
-    public EmojiPageFragment()
-    {
+    public EmojiPageFragment() {
         super();
     }
 
-    public void onConfigurationChanged(Configuration newConfig)
-    {
+    public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         this.setGridViewColumnCount();
     }
 
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.adapter = new BaseAdapter()
-        {
-            public int getCount()
-            {
+        this.adapter = new BaseAdapter() {
+            public int getCount() {
                 return EmojiPageFragment.this.getEmoji().size();
             }
 
-            public Object getItem(int position)
-            {
+            public Object getItem(int position) {
                 return EmojiPageFragment.this.getEmoji().get(position);
             }
 
-            public long getItemId(int position)
-            {
+            public long getItemId(int position) {
                 return 0;
             }
 
-            public View getView(final int position, View convertView, ViewGroup parent)
-            {
+            public View getView(final int position, View convertView, ViewGroup parent) {
                 View view = convertView;
-                if (view == null)
-                {
+                if (view == null) {
                     view = LayoutInflater.from(EmojiPageFragment.this.getActivity()).inflate(
                             R.layout.emoji_picker_cell, parent, false);
                     view.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT));
                 }
-                ((EmojiPreviewImageView) view).setOnClickListener(new View.OnClickListener()
-                {
-                    public void onClick(View view)
-                    {
+                ((EmojiPreviewImageView) view).setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View view) {
                         emojiClicked(position);
                     }
                 });
@@ -73,8 +61,7 @@ public abstract class EmojiPageFragment extends Fragment
         };
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_emoji_page, container, false);
         this.gridView = (GridView) view.findViewById(R.id.gridview);
         this.gridView.setAdapter(this.adapter);
@@ -86,15 +73,12 @@ public abstract class EmojiPageFragment extends Fragment
 
     protected abstract List<?> getEmoji();
 
-    protected EmojiPickerFragment getEmojiPicker()
-    {
+    protected EmojiPickerFragment getEmojiPicker() {
         return (EmojiPickerFragment) this.getFragmentManager().findFragmentById(R.id.emoji_picker_fragment);
     }
 
-    private void setGridViewColumnCount()
-    {
-        if (this.gridView != null)
-        {
+    private void setGridViewColumnCount() {
+        if (this.gridView != null) {
             this.gridView.setNumColumns(((int) ((((float) (this.getResources().getDisplayMetrics().widthPixels
                     - this.gridView.getPaddingLeft() - this.gridView.getPaddingRight()))) / this.getResources()
                     .getDimension(R.dimen.emoji_picker_cell_size))));
