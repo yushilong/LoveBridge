@@ -99,7 +99,7 @@ public class AlertActivity extends YARActivity
             if (!new File(path).exists())
                 path = DownloadImageTask.getThumbnailImagePath(path);
             imageView.setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.alert_message)).setVisibility(View.GONE);
+            findViewById(R.id.alert_message).setVisibility(View.GONE);
             if (ImageCache.getInstance().get(path) != null)
             {
                 imageView.setImageBitmap(ImageCache.getInstance().get(path));

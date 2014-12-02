@@ -53,7 +53,7 @@ public class ChatTabLayout extends RelativeLayout
     {
         super(context);
         this.avatarAnimationIsAnimating = false;
-        ChatTabLayout.inflate(this.getContext(), R.layout.tab_chat, ((ViewGroup) this));
+        ChatTabLayout.inflate(this.getContext(), R.layout.tab_chat, this);
         this.setClipToPadding(true);
         this.avatar = (ImageView) this.findViewById(R.id.avatar);
         this.avatarWrapper = this.findViewById(R.id.avatar_wrapper);
@@ -98,13 +98,13 @@ public class ChatTabLayout extends RelativeLayout
             ScaleAnimation scaleAnimation = new ScaleAnimation(0f, 1f, 0f, 1f,
                     ((float) (ChatTabLayout.this.avatar.getWidth() / 2)),
                     ((float) (ChatTabLayout.this.avatar.getHeight() / 2)));
-            ((Animation) scaleAnimation).setDuration(ANIMATION_DURATION);
-            ((Animation) scaleAnimation).setFillAfter(true);
-            ChatTabLayout.this.avatar.startAnimation(((Animation) scaleAnimation));
+            scaleAnimation.setDuration(ANIMATION_DURATION);
+            scaleAnimation.setFillAfter(true);
+            ChatTabLayout.this.avatar.startAnimation(scaleAnimation);
             AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
-            ((Animation) alphaAnimation).setDuration(100);
-            ((Animation) alphaAnimation).setFillAfter(true);
-            ChatTabLayout.this.title.startAnimation(((Animation) alphaAnimation));
+            alphaAnimation.setDuration(100);
+            alphaAnimation.setFillAfter(true);
+            ChatTabLayout.this.title.startAnimation(alphaAnimation);
         }
     }
 

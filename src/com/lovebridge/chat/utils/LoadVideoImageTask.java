@@ -103,7 +103,6 @@ public class LoadVideoImageTask extends AsyncTask<Object, Void, Bitmap>
                             adapter.notifyDataSetChanged();
                         }
 
-                        ;
                     }.execute();
                 }
             }

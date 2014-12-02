@@ -45,7 +45,7 @@ public class FooterTabLayout extends RelativeLayout
 
     private void setup()
     {
-        FooterTabLayout.inflate(this.getContext(), R.layout.tab_footer, ((ViewGroup) this));
+        FooterTabLayout.inflate(this.getContext(), R.layout.tab_footer, this);
         this.findViewById(R.id.settingsIcon).setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)

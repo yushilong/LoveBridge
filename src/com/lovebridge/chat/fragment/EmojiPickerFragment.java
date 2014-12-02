@@ -238,7 +238,7 @@ public class EmojiPickerFragment extends Fragment {
         int i;
         if (this.currentState == State.EMOJI_PICKER) {
             if (!this.inBackStack()) {
-                this.getFragmentManager().beginTransaction().show(((Fragment) this)).addToBackStack("emoji_picker_back")
+                this.getFragmentManager().beginTransaction().show(this).addToBackStack("emoji_picker_back")
                         .commit();
             }
             i = this.lastOpenKeyboardHeight;

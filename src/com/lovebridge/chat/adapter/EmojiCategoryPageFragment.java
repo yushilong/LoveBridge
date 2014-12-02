@@ -26,8 +26,8 @@ public class EmojiCategoryPageFragment extends EmojiPageFragment
         EmojiCategoryPageFragment emojiCategoryPageFragment = new EmojiCategoryPageFragment();
         Bundle bundle = new Bundle();
         bundle.putString("emoji_page_key", category);
-        ((Fragment) emojiCategoryPageFragment).setArguments(bundle);
-        return ((Fragment) emojiCategoryPageFragment);
+        emojiCategoryPageFragment.setArguments(bundle);
+        return emojiCategoryPageFragment;
     }
 
     public void onCreate(Bundle savedInstanceState)

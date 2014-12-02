@@ -97,7 +97,7 @@ public class MainActivity extends YARActivity implements Listener, ChatTabEntry.
 
     public void onChatLoadFailure(long threadId)
     {
-        Toast.makeText(((Context) this), "加载失败", 0).show();
+        Toast.makeText(this, "加载失败", 0).show();
         this.tabs.selectDefaultTab(threadId);
     }
 

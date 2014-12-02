@@ -396,7 +396,7 @@ public class ChatActivity extends YARActivity implements OnClickListener
             switch (resultCode)
             {
                 case RESULT_CODE_COPY: // 复制消息
-                    EMMessage copyMsg = ((EMMessage) adapter.getItem(data.getIntExtra("position", -1)));
+                    EMMessage copyMsg = adapter.getItem(data.getIntExtra("position", -1));
                     if (copyMsg.getType() == EMMessage.Type.IMAGE)
                     {
                         ImageMessageBody imageBody = (ImageMessageBody) copyMsg.getBody();
@@ -411,13 +411,13 @@ public class ChatActivity extends YARActivity implements OnClickListener
                     }
                     break;
                 case RESULT_CODE_DELETE: // 删除消息
-                    EMMessage deleteMsg = (EMMessage) adapter.getItem(data.getIntExtra("position", -1));
+                    EMMessage deleteMsg = adapter.getItem(data.getIntExtra("position", -1));
                     conversation.removeMessage(deleteMsg.getMsgId());
                     adapter.refresh();
                     listView.setSelection(data.getIntExtra("position", adapter.getCount()) - 1);
                     break;
                 case RESULT_CODE_FORWARD: // 转发消息
-                    EMMessage forwardMsg = (EMMessage) adapter.getItem(data.getIntExtra("position", 0));
+                    EMMessage forwardMsg = adapter.getItem(data.getIntExtra("position", 0));
                     Intent intent = new Intent(this, ForwardMessageActivity.class);
                     intent.putExtra("forward_msg_id", forwardMsg.getMsgId());
                     startActivity(intent);
@@ -560,7 +560,7 @@ public class ChatActivity extends YARActivity implements OnClickListener
             }
             else if (requestCode == REQUEST_CODE_ADD_TO_BLACKLIST)
             { // 移入黑名单
-                EMMessage deleteMsg = (EMMessage) adapter.getItem(data.getIntExtra("position", -1));
+                EMMessage deleteMsg = adapter.getItem(data.getIntExtra("position", -1));
                 addUserToBlacklist(deleteMsg.getFrom());
             }
             else if (conversation.getMsgCount() > 0)
