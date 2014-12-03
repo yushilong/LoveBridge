@@ -200,7 +200,7 @@ public class TabsFragment extends Fragment
     {
         if (this.tabs.size() > 0)
         {
-            ChatTabEntry localChatTabEntry = (ChatTabEntry) this.tabs.get(0);
+            ChatTabEntry localChatTabEntry = this.tabs.get(0);
             if (localChatTabEntry.getThreadId() != paramLong)
             {
                 localChatTabEntry.selectTab();

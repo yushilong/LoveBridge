@@ -49,7 +49,7 @@ public abstract class EmojiPageFragment extends Fragment {
                             R.layout.emoji_picker_cell, parent, false);
                     view.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT));
                 }
-                ((EmojiPreviewImageView) view).setOnClickListener(new View.OnClickListener() {
+                view.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
                         emojiClicked(position);
                     }

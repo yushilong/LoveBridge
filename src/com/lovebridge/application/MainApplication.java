@@ -105,7 +105,7 @@ public class MainApplication extends Application
         PackageManager pm = this.getPackageManager();
         while (i.hasNext())
         {
-            ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo) (i.next());
+            ActivityManager.RunningAppProcessInfo info = i.next();
             try
             {
                 if (info.pid == pID)

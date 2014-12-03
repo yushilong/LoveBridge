@@ -18,8 +18,6 @@ public class Utils
     {
     }
 
-    ;
-
     @SuppressLint("NewApi")
     public static void enableStrictMode()
     {

@@ -114,7 +114,7 @@ public class EmojiUtils
 
     public static List getEmojiByCategory(String categoryName)
     {
-        return (List) EmojiUtils.EMOJI_BY_CATEGORY.get(categoryName);
+        return EmojiUtils.EMOJI_BY_CATEGORY.get(categoryName);
     }
 
     public static List getEmojiRecent()
@@ -124,11 +124,11 @@ public class EmojiUtils
         {
             public int compare(Map.Entry<String, Long> paramAnonymousEntry1, Map.Entry<String, Long> paramAnonymousEntry2)
             {
-                return ((Long) paramAnonymousEntry2.getValue()).compareTo((Long) paramAnonymousEntry1.getValue());
+                return paramAnonymousEntry2.getValue().compareTo(paramAnonymousEntry1.getValue());
             }
         });
         ArrayList arrayList1 = new ArrayList();
-        Iterator iterator = ((List) arrayList).iterator();
+        Iterator iterator = arrayList.iterator();
         while (iterator.hasNext())
         {
             arrayList1.add(Integer.valueOf((String) ((Map.Entry) iterator.next()).getKey()));
@@ -302,7 +302,7 @@ public class EmojiUtils
             boolean bool = false;
             if (obj != null)
             {
-                if ((((EmojiBitmapKey) obj)) == this)
+                if (obj == this)
                 {
                     bool = true;
                 }

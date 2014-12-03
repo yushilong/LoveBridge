@@ -93,7 +93,7 @@ public class NotificationCompat
     {
         public Notification build(Builder b)
         {
-            Notification result = (Notification) b.mNotification;
+            Notification result = b.mNotification;
             result.setLatestEventInfo(b.mContext, b.mContentTitle, b.mContentText, b.mContentIntent);
             // translate high priority requests into legacy flag
             if (b.mPriority > PRIORITY_DEFAULT)
@@ -686,7 +686,7 @@ public class NotificationCompat
         @Deprecated
         public Notification getNotification()
         {
-            return (Notification) IMPL.build(this);
+            return IMPL.build(this);
         }
 
         /**
@@ -695,7 +695,7 @@ public class NotificationCompat
          */
         public Notification build()
         {
-            return (Notification) IMPL.build(this);
+            return IMPL.build(this);
         }
     }
 

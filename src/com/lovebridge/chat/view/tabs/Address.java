@@ -48,7 +48,7 @@ public class Address implements Parcelable, Bitmappable
         boolean bool = false;
         if (obj != null)
         {
-            if ((((Address) obj)) == this)
+            if (obj == this)
             {
                 bool = true;
             }

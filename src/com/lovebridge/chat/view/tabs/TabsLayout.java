@@ -62,7 +62,7 @@ public class TabsLayout extends LinearLayout
                 }
             }
             this.targetWidth = i;
-            this.valueAnimator = ValueAnimator.ofInt(new int[] { this.tabsParams.width , this.targetWidth });
+            this.valueAnimator = ValueAnimator.ofInt(this.tabsParams.width, this.targetWidth);
             if (velocity > 0f)
             {
                 int i1 = this.tabsParams.width;

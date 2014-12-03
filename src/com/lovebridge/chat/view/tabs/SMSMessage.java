@@ -28,7 +28,7 @@ public class SMSMessage extends Message
     public boolean equals(Object obj)
     {
         boolean bool = true;
-        if (this != (((SMSMessage) obj)))
+        if (this != obj)
         {
             if (obj == null)
             {

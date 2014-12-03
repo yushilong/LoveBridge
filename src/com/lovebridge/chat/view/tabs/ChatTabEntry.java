@@ -23,7 +23,7 @@ public class ChatTabEntry implements SelectableTab
     public ChatTabEntry(FragmentActivity activity, Message message)
     {
         super();
-        this.context = ((Context) activity);
+        this.context = activity;
         this.listener = ((Listener) activity);
         this.message = message;
         this.threadId = message.threadId;

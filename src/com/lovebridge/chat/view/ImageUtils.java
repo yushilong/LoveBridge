@@ -71,7 +71,7 @@ public class ImageUtils
         {
             IOUtils.closeQuietly(inputStream);
         }
-        IOUtils.closeQuietly(((Closeable) inputStream));
+        IOUtils.closeQuietly(inputStream);
         return bitmap;
     }
 

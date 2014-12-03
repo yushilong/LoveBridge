@@ -148,7 +148,7 @@ public class ActionsContentView extends ViewGroup
         final int shadowDrawableRes = a.getResourceId(R.styleable.ActionsContentView_shadow_drawable, 0);
         mFadeType = a.getInteger(R.styleable.ActionsContentView_fade_type, FADE_NONE);
         final int fadeValueDefault = context.getResources().getInteger(R.integer.default_actionscontentview_fade_max_value);
-        mFadeValue = (int) a.getInt(R.styleable.ActionsContentView_fade_max_value, fadeValueDefault);
+        mFadeValue = a.getInt(R.styleable.ActionsContentView_fade_max_value, fadeValueDefault);
         setFadeValue(mFadeValue);
         final int flingDurationDefault = context.getResources().getInteger(R.integer.default_actionscontentview_fling_duration);
         mFlingDuration = a.getInteger(R.styleable.ActionsContentView_fling_duration, flingDurationDefault);
@@ -1211,5 +1211,4 @@ public class ActionsContentView extends ViewGroup
         }
     }
 
-    ;
 }

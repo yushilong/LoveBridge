@@ -271,7 +271,7 @@ public class NewChatFragment extends YARFragment
 
     public enum FocusedTextView
     {
-        NO_FOCUS, RECIPIENT_EDITOR, COMPOSER;
+        NO_FOCUS, RECIPIENT_EDITOR, COMPOSER
     }
 
     /**
