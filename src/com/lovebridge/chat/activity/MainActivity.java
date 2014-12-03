@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.View;
@@ -55,7 +56,42 @@ public class MainActivity extends YARActivity implements Listener, ChatTabEntry.
                 }
             }
             abortBroadcast();
-//            adapter.notifyDataSetChanged();
+            Fragment f = getSupportFragmentManager().findFragmentByTag("NewChatFragment");
+            if (f instanceof NewChatFragment)
+            {
+                NewChatFragment chatFragment = (NewChatFragment) f;
+                chatFragment.refresh2();
+            }
+            //            adapter.notifyDataSetChanged();
+        }
+    };
+    /**
+     * 消息回执BroadcastReceiver
+     */
+    public BroadcastReceiver ackMessageReceiver = new BroadcastReceiver()
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            String msgid = intent.getStringExtra("msgid");
+            String from = intent.getStringExtra("from");
+            EMConversation conversation = EMChatManager.getInstance().getConversation(from);
+            if (conversation != null)
+            {
+                // 把message设为已读
+                EMMessage msg = conversation.getMessage(msgid);
+                if (msg != null)
+                {
+                    msg.isAcked = true;
+                }
+            }
+            abortBroadcast();
+            Fragment f = getSupportFragmentManager().findFragmentByTag("NewChatFragment");
+            if (f instanceof NewChatFragment)
+            {
+                NewChatFragment chatFragment = (NewChatFragment) f;
+                chatFragment.refresh2();
+            }
         }
     };
     private ViewGroup content;
@@ -202,7 +238,7 @@ public class MainActivity extends YARActivity implements Listener, ChatTabEntry.
         Intent intent = this.getIntent();
         if ((intent.getFlags() & 0x100000) == 0)
         {
-              toChatUsername = intent.getStringExtra("userId");
+            toChatUsername = intent.getStringExtra("userId");
             this.openNewChat(new String[] { "sms" , "smsto" , "mms" , "mmsto" }, toChatUsername);
             //            this.openChat(l, intent.getBooleanExtra(MainActivity.EXTRA_SHOW_KEYBOARD, true), null);
         }
@@ -225,7 +261,7 @@ public class MainActivity extends YARActivity implements Listener, ChatTabEntry.
         this.setActiveTab(-1);
         this.content.removeAllViews();
         NewChatFragment chatFragment = NewChatFragment.newInstance(addresses, defaultText);
-        getSupportFragmentManager().beginTransaction().replace(R.id.content, chatFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content, chatFragment, "NewChatFragment").commit();
     }
 
     private void openNewChat()
@@ -293,6 +329,30 @@ public class MainActivity extends YARActivity implements Listener, ChatTabEntry.
         // TODO Auto-generated method stub
     }
 
+    @Override protected void onDestroy()
+    {
+        super.onDestroy();
+        // 注销广播
+        try
+        {
+            unregisterReceiver(receiver);
+            receiver = null;
+        }
+        catch (Exception e)
+        {
+        }
+        try
+        {
+            unregisterReceiver(ackMessageReceiver);
+            ackMessageReceiver = null;
+            unregisterReceiver(deliveryAckMessageReceiver);
+            deliveryAckMessageReceiver = null;
+        }
+        catch (Exception e)
+        {
+        }
+    }
+
     /**
      * 消息广播接收者
      */
@@ -318,35 +378,14 @@ public class MainActivity extends YARActivity implements Listener, ChatTabEntry.
             // conversation =
             // EMChatManager.getInstance().getConversation(toChatUsername);
             // 通知adapter有新消息，更新ui
-//            adapter.refresh();
-//            listView.setSelection(listView.getCount() - 1);
+            Fragment f = getSupportFragmentManager().findFragmentByTag("NewChatFragment");
+            if (f instanceof NewChatFragment)
+            {
+                NewChatFragment chatFragment = (NewChatFragment) f;
+                chatFragment.refresh();
+            }
             // 记得把广播给终结掉
             abortBroadcast();
         }
     }
-
-    /**
-     * 消息回执BroadcastReceiver
-     */
-    public BroadcastReceiver ackMessageReceiver = new BroadcastReceiver()
-    {
-        @Override
-        public void onReceive(Context context, Intent intent)
-        {
-            String msgid = intent.getStringExtra("msgid");
-            String from = intent.getStringExtra("from");
-            EMConversation conversation = EMChatManager.getInstance().getConversation(from);
-            if (conversation != null)
-            {
-                // 把message设为已读
-                EMMessage msg = conversation.getMessage(msgid);
-                if (msg != null)
-                {
-                    msg.isAcked = true;
-                }
-            }
-            abortBroadcast();
-//            adapter.notifyDataSetChanged();
-        }
-    };
 }
