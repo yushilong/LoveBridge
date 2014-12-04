@@ -16,6 +16,7 @@ import com.easemob.chat.EMContactManager;
 import com.easemob.exceptions.EaseMobException;
 import com.lovebridge.R;
 import com.lovebridge.application.MainApplication;
+import com.lovebridge.chat.activity.AddContactActivity;
 import com.lovebridge.chat.activity.GroupsActivity;
 import com.lovebridge.chat.activity.MainActivity;
 import com.lovebridge.chat.activity.NewFriendsMsgActivity;
@@ -221,6 +222,10 @@ public class ContactlistFragment extends YARFragment
                 return lhs.getUsername().compareTo(rhs.getUsername());
             }
         });
+        // 加入"添加联系人"
+        ChatUser user = new ChatUser();
+        user.setUsername(YARConstants.ADD_USER);
+        contactList.add(0, user);
         // 加入"申请与通知"和"群聊"
         contactList.add(0, users.get(YARConstants.GROUP_USERNAME));
         // 把"申请与通知"添加到首位
@@ -272,6 +277,10 @@ public class ContactlistFragment extends YARFragment
                 {
                     // 进入群聊列表页面
                     startActivity(new Intent(getActivity(), GroupsActivity.class));
+                }
+                else if (YARConstants.ADD_USER.equals(username))
+                {
+                    startActivity(new Intent(getActivity(), AddContactActivity.class));
                 }
                 else
                 {
