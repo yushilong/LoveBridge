@@ -11,6 +11,11 @@ import com.lovebridge.chat.fragment.TabsFragment;
 
 public class NewChatTabLayout extends RelativeLayout implements TabsFragment.SelectableTab
 {
+    @Override
+    public void selectTab(ChatTabEntry localChatTabEntry) {
+
+    }
+
     public static interface Listener
     {
         public abstract void onNewChatClick();

@@ -9,6 +9,7 @@ import android.view.animation.*;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.easemob.chat.EMConversation;
 import com.lovebridge.R;
 
 import java.util.HashMap;
@@ -37,15 +38,15 @@ public class ChatTabLayout extends RelativeLayout
     private final AnimationSet avatarAnimation;
     private boolean avatarAnimationIsAnimating;
     private final View avatarWrapper;
-    private static Map<Message, Integer> bounceCount;
-    private static LruCache<Addresses, CachedChatTabInfo> cache;
+    private static Map<EMConversation, Integer> bounceCount;
+    private static LruCache<EMConversation, CachedChatTabInfo> cache;
     private ChatTabEntry chatTabEntry;
     private final TextView title;
     private final TextView unreadIndicator;
 
     static
     {
-        ChatTabLayout.bounceCount = new HashMap<Message, Integer>();
+        ChatTabLayout.bounceCount = new HashMap<EMConversation, Integer>();
         ChatTabLayout.resetCache();
     }
 
@@ -64,7 +65,7 @@ public class ChatTabLayout extends RelativeLayout
         {
             public void onClick(View v)
             {
-                ChatTabLayout.this.chatTabEntry.selectTab();
+                ChatTabLayout.this.chatTabEntry.selectTab(chatTabEntry);
             }
         });
         this.setOnLongClickListener(new View.OnLongClickListener()
@@ -80,7 +81,7 @@ public class ChatTabLayout extends RelativeLayout
     public void loadChatTabContents(ChatTabEntry chatTabEntry)
     {
         this.chatTabEntry = chatTabEntry;
-        Addresses addresses = chatTabEntry.getAddresses();
+        EMConversation addresses = chatTabEntry.getAddresses();
         this.avatar.clearAnimation();
         this.title.clearAnimation();
         CachedChatTabInfo info = ChatTabLayout.cache.get(addresses);
@@ -93,7 +94,7 @@ public class ChatTabLayout extends RelativeLayout
             this.title.setText("消息");
             this.title.setVisibility(4);
             this.unreadIndicator.setVisibility(8);
-            CachedChatTabInfo result = new CachedChatTabInfo(addresses.getBitmap(getContext()), addresses.getTitle());
+            CachedChatTabInfo result = new CachedChatTabInfo(null, addresses.getUserName());
             ChatTabLayout.cache.put(addresses, result);
             ScaleAnimation scaleAnimation = new ScaleAnimation(0f, 1f, 0f, 1f,
                     ((float) (ChatTabLayout.this.avatar.getWidth() / 2)),
@@ -115,7 +116,7 @@ public class ChatTabLayout extends RelativeLayout
 
     public static void resetCache()
     {
-        ChatTabLayout.cache = new LruCache<Addresses, CachedChatTabInfo>(NUM_OBJECTS_TO_CACHE);
+        ChatTabLayout.cache = new LruCache<EMConversation, CachedChatTabInfo>(NUM_OBJECTS_TO_CACHE);
     }
 
     private void bounceChatTab(boolean withDelay)
@@ -152,7 +153,7 @@ public class ChatTabLayout extends RelativeLayout
 
     private boolean canChatTabContinueBouncing()
     {
-        Object object = ChatTabLayout.bounceCount.get(this.chatTabEntry.getMessage());
+        Object object = ChatTabLayout.bounceCount.get(this.chatTabEntry.getEMConversation());
         boolean bool = object == null
                 || ((Integer) object).intValue() >= this.avatarAnimation.getAnimations().size()
                 * AVATAR_BOUNCE_LIMIT ? false : true;
@@ -173,7 +174,7 @@ public class ChatTabLayout extends RelativeLayout
 
     private void incrementBounceCount()
     {
-        Message message = this.chatTabEntry.getMessage();
+        EMConversation message = this.chatTabEntry.getEMConversation();
         Object object = ChatTabLayout.bounceCount.get(message);
         int i = object == null ? 1 : Integer.valueOf(((Integer) object).intValue() + 1).intValue();
         bounceCount.put(message, Integer.valueOf(i));

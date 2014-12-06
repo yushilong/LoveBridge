@@ -156,7 +156,7 @@
             </intent-filter>
         </receiver>
         <!-- 设置环信应用的appkey -->
-        <meta-data
+       <meta-data
                 android:name="EASEMOB_APPKEY"
                 android:value="queqiao#queqiao"/>
         <!-- 声明sdk所需的service -->
