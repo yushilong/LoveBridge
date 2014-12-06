@@ -130,8 +130,8 @@ public class ChatActivity extends YARActivity implements OnClickListener
     private ImageView iv_emoticons_checked;
     private RelativeLayout edittext_layout;
     private ProgressBar loadmorePB;
-    private boolean isloading;
-    private final int pagesize = 20;
+    private boolean isLoading;
+    private final int pageSize = 20;
     private boolean haveMoreData = true;
     private Button btnMore;
     public String playMsgId;
@@ -368,9 +368,9 @@ public class ChatActivity extends YARActivity implements OnClickListener
                     File file = new File(filePath);
                     if (!file.exists())
                     {
-                        // 不存在大图发送缩略图
-                        filePath = ImageUtils.getThumbnailImagePath(filePath);
-                    }
+                    // 不存在大图发送缩略图
+                    filePath = ImageUtils.getThumbnailImagePath(filePath);
+                }
                     sendPicture(filePath);
                 }
                 break;
@@ -1472,7 +1472,7 @@ public class ChatActivity extends YARActivity implements OnClickListener
             switch (scrollState)
             {
                 case OnScrollListener.SCROLL_STATE_IDLE:
-                    if (view.getFirstVisiblePosition() == 0 && !isloading && haveMoreData)
+                    if (view.getFirstVisiblePosition() == 0 && !isLoading && haveMoreData)
                     {
                         loadmorePB.setVisibility(View.VISIBLE);
                         // sdk初始化加载的聊天记录为20条，到顶时去db里获取更多
@@ -1482,9 +1482,9 @@ public class ChatActivity extends YARActivity implements OnClickListener
                             // 获取更多messges，调用此方法的时候从db获取的messages
                             // sdk会自动存入到此conversation中
                             if (chatType == CHATTYPE_SINGLE)
-                                messages = conversation.loadMoreMsgFromDB(adapter.getItem(0).getMsgId(), pagesize);
+                                messages = conversation.loadMoreMsgFromDB(adapter.getItem(0).getMsgId(), pageSize);
                             else
-                                messages = conversation.loadMoreGroupMsgFromDB(adapter.getItem(0).getMsgId(), pagesize);
+                                messages = conversation.loadMoreGroupMsgFromDB(adapter.getItem(0).getMsgId(), pageSize);
                         }
                         catch (Exception e1)
                         {
@@ -1503,7 +1503,7 @@ public class ChatActivity extends YARActivity implements OnClickListener
                             // 刷新ui
                             adapter.notifyDataSetChanged();
                             listView.setSelection(messages.size() - 1);
-                            if (messages.size() != pagesize)
+                            if (messages.size() != pageSize)
                                 haveMoreData = false;
                         }
                         else
@@ -1511,7 +1511,7 @@ public class ChatActivity extends YARActivity implements OnClickListener
                             haveMoreData = false;
                         }
                         loadmorePB.setVisibility(View.GONE);
-                        isloading = false;
+                        isLoading = false;
                     }
                     break;
             }

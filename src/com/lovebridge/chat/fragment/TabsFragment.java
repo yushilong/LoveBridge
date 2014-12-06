@@ -225,7 +225,7 @@ public class TabsFragment extends Fragment
             ChatTabEntry item = new ChatTabEntry(getActivity(), msg);
             tabs.add(item);
         }
-        TabsFragment.this.selectDefaultTab(1);
+
     }
 
     public static boolean tabsRecentlyScrolled()
