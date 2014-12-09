@@ -95,4 +95,9 @@
     <string name="tabRecommend">推荐</string>
     <string name="tabMessage">消息</string>
     <string name="tabMine">我的</string>
+    <!--我的-->
+    <string name="friends">好友</string>
+    <string name="calls">通话</string>
+    <string name="messages">消息</string>
+    <string name="tasks">任务</string>
 </resources>

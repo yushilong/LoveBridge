@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <com.lovebridge.widget.Navigation
+            xmlns:navigation="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            navigation:title="@string/tabMine"
+            navigation:image_left_show="false">
+    </com.lovebridge.widget.Navigation>
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/my_yuwan_info_bg"
+                    android:orientation="vertical">
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="20dp">
+
+                    <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:id="@+id/iv_avatar"/>
+
+                    <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                        <TextView
+                                android:id="@+id/tv_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                        <TextView
+                                android:id="@+id/tv_sexy"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@id/tv_name"/>
+
+                        <TextView
+                                android:id="@+id/tv_id"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/tv_name"/>
+
+                        <TextView
+                                android:id="@+id/tv_location"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/tv_id"/>
+
+                    </RelativeLayout>
+
+                    <TextView
+                            android:id="@+id/tv_myinfo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_gray_1"
+                        android:layout_margin="10dp"/>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                    <TextView
+                            android:id="@+id/tv_friends"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableTop="@drawable/selector_friends"
+                            android:text="@string/friends"
+                            android:textColor="@android:color/white"
+                            android:gravity="center"
+                            android:drawablePadding="10dp"/>
+
+                    <TextView
+                            android:id="@+id/tv_calls"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableTop="@drawable/selector_call"
+                            android:text="@string/calls"
+                            android:textColor="@android:color/white"
+                            android:gravity="center"
+                            android:layout_marginLeft="20dp"
+                            android:drawablePadding="10dp"/>
+
+                    <TextView
+                            android:id="@+id/tv_message"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableTop="@drawable/selector_msg"
+                            android:text="@string/messages"
+                            android:textColor="@android:color/white"
+                            android:gravity="center"
+                            android:layout_marginLeft="20dp"
+                            android:drawablePadding="10dp"/>
+
+                    <TextView
+                            android:id="@+id/tv_tasks"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableTop="@drawable/selector_task"
+                            android:text="@string/tasks"
+                            android:textColor="@android:color/white"
+                            android:gravity="center"
+                            android:layout_marginLeft="20dp"
+                            android:drawablePadding="10dp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

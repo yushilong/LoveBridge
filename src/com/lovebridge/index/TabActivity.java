@@ -10,8 +10,8 @@ import com.lovebridge.R;
 import com.lovebridge.chat.fragment.FindFragment;
 import com.lovebridge.library.FragmentTabAdapter;
 import com.lovebridge.library.YARActivity;
-
 import com.lovebridge.library.tools.YARAppManager;
+import com.lovebridge.mine.MineFragment;
 import com.lovebridge.recommend.RecommendListFragment;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class TabActivity extends YARActivity
         // TODO Auto-generated method stub
         fragments.add(new RecommendListFragment());
         fragments.add(new FindFragment());
-        fragments.add(new IndexFragment());
+        fragments.add(new MineFragment());
         rgs = (RadioGroup) findViewById(R.id.tabs_rg);
         FragmentTabAdapter tabAdapter = new FragmentTabAdapter((FragmentActivity) mActivity, fragments,
                 R.id.tab_content, rgs);
