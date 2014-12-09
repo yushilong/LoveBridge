@@ -75,7 +75,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="13dp"
-                    android:background="@drawable/app_pref_bg"
+
                     android:columnWidth="52dp"
                     android:gravity="start"
                     android:horizontalSpacing="6dp"
