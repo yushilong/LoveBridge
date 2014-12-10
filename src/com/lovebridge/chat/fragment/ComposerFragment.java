@@ -41,7 +41,7 @@ public class ComposerFragment extends Fragment implements com.lovebridge.chat.fr
     {
         public enum PlaceholderType
         {
-            IMAGE, TEXT;
+            IMAGE, TEXT
         }
 
         Addresses getAddresses();
@@ -96,7 +96,7 @@ public class ComposerFragment extends Fragment implements com.lovebridge.chat.fr
         {
             final FragmentActivity fragmentActivity = this.getActivity();
             SharedPreferences sharedPreferences = PreferenceManager
-                    .getDefaultSharedPreferences(((Context) fragmentActivity));
+                    .getDefaultSharedPreferences(fragmentActivity);
             if (sharedPreferences.contains("ott_auth_dialog_after_broadcast"))
             {
                 return;
@@ -141,7 +141,7 @@ public class ComposerFragment extends Fragment implements com.lovebridge.chat.fr
             public void onInsertEmoji(String string)
             {
                 ComposerFragment.this.editText.getText().replace(ComposerFragment.this.editText.getSelectionStart(),
-                        ComposerFragment.this.editText.getSelectionEnd(), ((CharSequence) string));
+                        ComposerFragment.this.editText.getSelectionEnd(), string);
             }
 
             @Override
@@ -264,9 +264,9 @@ public class ComposerFragment extends Fragment implements com.lovebridge.chat.fr
         ComposerFragment.drafts.put(Long.valueOf(this.threadId), this.editText.onSaveInstanceState());
         this.threadId = threadId;
         this.listener = listener;
-        if (!TextUtils.isEmpty(((CharSequence) defaultText)))
+        if (!TextUtils.isEmpty(defaultText))
         {
-            this.editText.setText(((CharSequence) defaultText));
+            this.editText.setText(defaultText);
             if (!this.hasText())
             {
                 this.emojiPickerFragment.hide();
@@ -274,7 +274,7 @@ public class ComposerFragment extends Fragment implements com.lovebridge.chat.fr
         }
         if (ComposerFragment.drafts.containsKey(Long.valueOf(threadId)))
         {
-            this.editText.onRestoreInstanceState((Parcelable) ComposerFragment.drafts.get(Long.valueOf(threadId)));
+            this.editText.onRestoreInstanceState(ComposerFragment.drafts.get(Long.valueOf(threadId)));
             ComposerFragment.drafts.remove(Long.valueOf(threadId));
         }
         else
@@ -332,7 +332,7 @@ public class ComposerFragment extends Fragment implements com.lovebridge.chat.fr
                     else
                     {
                         String string = ComposerFragment.this.editText.getText().toString();
-                        if (TextUtils.isEmpty(((CharSequence) string)))
+                        if (TextUtils.isEmpty(string))
                         {
                             return;
                         }

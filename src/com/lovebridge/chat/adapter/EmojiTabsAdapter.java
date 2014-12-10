@@ -58,7 +58,7 @@ public class EmojiTabsAdapter {
                 flag = false;
             }
             imageview.setSelected(flag);
-            imageview.setImageDrawable(((EmojiTab) pages.get(i)).getTabDrawable());
+            imageview.setImageDrawable(pages.get(i).getTabDrawable());
             view1 = view.findViewById(R.id.selected_tab_indicator);
             j = selectedPage;
             k = 0;
@@ -128,7 +128,7 @@ public class EmojiTabsAdapter {
         }
 
         public Fragment getItem(int i) {
-            String s = ((EmojiTab) pages.get(i)).category;
+            String s = pages.get(i).category;
             if (s.equals("recent")) {
                 return EmojiRecentPageFragment.newInstance();
             } else {
@@ -137,7 +137,7 @@ public class EmojiTabsAdapter {
         }
 
         public CharSequence getPageTitle(int i) {
-            return ((EmojiTab) pages.get(i)).category;
+            return pages.get(i).category;
         }
     }
 

@@ -4,11 +4,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.*;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.easemob.chat.EMConversation;
 import com.lovebridge.R;
 
 import java.util.HashMap;
@@ -16,44 +16,25 @@ import java.util.Map;
 
 public class ChatTabLayout extends RelativeLayout
 {
-    class CachedChatTabInfo
-    {
-        public final Bitmap bitmap;
-        public final String title;
-
-        private CachedChatTabInfo(Bitmap bitmap, String title)
-        {
-            super();
-            this.bitmap = bitmap;
-            this.title = title;
-        }
-    }
-
-    private static final int ANIMATION_DURATION = 0x64;
+    private static final int ANIMATION_DURATION = 100;
     private static final int AVATAR_BOUNCE_LIMIT = 3;
-    private static final int AVATAR_BOUNCE_REPEAT_DELAY = 0x7D0;
-    private static final int NUM_OBJECTS_TO_CACHE = 0x14;
+    private static final int AVATAR_BOUNCE_REPEAT_DELAY = 2000;
+    private static final int NUM_OBJECTS_TO_CACHE = 20;
+    private static Map<EMConversation, Integer> bounceCount;
+    private static LruCache<EMConversation, CachedChatTabInfo> cache;
     private final ImageView avatar;
     private final AnimationSet avatarAnimation;
-    private boolean avatarAnimationIsAnimating;
     private final View avatarWrapper;
-    private static Map<Message, Integer> bounceCount;
-    private static LruCache<Addresses, CachedChatTabInfo> cache;
-    private ChatTabEntry chatTabEntry;
     private final TextView title;
     private final TextView unreadIndicator;
-
-    static
-    {
-        ChatTabLayout.bounceCount = new HashMap<Message, Integer>();
-        ChatTabLayout.resetCache();
-    }
+    private boolean avatarAnimationIsAnimating;
+    private ChatTabEntry chatTabEntry;
 
     public ChatTabLayout(Context context)
     {
         super(context);
         this.avatarAnimationIsAnimating = false;
-        ChatTabLayout.inflate(this.getContext(), R.layout.tab_chat, ((ViewGroup) this));
+        ChatTabLayout.inflate(this.getContext(), R.layout.tab_chat, this);
         this.setClipToPadding(true);
         this.avatar = (ImageView) this.findViewById(R.id.avatar);
         this.avatarWrapper = this.findViewById(R.id.avatar_wrapper);
@@ -64,7 +45,7 @@ public class ChatTabLayout extends RelativeLayout
         {
             public void onClick(View v)
             {
-                ChatTabLayout.this.chatTabEntry.selectTab();
+                ChatTabLayout.this.chatTabEntry.selectTab(chatTabEntry);
             }
         });
         this.setOnLongClickListener(new View.OnLongClickListener()
@@ -75,37 +56,8 @@ public class ChatTabLayout extends RelativeLayout
                 return true;
             }
         });
-    }
-
-    public void loadChatTabContents(ChatTabEntry chatTabEntry)
-    {
-        this.chatTabEntry = chatTabEntry;
-        Addresses addresses = chatTabEntry.getAddresses();
-        this.avatar.clearAnimation();
-        this.title.clearAnimation();
-        CachedChatTabInfo info = ChatTabLayout.cache.get(addresses);
-        if (info != null)
-        {
-            this.updateContent(info);
-        }
-        else
-        {
-            this.title.setText("消息");
-            this.title.setVisibility(4);
-            this.unreadIndicator.setVisibility(8);
-            CachedChatTabInfo result = new CachedChatTabInfo(addresses.getBitmap(getContext()), addresses.getTitle());
-            ChatTabLayout.cache.put(addresses, result);
-            ScaleAnimation scaleAnimation = new ScaleAnimation(0f, 1f, 0f, 1f,
-                    ((float) (ChatTabLayout.this.avatar.getWidth() / 2)),
-                    ((float) (ChatTabLayout.this.avatar.getHeight() / 2)));
-            ((Animation) scaleAnimation).setDuration(ANIMATION_DURATION);
-            ((Animation) scaleAnimation).setFillAfter(true);
-            ChatTabLayout.this.avatar.startAnimation(((Animation) scaleAnimation));
-            AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
-            ((Animation) alphaAnimation).setDuration(100);
-            ((Animation) alphaAnimation).setFillAfter(true);
-            ChatTabLayout.this.title.startAnimation(((Animation) alphaAnimation));
-        }
+        ChatTabLayout.bounceCount = new HashMap<EMConversation, Integer>();
+        ChatTabLayout.cache = new LruCache<EMConversation, CachedChatTabInfo>(NUM_OBJECTS_TO_CACHE);
     }
 
     public static void resetBounces()
@@ -113,9 +65,36 @@ public class ChatTabLayout extends RelativeLayout
         ChatTabLayout.bounceCount.clear();
     }
 
-    public static void resetCache()
+    public void loadChatTabContents(ChatTabEntry chatTabEntry)
     {
-        ChatTabLayout.cache = new LruCache<Addresses, CachedChatTabInfo>(NUM_OBJECTS_TO_CACHE);
+        this.chatTabEntry = chatTabEntry;
+        EMConversation conversation = chatTabEntry.getEMConversation();
+        this.avatar.clearAnimation();
+        this.title.clearAnimation();
+        CachedChatTabInfo info = ChatTabLayout.cache.get(conversation);
+        if (info != null)
+        {
+            this.updateContent(info);
+        }
+        else
+        {
+            this.title.setText("消息");
+            this.title.setVisibility(View.INVISIBLE);
+            avatar.setBackgroundResource(R.drawable.barcode_torch_on);
+            this.unreadIndicator.setVisibility(GONE);
+            CachedChatTabInfo result = new CachedChatTabInfo(null, conversation.getUserName());
+            ChatTabLayout.cache.put(conversation, result);
+            ScaleAnimation scaleAnimation = new ScaleAnimation(0f, 1f, 0f, 1f,
+                    ((float) (ChatTabLayout.this.avatar.getWidth() / 2)),
+                    ((float) (ChatTabLayout.this.avatar.getHeight() / 2)));
+            scaleAnimation.setDuration(ANIMATION_DURATION);
+            scaleAnimation.setFillAfter(true);
+            ChatTabLayout.this.avatar.startAnimation(scaleAnimation);
+            AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
+            alphaAnimation.setDuration(100);
+            alphaAnimation.setFillAfter(true);
+            ChatTabLayout.this.title.startAnimation(alphaAnimation);
+        }
     }
 
     private void bounceChatTab(boolean withDelay)
@@ -125,7 +104,7 @@ public class ChatTabLayout extends RelativeLayout
             this.incrementBounceCount();
             AnimationSet animationSet = this.avatarAnimation;
             int i = withDelay ? AVATAR_BOUNCE_REPEAT_DELAY : 0;
-            animationSet.setStartOffset(((long) i));
+            animationSet.setStartOffset(i);
             this.avatarAnimation.setAnimationListener(new Animation.AnimationListener()
             {
                 public void onAnimationEnd(Animation anim)
@@ -152,9 +131,8 @@ public class ChatTabLayout extends RelativeLayout
 
     private boolean canChatTabContinueBouncing()
     {
-        Object object = ChatTabLayout.bounceCount.get(this.chatTabEntry.getMessage());
-        boolean bool = object == null
-                || ((Integer) object).intValue() >= this.avatarAnimation.getAnimations().size()
+        int size = ChatTabLayout.bounceCount.get(this.chatTabEntry.getEMConversation());
+        boolean bool = size >= this.avatarAnimation.getAnimations().size()
                 * AVATAR_BOUNCE_LIMIT ? false : true;
         return bool;
     }
@@ -173,17 +151,17 @@ public class ChatTabLayout extends RelativeLayout
 
     private void incrementBounceCount()
     {
-        Message message = this.chatTabEntry.getMessage();
-        Object object = ChatTabLayout.bounceCount.get(message);
-        int i = object == null ? 1 : Integer.valueOf(((Integer) object).intValue() + 1).intValue();
-        bounceCount.put(message, Integer.valueOf(i));
+        EMConversation message = this.chatTabEntry.getEMConversation();
+        Integer count = ChatTabLayout.bounceCount.get(message);
+        int i = count == null ? 1 : count + 1;
+        bounceCount.put(message, i);
     }
 
     private void updateContent(CachedChatTabInfo info)
     {
         this.avatar.setImageBitmap(info.bitmap);
         this.title.setText(info.title);
-        this.title.setVisibility(0);
+        this.title.setVisibility(VISIBLE);
         this.unreadIndicator.setText("message");
         if (this.canChatTabStartBouncing())
         {
@@ -192,6 +170,19 @@ public class ChatTabLayout extends RelativeLayout
         else
         {
             this.clearBounceChatTab();
+        }
+    }
+
+    class CachedChatTabInfo
+    {
+        public final Bitmap bitmap;
+        public final String title;
+
+        private CachedChatTabInfo(Bitmap bitmap, String title)
+        {
+            super();
+            this.bitmap = bitmap;
+            this.title = title;
         }
     }
 }

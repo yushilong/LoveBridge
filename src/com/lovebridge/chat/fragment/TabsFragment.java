@@ -2,36 +2,27 @@ package com.lovebridge.chat.fragment;
 
 import android.app.ProgressDialog;
 import android.database.ContentObserver;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Telephony.MmsSms;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMConversation;
+import com.easemob.chat.EMMessage;
 import com.lovebridge.R;
 import com.lovebridge.chat.view.tabs.*;
+import com.lovebridge.library.YARFragment;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class TabsFragment extends Fragment
+public class TabsFragment extends YARFragment
 {
-    public interface Listener
-    {
-        void onTabsScroll();
-    }
-
-    public interface SelectableTab
-    {
-        void selectTab();
-    }
-
     private static final long TABS_RECENT_SCROLL_THRESHOLD = 0x77359400;
+    private static volatile long tabsLastScrollTime;
     private BaseAdapter adapter;
     private ContentObserver conversationsObserver;
     private ListView listView;
@@ -40,7 +31,6 @@ public class TabsFragment extends Fragment
     private StickyChatTabLayout stickyChatTabLayout;
     private List<ChatTabEntry> tabs;
     private boolean tabsAreScrolling;
-    private static volatile long tabsLastScrollTime;
 
     public TabsFragment()
     {
@@ -57,6 +47,18 @@ public class TabsFragment extends Fragment
                 }
             }
         };
+    }
+
+    public static void setTabsScrollTime()
+    {
+        TabsFragment.tabsLastScrollTime = System.nanoTime();
+    }
+
+    public static boolean tabsRecentlyScrolled()
+    {
+        boolean bool = System.nanoTime() - TabsFragment.tabsLastScrollTime < TABS_RECENT_SCROLL_THRESHOLD ? true
+                : false;
+        return bool;
     }
 
     public void deleteChatTab(long threadId)
@@ -95,34 +97,15 @@ public class TabsFragment extends Fragment
         }
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    @Override public int doGetContentViewId()
     {
-        View view = inflater.inflate(R.layout.fragment_tabs, container, false);
-        this.adapter = new BaseAdapter()
-        {
-            public int getCount()
-            {
-                return TabsFragment.this.tabs.size();
-            }
+        return R.layout.fragment_tabs;
+    }
 
-            public Object getItem(int position)
-            {
-                return TabsFragment.this.tabs.get(position);
-            }
-
-            public long getItemId(int position)
-            {
-                return 0;
-            }
-
-            public View getView(int position, View view, ViewGroup parent)
-            {
-                return TabsFragment.this.tabs.get(position).getView(view);
-            }
-        };
+    @Override public void doInitSubViews(View view)
+    {
         this.listener = (Listener) this.getActivity();
         this.listView = (ListView) view.findViewById(R.id.listView);
-        this.listView.setAdapter(this.adapter);
         this.newChatTabLayout = (NewChatTabLayout) view.findViewById(R.id.newChat);
         this.newChatTabLayout.setListener((NewChatTabLayout.Listener) this.getActivity());
         this.stickyChatTabLayout = (StickyChatTabLayout) view.findViewById(R.id.stickyChatTab);
@@ -165,7 +148,40 @@ public class TabsFragment extends Fragment
                 tabsFragment.tabsAreScrolling = bool;
             }
         });
-        return view;
+    }
+
+    @Override public void doInitDataes()
+    {
+        buildTabs();
+        getActivity().getContentResolver().registerContentObserver(MmsSms.CONTENT_CONVERSATIONS_URI, true,
+                this.conversationsObserver);
+        this.adapter = new BaseAdapter()
+        {
+            public int getCount()
+            {
+                return TabsFragment.this.tabs.size();
+            }
+
+            public Object getItem(int position)
+            {
+                return TabsFragment.this.tabs.get(position);
+            }
+
+            public long getItemId(int position)
+            {
+                return 0;
+            }
+
+            public View getView(int position, View view, ViewGroup parent)
+            {
+                return TabsFragment.this.tabs.get(position).getView(view);
+            }
+        };
+        this.listView.setAdapter(this.adapter);
+    }
+
+    @Override public void doAfter()
+    {
     }
 
     public void onPause()
@@ -175,19 +191,10 @@ public class TabsFragment extends Fragment
         ChatTabLayout.resetBounces();
     }
 
-    public void onResume()
+    public void refresh(long threadId)
     {
-        super.onResume();
-        ChatTabLayout.resetCache();
-        buildTabs();
-        getActivity().getContentResolver().registerContentObserver(MmsSms.CONTENT_CONVERSATIONS_URI, true,
-                this.conversationsObserver);
-    }
-
-    public void refresh()
-    {
-        this.stickyChatTabLayout.refresh();
-        this.newChatTabLayout.refresh();
+        this.stickyChatTabLayout.refresh(threadId);
+        this.newChatTabLayout.refresh(threadId);
         this.adapter.notifyDataSetChanged();
     }
 
@@ -200,38 +207,89 @@ public class TabsFragment extends Fragment
     {
         if (this.tabs.size() > 0)
         {
-            ChatTabEntry localChatTabEntry = (ChatTabEntry) this.tabs.get(0);
-            if (localChatTabEntry.getThreadId() != paramLong)
+            ChatTabEntry chatTabEntry = this.tabs.get(0);
+            if (chatTabEntry.getThreadId() != paramLong)
             {
-                localChatTabEntry.selectTab();
-            }
-            else
-            {
-                this.newChatTabLayout.selectTab();
+                chatTabEntry.selectTab(chatTabEntry);
+                return;
             }
         }
-    }
-
-    public static void setTabsScrollTime()
-    {
-        TabsFragment.tabsLastScrollTime = System.nanoTime();
+        this.newChatTabLayout.selectTab();
     }
 
     private void buildTabs()
     {
-        for (int i = 0; i < 20; i++)
+        List<EMConversation> list = loadConversationsWithRecentChat();
+        for (int i = 0; i < list.size(); i++)
         {
-            SMSMessage msg = new SMSMessage(i, "消息" + i, 1, false, System.currentTimeMillis(), "" + i + "", i + 1);
-            ChatTabEntry item = new ChatTabEntry(getActivity(), msg);
+            EMConversation conversation = list.get(i);
+            ChatTabEntry item = new ChatTabEntry(getActivity(), conversation, i + 1);
             tabs.add(item);
         }
-        TabsFragment.this.selectDefaultTab(1);
     }
 
-    public static boolean tabsRecentlyScrolled()
+    @Override public void onResume()
     {
-        boolean bool = System.nanoTime() - TabsFragment.tabsLastScrollTime < TABS_RECENT_SCROLL_THRESHOLD ? true
-                : false;
-        return bool;
+        super.onResume();
+        selectDefaultTab(1);
+    }
+
+    /**
+     * 获取所有会话
+     *
+     * @return
+     */
+    private List<EMConversation> loadConversationsWithRecentChat()
+    {
+        // 获取所有会话，包括陌生人
+        Hashtable<String, EMConversation> conversations = EMChatManager.getInstance().getAllConversations();
+        List<EMConversation> list = new ArrayList<EMConversation>();
+        // 过滤掉messages seize为0的conversation
+        for (EMConversation conversation : conversations.values())
+        {
+            if (conversation.getAllMessages().size() != 0)
+                list.add(conversation);
+        }
+        // 排序
+        sortConversationByLastChatTime(list);
+        return list;
+    }
+
+    /**
+     * 根据最后一条消息的时间排序
+     */
+    private void sortConversationByLastChatTime(List<EMConversation> conversationList)
+    {
+        Collections.sort(conversationList, new Comparator<EMConversation>()
+        {
+            @Override
+            public int compare(final EMConversation con1, final EMConversation con2)
+            {
+                EMMessage con2LastMessage = con2.getLastMessage();
+                EMMessage con1LastMessage = con1.getLastMessage();
+                if (con2LastMessage.getMsgTime() == con1LastMessage.getMsgTime())
+                {
+                    return 0;
+                }
+                else if (con2LastMessage.getMsgTime() > con1LastMessage.getMsgTime())
+                {
+                    return 1;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+        });
+    }
+
+    public interface Listener
+    {
+        void onTabsScroll();
+    }
+
+    public interface SelectableTab
+    {
+        void selectTab(ChatTabEntry localChatTabEntry);
     }
 }

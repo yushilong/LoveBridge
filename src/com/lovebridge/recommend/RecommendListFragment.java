@@ -39,7 +39,7 @@ public class RecommendListFragment extends YARFragment
         mPullToRefreshGridView.getRefreshableView().setPadding(10, 10, 10, 10);
         mPullToRefreshGridView.getRefreshableView().setVerticalSpacing(10);
         mPullToRefreshGridView.getRefreshableView().setHorizontalSpacing(10);
-        mPullToRefreshGridView.setMode(PullToRefreshBase.Mode.BOTH.DISABLED);
+        mPullToRefreshGridView.setMode(PullToRefreshBase.Mode.DISABLED);
         mRecommendListAdapter = new RecommendListAdapter(mActivity, new ArrayList<User>());
         mPullToRefreshGridView.setAdapter(mRecommendListAdapter);
         mPullToRefreshGridView.setOnItemClickListener(new AdapterView.OnItemClickListener()

@@ -7,7 +7,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.*;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import com.lovebridge.R;
 import com.lovebridge.chat.activity.MainActivity;
 import com.nineoldandroids.view.ViewHelper;
@@ -46,6 +49,13 @@ public class StickyChatTabLayout extends RelativeLayout
         this.setup();
     }
 
+    public static int getResourceId(Context context, int attrId)
+    {
+        TypedValue typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(attrId, typedValue, true);
+        return typedValue.resourceId;
+    }
+
     public boolean onInterceptTouchEvent(MotionEvent event)
     {
         boolean bool = this.overlayed ? false : true;
@@ -57,15 +67,15 @@ public class StickyChatTabLayout extends RelativeLayout
         return this.overlayed;
     }
 
-    public void refresh()
+    public void refresh(long threadId)
     {
         this.activeTabIndex = NO_ACTIVE_TAB;
         ListAdapter listAdapter = this.listView.getAdapter();
         int i = 0;
-        while (i < ((Adapter) listAdapter).getCount())
+        while (i < listAdapter.getCount())
         {
-            ChatTabEntry chatTabEntry = (ChatTabEntry) ((Adapter) listAdapter).getItem(i);
-            if (chatTabEntry.getThreadId() == MainActivity.getActiveThreadId())
+            ChatTabEntry chatTabEntry = (ChatTabEntry) listAdapter.getItem(i);
+            if (chatTabEntry.getThreadId() == threadId)
             {
                 this.configureViewForEntry(chatTabEntry);
                 this.activeTabIndex = i;
@@ -103,15 +113,14 @@ public class StickyChatTabLayout extends RelativeLayout
     public void updatePosition()
     {
         int i1;
-        int i = 8;
         if (this.activeTabIndex == NO_ACTIVE_TAB || this.listView == null || this.listView.getChildCount() == 0)
         {
-            this.setVisibility(i);
+            this.setVisibility(View.GONE);
         }
         else
         {
-            this.setVisibility(0);
-            this.bottomOverlay.setVisibility(i);
+            this.setVisibility(View.VISIBLE);
+            this.bottomOverlay.setVisibility(View.GONE);
             if (this.activeTabIndex < this.listView.getFirstVisiblePosition())
             {
                 i1 = 0x80000000;
@@ -119,7 +128,7 @@ public class StickyChatTabLayout extends RelativeLayout
             else if (this.activeTabIndex > this.listView.getLastVisiblePosition())
             {
                 i1 = 0x7FFFFFFF;
-                this.bottomOverlay.setVisibility(0);
+                this.bottomOverlay.setVisibility(View.VISIBLE);
             }
             else
             {
@@ -133,10 +142,10 @@ public class StickyChatTabLayout extends RelativeLayout
     {
         this.removeAllViews();
         View view = chatTabEntry.getView(null);
-        View view1 = ((ChatTabLayout) view).findViewById(R.id.title);
+        View view1 = view.findViewById(R.id.title);
         ((TextView) view1).setTypeface(null, 1);
-        ViewHelper.setAlpha(((ChatTabLayout) view).findViewById(R.id.avatar), 1f);
-        ((ChatTabLayout) view).findViewById(R.id.unread_indicator).setVisibility(8);
+        ViewHelper.setAlpha(view.findViewById(R.id.avatar), 1f);
+        view.findViewById(R.id.unread_indicator).setVisibility(View.GONE);
         this.addView(view);
     }
 
@@ -155,11 +164,11 @@ public class StickyChatTabLayout extends RelativeLayout
                 this.listView.getHeight() + i1
                         - this.getResources().getDimensionPixelSize(R.dimen.tabs_tab_height));
         ViewGroup.LayoutParams viewGroup = this.getLayoutParams();
-        if ((((float) i2)) != this.lastY || (this.forceInvalidate))
+        if (i2 != this.lastY || (this.forceInvalidate))
         {
             ((RelativeLayout.LayoutParams) viewGroup).topMargin = i2;
             this.setLayoutParams(viewGroup);
-            this.lastY = ((float) i2);
+            this.lastY =i2;
             this.forceInvalidate = false;
         }
         if (((RelativeLayout.LayoutParams) viewGroup).topMargin != i)
@@ -171,16 +180,7 @@ public class StickyChatTabLayout extends RelativeLayout
 
     private void setup()
     {
-        // setBackgroundResource(getResourceId(this.getContext(),
-        // R.attr.drawable_active_tab));
         setBackgroundResource(R.drawable.active_tab);
         this.setPadding(0, 0, 0, 0);
-    }
-
-    public static int getResourceId(Context context, int attrId)
-    {
-        TypedValue typedValue = new TypedValue();
-        context.getTheme().resolveAttribute(attrId, typedValue, true);
-        return typedValue.resourceId;
     }
 }

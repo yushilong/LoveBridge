@@ -70,6 +70,11 @@
                 android:windowSoftInputMode="adjustResize">
         </activity>
         <activity
+                android:name="com.lovebridge.chat.activity.AddContactActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/horizontal_slide">
+        </activity>
+        <activity
                 android:name="com.lovebridge.chat.activity.GroupsActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/horizontal_slide"
@@ -151,12 +156,12 @@
             </intent-filter>
         </receiver>
         <!-- 设置环信应用的appkey -->
-        <meta-data
+       <meta-data
                 android:name="EASEMOB_APPKEY"
                 android:value="queqiao#queqiao"/>
         <!-- 声明sdk所需的service -->
         <service android:name="com.easemob.chat.EMChatService"/>
-        <service
+        <servicez
                 android:name="com.baidu.location.f"
                 android:enabled="true"
                 android:process=":remote"/>

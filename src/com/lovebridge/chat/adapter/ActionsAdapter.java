@@ -64,7 +64,7 @@ public class ActionsAdapter extends BaseAdapter
         }
         if (type != VIEW_TYPE_CATEGORY)
         {
-            final Drawable icon = convertView.getContext().getResources().getDrawable(R.drawable.app_pref_bg);
+            final Drawable icon = convertView.getContext().getResources().getDrawable(R.drawable.barcode_torch_on);
             icon.setBounds(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight());
             holder.text.setCompoundDrawables(icon, null, null, null);
             holder.text.setText("XXX");

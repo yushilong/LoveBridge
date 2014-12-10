@@ -77,7 +77,7 @@ public class RecipientsEditor extends MultiAutoCompleteTextView
     {
         int i = 0;
         HashSet hashset = new HashSet();
-        RecipientSpan arecipientspan[] = (RecipientSpan[]) getText().getSpans(0, length(), RecipientSpan.class);
+        RecipientSpan arecipientspan[] = getText().getSpans(0, length(), RecipientSpan.class);
         int j = arecipientspan.length;
         do
         {

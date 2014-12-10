@@ -6,16 +6,10 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.RelativeLayout;
 import com.lovebridge.R;
-import com.lovebridge.chat.activity.MainActivity;
 import com.lovebridge.chat.fragment.TabsFragment;
 
 public class NewChatTabLayout extends RelativeLayout implements TabsFragment.SelectableTab
 {
-    public static interface Listener
-    {
-        public abstract void onNewChatClick();
-    }
-
     private Listener listener;
 
     public NewChatTabLayout(Context context)
@@ -36,6 +30,25 @@ public class NewChatTabLayout extends RelativeLayout implements TabsFragment.Sel
         setup();
     }
 
+    public static int getResourceId(Context context, int attrId)
+    {
+        TypedValue typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(attrId, typedValue, true);
+        return typedValue.resourceId;
+    }
+
+    public static int getColor(Context context, int attrId)
+    {
+        TypedValue typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(attrId, typedValue, true);
+        return typedValue.data;
+    }
+
+    @Override
+    public void selectTab(ChatTabEntry localChatTabEntry)
+    {
+    }
+
     private void setup()
     {
         inflate(getContext(), R.layout.tab_new_chat, this);
@@ -51,18 +64,11 @@ public class NewChatTabLayout extends RelativeLayout implements TabsFragment.Sel
         });
     }
 
-    public static int getResourceId(Context context, int attrId)
-    {
-        TypedValue typedValue = new TypedValue();
-        context.getTheme().resolveAttribute(attrId, typedValue, true);
-        return typedValue.resourceId;
-    }
-
-    public void refresh()
+    public void refresh(long threadId)
     {
         View view = findViewById(R.id.active_background);
         View view1 = findViewById(R.id.imageView);
-        if (-1 == MainActivity.getActiveThreadId())
+        if (-1 == threadId)
         {
             view.setVisibility(View.VISIBLE);
             view1.setBackgroundColor(0);
@@ -74,13 +80,6 @@ public class NewChatTabLayout extends RelativeLayout implements TabsFragment.Sel
         }
     }
 
-    public static int getColor(Context context, int attrId)
-    {
-        TypedValue typedValue = new TypedValue();
-        context.getTheme().resolveAttribute(attrId, typedValue, true);
-        return typedValue.data;
-    }
-
     public void selectTab()
     {
         listener.onNewChatClick();
@@ -89,5 +88,10 @@ public class NewChatTabLayout extends RelativeLayout implements TabsFragment.Sel
     public void setListener(Listener listener)
     {
         this.listener = listener;
+    }
+
+    public static interface Listener
+    {
+        public abstract void onNewChatClick();
     }
 }
