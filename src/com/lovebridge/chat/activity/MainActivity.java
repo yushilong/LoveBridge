@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import com.lovebridge.chat.view.tabs.FooterTabLayout;
 import com.lovebridge.chat.view.tabs.NewChatTabLayout;
 import com.lovebridge.chat.view.tabs.TabsLayout;
 import com.lovebridge.library.YARActivity;
+import com.lovebridge.library.YARFragment;
 
 public class MainActivity extends YARActivity implements EmojiPickerFragment.Listener, ChatTabEntry.Listener, FooterTabLayout.Listener,
         NewChatTabLayout.Listener, TabsFragment.Listener
@@ -34,6 +36,22 @@ public class MainActivity extends YARActivity implements EmojiPickerFragment.Lis
     public static String ACTION_RESTART = null;
     public static String EXTRA_SHOW_KEYBOARD = null;
     public static String EXTRA_THREAD_ID = null;
+    private ViewGroup content;
+    private TabsFragment tabs;
+    private TabsLayout tabsLayout;
+
+    static
+    {
+        MainActivity.ACTION_RESTART = String.valueOf(MainActivity.class.getPackage().getName()) + ".activity_restart";
+        MainActivity.EXTRA_SHOW_KEYBOARD = String.valueOf(MainActivity.class.getPackage().getName()) + ".show_keyboard";
+        MainActivity.EXTRA_THREAD_ID = String.valueOf(MainActivity.class.getPackage().getName()) + ".thread_id";
+    }
+
+    private NewMessageBroadcastReceiver receiver;
+    private String toChatUsername;
+    private FragmentManager mFragmentManager;
+    private FragmentTransaction mCurTransaction = null;
+    private YARFragment mCurrentFragment;
     /**
      * 消息送达BroadcastReceiver
      */
@@ -55,15 +73,14 @@ public class MainActivity extends YARActivity implements EmojiPickerFragment.Lis
                 }
             }
             abortBroadcast();
-            Fragment f = getSupportFragmentManager().findFragmentByTag("ChatFragment");
-            if (f instanceof NewChatFragment)
+            if (mCurrentFragment instanceof NewChatFragment)
             {
-                NewChatFragment chatFragment = (NewChatFragment) f;
+                NewChatFragment chatFragment = (NewChatFragment) mCurrentFragment;
                 chatFragment.refresh2();
             }
-            else if (f instanceof ChatFragment)
+            else if (mCurrentFragment instanceof ChatFragment)
             {
-                ChatFragment chatFragment = (ChatFragment) f;
+                ChatFragment chatFragment = (ChatFragment) mCurrentFragment;
                 chatFragment.refresh2();
             }
             //            adapter.notifyDataSetChanged();
@@ -90,32 +107,23 @@ public class MainActivity extends YARActivity implements EmojiPickerFragment.Lis
                 }
             }
             abortBroadcast();
-            Fragment f = getSupportFragmentManager().findFragmentByTag("ChatFragment");
-            if (f instanceof NewChatFragment)
+            if (mCurrentFragment instanceof NewChatFragment)
             {
-                NewChatFragment chatFragment = (NewChatFragment) f;
+                NewChatFragment chatFragment = (NewChatFragment) mCurrentFragment;
                 chatFragment.refresh2();
             }
-            else if (f instanceof ChatFragment)
+            else if (mCurrentFragment instanceof ChatFragment)
             {
-                ChatFragment chatFragment = (ChatFragment) f;
+                ChatFragment chatFragment = (ChatFragment) mCurrentFragment;
                 chatFragment.refresh2();
             }
         }
     };
-    private ViewGroup content;
-    private TabsFragment tabs;
-    private TabsLayout tabsLayout;
 
-    static
+    private static String makeFragmentName(long id)
     {
-        MainActivity.ACTION_RESTART = String.valueOf(MainActivity.class.getPackage().getName()) + ".activity_restart";
-        MainActivity.EXTRA_SHOW_KEYBOARD = String.valueOf(MainActivity.class.getPackage().getName()) + ".show_keyboard";
-        MainActivity.EXTRA_THREAD_ID = String.valueOf(MainActivity.class.getPackage().getName()) + ".thread_id";
+        return "android:switcher:" + id;
     }
-
-    private NewMessageBroadcastReceiver receiver;
-    private String toChatUsername;
 
     public void makeRoomForEmojiPicker(int keyboardHeight)
     {
@@ -219,7 +227,7 @@ public class MainActivity extends YARActivity implements EmojiPickerFragment.Lis
         if ((intent.getFlags() & 0x100000) == 0)
         {
             toChatUsername = intent.getStringExtra("userId");
-//            this.openNewChat(1);
+            //            this.openNewChat(1);
         }
     }
 
@@ -227,8 +235,14 @@ public class MainActivity extends YARActivity implements EmojiPickerFragment.Lis
     {
         this.setActiveTab(chatTabEntry.threadId);
         this.content.removeAllViews();
-        ChatFragment chatFragment = ChatFragment.newInstance(chatTabEntry, showKeyboard, chatTabEntry.getEMConversation().getUserName());
-        getSupportFragmentManager().beginTransaction().replace(R.id.content, chatFragment).commit();
+        //        instantiateItem(chatTabEntry, showKeyboard, chatTabEntry.threadId);
+        //        ChatFragment chatFragment = ChatFragment.newInstance(chatTabEntry, showKeyboard, chatTabEntry.getEMConversation().getUserName());
+        //        getSupportFragmentManager().beginTransaction().replace(R.id.content, chatFragment, "ChatFragment").commit();
+        Bundle bundle = new Bundle();
+        bundle.putLong("thread_id", chatTabEntry.threadId);
+        bundle.putBoolean("show_keyboard", showKeyboard);
+        bundle.putString("userId", chatTabEntry.getEMConversation().getUserName());
+        initFragment(ChatFragment.class, makeFragmentName(chatTabEntry.threadId), bundle);
     }
 
     private void openNewChat(long threadId)
@@ -236,7 +250,7 @@ public class MainActivity extends YARActivity implements EmojiPickerFragment.Lis
         this.setActiveTab(-1);
         this.content.removeAllViews();
         NewChatFragment chatFragment = NewChatFragment.newInstance(threadId, false, toChatUsername);
-        getSupportFragmentManager().beginTransaction().replace(R.id.content, chatFragment, "ChatFragment").commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content, chatFragment).commit();
     }
 
     private void openSettings()
@@ -323,6 +337,42 @@ public class MainActivity extends YARActivity implements EmojiPickerFragment.Lis
         }
     }
 
+    public void destroyItem(ViewGroup container, int position, Object object)
+    {
+        if (this.mCurTransaction == null)
+        {
+            this.mCurTransaction = this.mFragmentManager.beginTransaction();
+        }
+        this.mCurTransaction.detach((Fragment) object);
+    }
+
+    private void initFragment(Class<?> name, String tag, Bundle bundle)
+    {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        YARFragment fragment = (YARFragment) fragmentManager.findFragmentByTag(tag);
+        if (mCurrentFragment != null)
+        {
+            fragmentTransaction.detach(mCurrentFragment);
+        }
+        if (fragment != null)
+        {
+            fragmentTransaction.attach(fragment);
+        }
+        else
+        {
+            fragment = (YARFragment) Fragment.instantiate(mActivity, name.getName(), bundle);
+            fragmentTransaction.add(R.id.content, fragment, tag);
+        }
+        mCurrentFragment = fragment;
+        fragmentTransaction.commit();
+    }
+
+    public YARFragment getCurrentFragment()
+    {
+        return mCurrentFragment;
+    }
+
     /**
      * 消息广播接收者
      */
@@ -348,15 +398,14 @@ public class MainActivity extends YARActivity implements EmojiPickerFragment.Lis
             // conversation =
             // EMChatManager.getInstance().getConversation(toChatUsername);
             // 通知adapter有新消息，更新ui
-            Fragment f = getSupportFragmentManager().findFragmentByTag("ChatFragment");
-            if (f instanceof NewChatFragment)
+            if (mCurrentFragment instanceof NewChatFragment)
             {
-                NewChatFragment chatFragment = (NewChatFragment) f;
+                NewChatFragment chatFragment = (NewChatFragment) mCurrentFragment;
                 chatFragment.refresh();
             }
-            else if (f instanceof ChatFragment)
+            else if (mCurrentFragment instanceof ChatFragment)
             {
-                ChatFragment chatFragment = (ChatFragment) f;
+                ChatFragment chatFragment = (ChatFragment) mCurrentFragment;
                 chatFragment.refresh();
             }
             // 记得把广播给终结掉

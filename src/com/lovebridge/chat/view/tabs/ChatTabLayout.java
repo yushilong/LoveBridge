@@ -78,11 +78,12 @@ public class ChatTabLayout extends RelativeLayout
         }
         else
         {
-            this.title.setText("消息");
+
+            CachedChatTabInfo result = new CachedChatTabInfo(null, conversation.getUserName());
+            this.title.setText(result.title);
             this.title.setVisibility(View.INVISIBLE);
             avatar.setBackgroundResource(R.drawable.barcode_torch_on);
             this.unreadIndicator.setVisibility(GONE);
-            CachedChatTabInfo result = new CachedChatTabInfo(null, conversation.getUserName());
             ChatTabLayout.cache.put(conversation, result);
             ScaleAnimation scaleAnimation = new ScaleAnimation(0f, 1f, 0f, 1f,
                     ((float) (ChatTabLayout.this.avatar.getWidth() / 2)),

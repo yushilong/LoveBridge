@@ -231,7 +231,7 @@ public class TabsFragment extends YARFragment
     @Override public void onResume()
     {
         super.onResume();
-        selectDefaultTab(1);
+        selectDefaultTab(-1);
     }
 
     /**
