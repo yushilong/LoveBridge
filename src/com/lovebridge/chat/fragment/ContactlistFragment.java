@@ -223,9 +223,9 @@ public class ContactlistFragment extends YARFragment
             }
         });
         // 加入"添加联系人"
-        ChatUser user = new ChatUser();
-        user.setUsername(YARConstants.ADD_USER);
-        contactList.add(0, user);
+//        ChatUser user = new ChatUser();
+//        user.setUsername(YARConstants.ADD_USER);
+//        contactList.add(0, user);
         // 加入"申请与通知"和"群聊"
         contactList.add(0, users.get(YARConstants.GROUP_USERNAME));
         // 把"申请与通知"添加到首位
