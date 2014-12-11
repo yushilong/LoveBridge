@@ -6,57 +6,60 @@ import android.view.View;
 import com.easemob.chat.EMConversation;
 import com.lovebridge.chat.fragment.TabsFragment.SelectableTab;
 
-public class ChatTabEntry implements SelectableTab {
-
-    public interface Listener {
-        void onChatClick(ChatTabEntry chatTabEntry, boolean arg2);
-
-        void onChatDelete(long arg1);
-    }
-
-
+public class ChatTabEntry implements SelectableTab
+{
+    public long threadId;
     private Context context;
     private Listener listener;
-    private EMConversation message;
-    public long threadId;
+    private EMConversation conversation;
 
-    public ChatTabEntry() {
+    public ChatTabEntry()
+    {
     }
 
-    public ChatTabEntry(FragmentActivity activity, EMConversation message, long threadId) {
+    public ChatTabEntry(FragmentActivity activity, EMConversation conversation, long threadId)
+    {
         super();
         this.context = activity;
         this.listener = ((Listener) activity);
-        this.message = message;
+        this.conversation = conversation;
         this.threadId = threadId;
-
     }
 
-    public void deleteChat() {
+    public void deleteChat()
+    {
         this.listener.onChatDelete(this.threadId);
     }
 
-    public EMConversation getAddresses() {
-        return this.message;
+    public EMConversation getEMConversation()
+    {
+        return this.conversation;
     }
 
-    public EMConversation getEMConversation() {
-        return this.message;
-    }
-
-    public long getThreadId() {
+    public long getThreadId()
+    {
         return this.threadId;
     }
 
-    public View getView(View view) {
-        if (view == null) {
+    public View getView(View view)
+    {
+        if (view == null)
+        {
             view = new ChatTabLayout(this.context);
         }
         ((ChatTabLayout) view).loadChatTabContents(this);
         return view;
     }
 
-    public void selectTab(ChatTabEntry localChatTabEntry) {
+    public void selectTab(ChatTabEntry localChatTabEntry)
+    {
         this.listener.onChatClick(localChatTabEntry, false);
+    }
+
+    public interface Listener
+    {
+        void onChatClick(ChatTabEntry chatTabEntry, boolean arg2);
+
+        void onChatDelete(long arg1);
     }
 }
