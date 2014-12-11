@@ -188,7 +188,7 @@ public class TabsFragment extends YARFragment
     {
         super.onPause();
         getActivity().getContentResolver().unregisterContentObserver(this.conversationsObserver);
-        ChatTabLayout.resetBounces();
+
     }
 
     public void refresh(long threadId)
