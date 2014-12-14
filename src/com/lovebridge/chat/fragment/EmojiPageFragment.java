@@ -47,7 +47,7 @@ public abstract class EmojiPageFragment extends Fragment {
                 if (view == null) {
                     view = LayoutInflater.from(EmojiPageFragment.this.getActivity()).inflate(
                             R.layout.emoji_picker_cell, parent, false);
-                    view.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT));
+                    view.setLayoutParams(new AbsListView.LayoutParams(80, 80));
                 }
                 view.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {

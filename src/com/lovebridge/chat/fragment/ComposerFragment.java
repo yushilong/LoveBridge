@@ -127,22 +127,22 @@ public class ComposerFragment extends Fragment implements com.lovebridge.chat.fr
                 R.id.emoji_picker_fragment);
         this.emojiPickerFragment.setComposerReceiver(new ComposerReceiver() {
             public void onBackspacePressed() {
-                ComposerFragment.this.editText.dispatchKeyEvent(new KeyEvent(0, 0x43));
+                editText.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
             }
 
             public void onInsertEmoji(String string) {
-                ComposerFragment.this.editText.getText().replace(ComposerFragment.this.editText.getSelectionStart(),
-                        ComposerFragment.this.editText.getSelectionEnd(), string);
+                editText.getText().replace(editText.getSelectionStart(),
+                        editText.getSelectionEnd(), string);
             }
 
             @Override
             public void onStateChanged(State state) {
                 int i = 8;
                 int i1 = 0;
-                View view = ComposerFragment.this.emojiButton;
+                View view = emojiButton;
                 int i2 = state == State.EMOJI_PICKER ? i : 0;
                 view.setVisibility(i2);
-                View view1 = ComposerFragment.this.keyboardButton;
+                View view1 = keyboardButton;
                 if (state != State.EMOJI_PICKER) {
                     i1 = i;
                 }
@@ -166,16 +166,16 @@ public class ComposerFragment extends Fragment implements com.lovebridge.chat.fr
         this.editText.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 int i = 8;
-                boolean bool = TextUtils.isEmpty(ComposerFragment.this.editText.getText());
-                View view = ComposerFragment.this.cameraButton;
+                boolean bool = TextUtils.isEmpty(editText.getText());
+                View view = cameraButton;
                 int i1 = bool ? 0 : i;
                 view.setVisibility(i1);
-                View view1 = ComposerFragment.this.sendButton;
+                View view1 = sendButton;
                 if (!bool) {
                     i = 0;
                 }
                 view1.setVisibility(i);
-                ComposerFragment.this.updateTapCamVisibility();
+                updateTapCamVisibility();
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -273,38 +273,38 @@ public class ComposerFragment extends Fragment implements com.lovebridge.chat.fr
             this.viewsEnabled = true;
             this.editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 public void onFocusChange(View v, boolean hasFocus) {
-                    if ((v.equals(ComposerFragment.this.editText)) && (hasFocus)) {
-                        ComposerFragment.this.listener.onTextViewFocus();
+                    if ((v.equals(editText)) && (hasFocus)) {
+                        listener.onTextViewFocus();
                     }
                 }
             });
             this.cameraButton.setOnClickListener(this.cameraGalleryOnClickListener);
             this.sendButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Addresses addresses = ComposerFragment.this.listener.getAddresses();
+                    Addresses addresses = listener.getAddresses();
                     if (addresses.size() == 0) {
-                        ComposerFragment.this.handleNoAddresses();
+                        handleNoAddresses();
                     } else {
-                        String string = ComposerFragment.this.editText.getText().toString();
+                        String string = editText.getText().toString();
                         if (TextUtils.isEmpty(string)) {
                             return;
                         }
-                        ComposerFragment.this.editText.setText("");
-                        ComposerFragment.this.listener.sentMessage(ComposerFragment.this.threadId, true,
+                        editText.setText("");
+                        listener.sentMessage(threadId, true,
                                 PlaceholderType.TEXT, string);
                     }
                 }
             });
             this.emojiButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    ComposerFragment.this.emojiPickerFragment.show();
-                    ComposerFragment.this.editText.requestFocus();
-                    ComposerFragment.this.hideKeyboard();
+                    emojiPickerFragment.show();
+                    editText.requestFocus();
+                    hideKeyboard();
                 }
             });
             this.keyboardButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    ComposerFragment.this.showKeyboard();
+                    showKeyboard();
                 }
             });
         }

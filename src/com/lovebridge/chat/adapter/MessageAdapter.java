@@ -485,9 +485,9 @@ public class MessageAdapter extends BaseAdapter
             @Override
             public boolean onLongClick(View v)
             {
-                activity.startActivityForResult((new Intent(activity, ContextMenu.class))
-                                .putExtra("position", position).putExtra("type", EMMessage.Type.TXT.ordinal()),
-                        ChatActivity.REQUEST_CODE_CONTEXT_MENU);
+//                activity.startActivityForResult((new Intent(activity, ContextMenu.class))
+//                                .putExtra("position", position).putExtra("type", EMMessage.Type.TXT.ordinal()),
+//                        ChatActivity.REQUEST_CODE_CONTEXT_MENU);
                 return true;
             }
         });
