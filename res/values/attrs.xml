@@ -3,15 +3,15 @@
 
     <declare-styleable name="tab_vertical">
         <attr name="tabImageSrc" format="reference"/>
-        <attr name="tabImageSize" format="reference"/>
+        <attr name="tabImageSize" format="dimension|reference"/>
         <attr name="tabTextResId" format="reference"/>
         <attr name="tabTextColor" format="reference|color"/>
         <attr name="tabTextSize" format="reference|dimension"/>
     </declare-styleable>
 
     <attr name="tabPageIndicatorStyle" format="reference"/>
-    <attr name="bottomIndicatorColor" format="color"/>
-    <attr name="bottomIndicatorHeight" format="dimension"/>
+    <attr name="bottomIndicatorColor" format="color|reference"/>
+    <attr name="bottomIndicatorHeight" format="dimension|reference"/>
     <attr name="spacing_type">
 
         <!-- Spacing will be calculated as offset from right bound of view. -->
@@ -100,11 +100,25 @@
     </declare-styleable>
     <!--导航栏-->
     <declare-styleable name="navigation">
-        <attr name="title" format="string"/>
+        <attr name="title" format="string|reference"/>
         <attr name="image_left" format="reference"/>
         <attr name="image_right" format="reference"/>
         <attr name="image_left_show" format="boolean"/>
         <attr name="image_right_show" format="boolean"/>
-
+    </declare-styleable>
+    <!--我的item-->
+    <declare-styleable name="mineitem">
+        <attr name="left_icon" format="reference"/>
+        <attr name="left_iconSize" format="dimension|reference"/>
+        <attr name="left_marginRight" format="dimension|reference"/>
+        <attr name="middle_upText" format="string|reference"/>
+        <attr name="middle_downText" format="string|reference"/>
+        <attr name="middle_upTextColor" format="color|reference"/>
+        <attr name="middle_downTextColor" format="color|reference"/>
+        <attr name="middle_downTextMarginTop" format="dimension|reference"/>
+        <attr name="right_text" format="string|reference"/>
+        <attr name="rigth_textMarginRight" format="dimension|reference"/>
+        <attr name="right_icon" format="reference"/>
+        <attr name="right_iconSize" format="dimension|reference"/>
     </declare-styleable>
 </resources>

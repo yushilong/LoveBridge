@@ -3,7 +3,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:background="@color/ui_main_background">
 
     <com.lovebridge.widget.Navigation
             xmlns:navigation="http://schemas.android.com/apk/res-auto"
@@ -132,6 +133,12 @@
                             android:drawablePadding="10dp"/>
                 </LinearLayout>
             </LinearLayout>
+
+            <com.lovebridge.widget.CustomItem
+                    android:layout_width="match_parent"
+                    android:background="@android:color/white"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
