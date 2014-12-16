@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:navigation="http://schemas.android.com/apk/res-auto"
+              xmlns:custom="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:background="@color/ui_main_background">
 
     <com.lovebridge.widget.Navigation
-            xmlns:navigation="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             navigation:title="@string/tabMine"
@@ -138,7 +139,11 @@
                     android:layout_width="match_parent"
                     android:background="@android:color/white"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    custom:left_icon="@drawable/called_allow_friends"
+                    custom:middle_upText="@string/item_one_up"
+                    custom:middle_downText="@string/item_one_down"
+                    custom:right_text="@string/item_one_right"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

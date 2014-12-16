@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.lovebridge.R;
 
@@ -36,7 +37,7 @@ public class CustomItem extends LinearLayout
 
     public void initView(final Context context, AttributeSet attrs)
     {
-        ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.custom_mineitem, this);
+        ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.custom_mineitem, this,true);
         ImageView iv_leftIcon = (ImageView) viewGroup.findViewById(R.id.iv_lefticon);
         TextView tv_middleUp = (TextView) viewGroup.findViewById(R.id.tv_middleUp);
         TextView tv_middleDown = (TextView) viewGroup.findViewById(R.id.tv_middleDown);
@@ -50,12 +51,12 @@ public class CustomItem extends LinearLayout
         tv_middleDown.setTextColor(typedArray.getColor(R.styleable.mineitem_middle_upTextColor, android.R.color.black));
         tv_right.setText(typedArray.getText(R.styleable.mineitem_right_text));
         iv_rightIcon.setImageResource(typedArray.getResourceId(R.styleable.mineitem_right_icon, 0));
-        ViewGroup.LayoutParams leftIconLayoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams leftIconLayoutParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         int imgSize = (int) typedArray.getDimension(R.styleable.mineitem_left_iconSize, 30);
         leftIconLayoutParams.width = imgSize;
         leftIconLayoutParams.height = imgSize;
         iv_leftIcon.setLayoutParams(leftIconLayoutParams);
-        ViewGroup.LayoutParams rightIconLayoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams rightIconLayoutParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         rightIconLayoutParams.width = imgSize;
         rightIconLayoutParams.height = imgSize;
         iv_rightIcon.setLayoutParams(rightIconLayoutParams);
