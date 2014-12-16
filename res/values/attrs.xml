@@ -116,6 +116,7 @@
         <attr name="middle_upTextColor" format="color|reference"/>
         <attr name="middle_downTextColor" format="color|reference"/>
         <attr name="middle_downTextMarginTop" format="dimension|reference"/>
+        <attr name="middle_down_visible" format="boolean|reference"/>
         <attr name="right_text" format="string|reference"/>
         <attr name="rigth_textMarginRight" format="dimension|reference"/>
         <attr name="right_icon" format="reference"/>
