@@ -12,14 +12,10 @@ import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
 import com.lovebridge.R;
-import com.lovebridge.chat.adapter.MessageAdapter;
 import com.lovebridge.chat.utils.SoundUtils;
 import com.lovebridge.chat.view.RecipientsEditor;
 import com.lovebridge.chat.view.tabs.Addresses;
-import com.lovebridge.chat.view.tabs.ChatTabEntry;
 import com.lovebridge.library.YARFragment;
-
-import java.util.List;
 
 public class NewChatFragment extends YARFragment {
     private static final String ARG_ADDRESSES = "addresses";
@@ -44,8 +40,7 @@ public class NewChatFragment extends YARFragment {
     };
     private final int pageSize = 20;
     private String toChatUsername;
-    private EMConversation conversation;
-    private MessageAdapter adapter;
+
     private boolean haveMoreData = true;
     private ProgressBar loadMorePB;
     private boolean isLoading;
@@ -60,7 +55,7 @@ public class NewChatFragment extends YARFragment {
     public static NewChatFragment newInstance(long threadId, boolean paramBoolean, String userId) {
         NewChatFragment localChatFragment = new NewChatFragment();
         Bundle localBundle = new Bundle();
-        localBundle.putLong("thread_id",  threadId);
+        localBundle.putLong("thread_id", threadId);
         localBundle.putBoolean("show_keyboard", paramBoolean);
         localBundle.putString("userId", userId);
         localChatFragment.setArguments(localBundle);
@@ -155,9 +150,8 @@ public class NewChatFragment extends YARFragment {
                     // 设置要发给谁,用户username或者群聊groupid
                     message.setReceipt(toChatUsername);
                     // 把messgage加到conversation中
-                    conversation.addMessage(message);
+
                     // 通知adapter有消息变动，adapter会根据加入的这条message显示消息和调用sdk的发送方法
-                    adapter.refresh();
                     listView.setSelection(listView.getCount() - 1);
                     recipientsEditor.setText(null);
                     NewChatFragment.lastFocusedObject = FocusedTextView.NO_FOCUS;
@@ -170,12 +164,7 @@ public class NewChatFragment extends YARFragment {
         });
         OttStatusChangeEvents.addListener(listener);
         //        chatUsername_tv.setText(toChatUsername);
-        conversation = EMChatManager.getInstance().getConversation(toChatUsername);
-        // 把此会话的未读数置为0
-        conversation.resetUnsetMsgCount();
-        adapter = new MessageAdapter(this.getActivity(), toChatUsername, 1);
-        // 显示消息
-        listView.setAdapter(adapter);
+
         listView.setOnScrollListener(new ListScrollListener());
         int count = listView.getCount();
         if (count > 0) {
@@ -215,12 +204,10 @@ public class NewChatFragment extends YARFragment {
     }
 
     public void refresh() {
-        adapter.refresh();
         listView.setSelection(listView.getCount() - 1);
     }
 
     public void refresh2() {
-        adapter.notifyDataSetChanged();
     }
 
     public enum FocusedTextView {
@@ -240,30 +227,6 @@ public class NewChatFragment extends YARFragment {
                     break;
                 case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
                     if (view.getFirstVisiblePosition() == 0 && !isLoading && haveMoreData) {
-                        loadMorePB.setVisibility(View.VISIBLE);
-                        // sdk初始化加载的聊天记录为20条，到顶时去db里获取更多
-                        List<EMMessage> messages;
-                        try {
-                            messages = conversation.loadMoreMsgFromDB(adapter.getItem(0).getMsgId(), pageSize);
-                        } catch (Exception e1) {
-                            loadMorePB.setVisibility(View.GONE);
-                            return;
-                        }
-                        try {
-                            Thread.sleep(300);
-                        } catch (InterruptedException e) {
-                        }
-                        if (messages.size() != 0) {
-                            // 刷新ui
-                            adapter.notifyDataSetChanged();
-                            listView.setSelection(messages.size() - 1);
-                            if (messages.size() != pageSize)
-                                haveMoreData = false;
-                        } else {
-                            haveMoreData = false;
-                        }
-                        loadMorePB.setVisibility(View.GONE);
-                        isLoading = false;
                     }
                     break;
             }

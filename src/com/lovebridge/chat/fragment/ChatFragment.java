@@ -2,6 +2,7 @@ package com.lovebridge.chat.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
@@ -11,6 +12,7 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
+import com.easemob.exceptions.EaseMobException;
 import com.lovebridge.R;
 import com.lovebridge.chat.adapter.MessageAdapter;
 import com.lovebridge.chat.utils.SoundUtils;
@@ -56,6 +58,28 @@ public class ChatFragment extends YARFragment implements View.OnClickListener {
         chatUsername_tv = (TextView) containerView.findViewById(R.id.name);
         loadMorePB = (ProgressBar) containerView.findViewById(R.id.pb_load_more);
         this.composer = ((ComposerFragment) getFragmentManager().findFragmentById(R.id.composer));
+
+    }
+
+    @Override
+    public void doInitDataes() {
+        Bundle bundle = getArguments();
+        this.threadId = bundle.getLong("thread_id", 0L);
+        if (this.threadId == 0L)
+            throw new IllegalArgumentException("no thread id in chat");
+        toChatUsername = bundle.getString("userId");
+//        chatUsername_tv.setText(toChatUsername);
+        conversation = EMChatManager.getInstance().getConversation(toChatUsername);
+        // 把此会话的未读数置为0
+        conversation.resetUnsetMsgCount();
+        adapter = new MessageAdapter(this.getActivity(), toChatUsername, 1);
+        // 显示消息
+        listView.setAdapter(adapter);
+        listView.setOnScrollListener(new ListScrollListener());
+        int count = listView.getCount();
+        if (count > 0) {
+            listView.setSelection(count - 1);
+        }
         this.composer.setChat(this.threadId, getArguments().getString("default_text"), new ComposerFragment.Listener() {
             public Addresses getAddresses() {
                 return new Addresses(new Address("number"));
@@ -66,7 +90,8 @@ public class ChatFragment extends YARFragment implements View.OnClickListener {
 
             @Override
             public void sentMessage(long arg1, boolean arg2, PlaceholderType arg3, String content) {
-
+                String toChatUsername = composer.getToChatUsername();
+                Log.i("chat", "====" + toChatUsername);
                 if (SoundUtils.shouldPlayChatSounds(getActivity())) {
                     SoundUtils.playSound(getActivity(), R.raw.send_message);
                 }
@@ -92,33 +117,14 @@ public class ChatFragment extends YARFragment implements View.OnClickListener {
     }
 
     @Override
-    public void doInitDataes() {
-        Bundle bundle = getArguments();
-        this.threadId = bundle.getLong("thread_id", 0L);
-        if (this.threadId == 0L)
-            throw new IllegalArgumentException("no thread id in chat");
-        toChatUsername = bundle.getString("userId");
-//        chatUsername_tv.setText(toChatUsername);
-        conversation = EMChatManager.getInstance().getConversation(toChatUsername);
-        // 把此会话的未读数置为0
-        conversation.resetUnsetMsgCount();
-        adapter = new MessageAdapter(this.getActivity(), toChatUsername, 1);
-        // 显示消息
-        listView.setAdapter(adapter);
-        listView.setOnScrollListener(new ListScrollListener());
-        int count = listView.getCount();
-        if (count > 0) {
-            listView.setSelection(count - 1);
-        }
-    }
-
-    @Override
     public void doAfter() {
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Log.i("chat", "=======" + toChatUsername);
+        composer.setToChatUsername(toChatUsername);
     }
 
     @Override
