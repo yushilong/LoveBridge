@@ -12,7 +12,7 @@ public class RecommendDetailActivity extends YARActivity
 {
     @Override public int doGetContentViewId()
     {
-        return R.layout.recommend_detail;
+        return R.layout.personinfo;
     }
 
     @Override public void doInitSubViews(View containerView)

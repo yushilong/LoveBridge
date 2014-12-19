@@ -37,9 +37,10 @@
                         android:padding="20dp">
 
                     <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:id="@+id/iv_avatar"/>
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:id="@+id/iv_avatar"
+                            android:src="@drawable/audio_mode_success"/>
 
                     <RelativeLayout
                             android:layout_width="wrap_content"
