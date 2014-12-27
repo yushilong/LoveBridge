@@ -37,7 +37,7 @@ public class RecommendListFragment extends YARFragment {
         mPullToRefreshGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                NearByPeople user = (NearByPeople) mRecommendListAdapter.getItem(position);
+                NearByPeople user = (NearByPeople) mRecommendListAdapter.getItem(position-1);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("user", user);
                 Intent intent = new Intent(mContext, RecommendDetailActivity.class);
