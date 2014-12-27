@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:navigation="http://schemas.android.com/apk/res-auto"
+              xmlns:custom="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:background="@color/ui_main_background">
 
     <com.lovebridge.widget.Navigation
-            xmlns:navigation="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             navigation:title="@string/tabMine"
@@ -35,9 +37,10 @@
                         android:padding="20dp">
 
                     <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:id="@+id/iv_avatar"/>
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:id="@+id/iv_avatar"
+                            android:src="@drawable/audio_mode_success"/>
 
                     <RelativeLayout
                             android:layout_width="wrap_content"
@@ -132,6 +135,68 @@
                             android:drawablePadding="10dp"/>
                 </LinearLayout>
             </LinearLayout>
+
+            <com.lovebridge.widget.CustomItem
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_mine_item"
+                    android:layout_marginTop="10dp"
+                    custom:left_icon="@drawable/called_allow_friends"
+                    custom:middle_upText="@string/item_one_up"
+                    custom:middle_downText="@string/item_one_down"
+                    custom:right_text="@string/item_one_right"
+                    custom:middle_down_visible="true"/>
+
+            <com.lovebridge.widget.CustomItem
+                    android:layout_width="match_parent"
+                    android:background="@drawable/selector_mine_item"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    custom:left_icon="@drawable/my_yuwan_album_icon"
+                    custom:middle_upText="@string/item_two"/>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+            <com.lovebridge.widget.CustomItem
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_mine_item"
+                    custom:left_icon="@drawable/my_yuwan_modify_profile_icon"
+                    custom:middle_upText="@string/item_three"/>
+
+            <com.lovebridge.widget.CustomItem
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/selector_mine_item"
+                    custom:left_icon="@drawable/icon_my_gift"
+                    custom:middle_upText="@string/item_four"/>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+            <com.lovebridge.widget.CustomItem
+                    android:layout_width="match_parent"
+                    android:background="@drawable/selector_mine_item"
+                    android:layout_height="wrap_content"
+                    custom:left_icon="@drawable/my_yuwan_wallet"
+                    custom:middle_upText="@string/item_five"
+                    custom:right_text="@string/item_five_right"/>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+            <com.lovebridge.widget.CustomItem
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_mine_item"
+                    custom:left_icon="@drawable/my_yuwan_shop"
+                    custom:middle_upText="@string/item_six"
+                    custom:right_text="@string/item_six_right"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:navigation="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/ui_main_background">
+
+        <com.lovebridge.widget.Navigation
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            navigation:title="@string/app_name" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="260dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true">
+
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#50000000"
+                    android:text="测试"
+                    android:textColor="@color/white"
+                    android:paddingLeft="100dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="5dp" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:layout_below="@id/tv_name"
+                    android:text="ID:1562545\n我不喜欢喝别人的水，不想和别人分享同一个谁"
+                    android:textColor="@color/gray"
+                    android:paddingLeft="100dp" />
+
+                <ImageView
+                    android:id="@+id/iv_pic"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:src="@drawable/barcode_torch_on"
+                    android:layout_alignTop="@id/tv_name"
+                    android:layout_marginLeft="20dp" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/personinfo_gift"
+                android:text="送花"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/personinfo_message"
+                android:text="信息"
+                android:gravity="center"
+                android:layout_marginLeft="25dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/personinfo_call"
+                android:text="呼叫"
+                android:gravity="center"
+                android:layout_marginLeft="25dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/personinfo_addfriend"
+                android:text="加为好友"
+                android:gravity="center"
+                android:layout_marginLeft="25dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:layout_marginTop="20dp">
+
+            <com.lovebridge.widget.CustomItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_mine_item"
+                custom:left_icon="@drawable/my_yuwan_shop"
+                custom:middle_upText="@string/item_six"
+                custom:right_text="@string/item_six_right" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <com.lovebridge.widget.CustomItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_mine_item"
+                custom:left_icon="@drawable/my_yuwan_shop"
+                custom:middle_upText="@string/item_six"
+                custom:right_text="@string/item_six_right" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <com.lovebridge.widget.CustomItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_mine_item"
+                custom:left_icon="@drawable/my_yuwan_shop"
+                custom:middle_upText="@string/item_six"
+                custom:right_text="@string/item_six_right" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <com.lovebridge.widget.CustomItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_mine_item"
+                custom:left_icon="@drawable/my_yuwan_shop"
+                custom:middle_upText="@string/item_six"
+                custom:right_text="@string/item_six_right" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <com.lovebridge.widget.CustomItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_mine_item"
+                custom:left_icon="@drawable/my_yuwan_shop"
+                custom:middle_upText="@string/item_six"
+                custom:right_text="@string/item_six_right" />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

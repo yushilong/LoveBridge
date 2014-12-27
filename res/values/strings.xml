@@ -100,4 +100,14 @@
     <string name="calls">通话</string>
     <string name="messages">消息</string>
     <string name="tasks">任务</string>
+    <string name="item_one_up">接听设置</string>
+    <string name="item_one_down">只允许好友呼叫</string>
+    <string name="item_one_right">修改</string>
+    <string name="item_two">我的相册</string>
+    <string name="item_three">修改资料</string>
+    <string name="item_four">我的鲜花</string>
+    <string name="item_five">我的钱包</string>
+    <string name="item_five_right">30金币</string>
+    <string name="item_six">语玩商城</string>
+    <string name="item_six_right">0豆子</string>
 </resources>

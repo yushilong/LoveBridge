@@ -17,6 +17,7 @@
             android:stretchMode="columnWidth"
             android:gravity="fill"
             ptr:ptrMode="both"
+            android:listSelector="@android:color/transparent"
             ptr:ptrDrawable="@drawable/default_ptr_rotate"/>
 
 </LinearLayout>

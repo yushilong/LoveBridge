@@ -364,4 +364,6 @@
     <color name="tab_avatar_background">#ffbbbbbb</color>
     <color name="new_chat_recipient">#ff333333</color>
     <color name="chat_recipient_number">#ffaaaaaa</color>
+    <color name="color_ffe5e5e5">#ffe5e5e5</color>
+    <color name="ui_main_background">@color/color_ffe5e5e5</color>
 </resources>
