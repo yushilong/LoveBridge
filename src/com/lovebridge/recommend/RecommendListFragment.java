@@ -15,7 +15,7 @@ import java.util.List;
 
 
 public class RecommendListFragment extends YARFragment {
-    private PullToRefreshListView mPullToRefreshGridView;
+    private PullToRefreshListView mPullToRefreshListView;
     private NearByPeopleAdapter mRecommendListAdapter;
 
     @Override
@@ -27,17 +27,17 @@ public class RecommendListFragment extends YARFragment {
     @Override
     public void doInitSubViews(View containerView) {
         // TODO Auto-generated method stub
-        mPullToRefreshGridView = (PullToRefreshListView) containerView.findViewById(R.id.pull_refresh_list);
+        mPullToRefreshListView = (PullToRefreshListView) containerView.findViewById(R.id.pull_refresh_list);
 
-        mPullToRefreshGridView.getRefreshableView().setPadding(10, 10, 10, 10);
+        mPullToRefreshListView.getRefreshableView().setPadding(10, 10, 10, 10);
 
-        mPullToRefreshGridView.setMode(PullToRefreshBase.Mode.DISABLED);
+        mPullToRefreshListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         mRecommendListAdapter = new NearByPeopleAdapter(mActivity);
-        mPullToRefreshGridView.setAdapter(mRecommendListAdapter);
-        mPullToRefreshGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mPullToRefreshListView.setAdapter(mRecommendListAdapter);
+        mPullToRefreshListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                NearByPeople user = (NearByPeople) mRecommendListAdapter.getItem(position-1);
+                NearByPeople user = (NearByPeople) mRecommendListAdapter.getItem(position - 1);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("user", user);
                 Intent intent = new Intent(mContext, RecommendDetailActivity.class);
