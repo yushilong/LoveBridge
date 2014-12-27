@@ -34,6 +34,17 @@
     <color name="voip_interface_text_color">#bababa</color>
     <color name="black_deep">#FF000000</color>
     <color name="light_purple">#AA66CC</color>
+    <color name="transparent_background">#00ffffff</color>
+    <color name="background_normal_press">#ffece7da</color>
+    <color name="text_color">#ff434343</color>
+    <color name="gender_male">#ff65b1ea</color>
+    <color name="gender_famal">#ffffaed8</color>
+    <color name="round_corner_filter_border">#ff000000</color>
+    <color name="profile_avater_cover_selected">#7f000000</color>
+    <color name="profile_avater_cover_normal">#00000000</color>
+    <color name="font_value">#ff888271</color>
+    <color name="devideline_listview">#ffe5e2d4</color>
+    <color name="round_corner_filter_green">#ff66ccff</color>
     <!-- 白色 -->
     <color name="ivory">#FFFFF0</color>
     <!-- 象牙色 -->

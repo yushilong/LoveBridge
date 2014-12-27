@@ -3,7 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:background="@color/ui_main_background">
+        >
 
     <com.lovebridge.widget.Navigation
             xmlns:navigation="http://schemas.android.com/apk/res-auto"
@@ -13,5 +13,5 @@
             navigation:image_left_show="false">
     </com.lovebridge.widget.Navigation>
 
-    <include layout="@layout/pull_to_refresh_grid"/>
+    <include layout="@layout/pull_to_refresh_list"/>
 </LinearLayout>

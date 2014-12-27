@@ -6,11 +6,14 @@ import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Process;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import com.easemob.chat.*;
 import com.easemob.chat.EMMessage.ChatType;
+import com.lovebridge.R;
 import com.lovebridge.chat.activity.ChatActivity;
 import com.lovebridge.chat.moden.ChatUser;
 import com.lovebridge.chat.utils.EmojiUtils;
@@ -19,37 +22,48 @@ import com.lovebridge.index.TabActivity;
 import com.lovebridge.library.api.YARVolley;
 import com.lovebridge.library.tools.YARNetUtils;
 import com.lovebridge.library.tools.YARPreferenceUtils;
+import com.lovebridge.recommend.NearByPeople;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.ref.Reference;
+import java.lang.ref.SoftReference;
+import java.util.*;
 
-public class MainApplication extends Application
-{
+public class MainApplication extends Application {
     private static MainApplication context;
     public static String currentUserNick;
+    private static final String AVATAR_DIR = "avatar/";
+    private static final String PHOTO_ORIGINAL_DIR = "photo/original/";
+    private static final String PHOTO_THUMBNAIL_DIR = "photo/thumbnail/";
+    private static final String STATUS_PHOTO_DIR = "statusphoto/";
+    public List<NearByPeople> mNearByPeoples = new ArrayList<NearByPeople>();
+    public Map<String, SoftReference<Bitmap>> mAvatarCache = new HashMap<String, SoftReference<Bitmap>>();
+    public Map<String, SoftReference<Bitmap>> mPhotoOriginalCache = new HashMap<String, SoftReference<Bitmap>>();
+    public Map<String, SoftReference<Bitmap>> mPhotoThumbnailCache = new HashMap<String, SoftReference<Bitmap>>();
+    public Map<String, SoftReference<Bitmap>> mStatusPhotoCache = new HashMap<String, SoftReference<Bitmap>>();
+    private Bitmap mDefaultAvatar;
 
     @Override
-    public void onCreate()
-    {
+    public void onCreate() {
         // TODO Auto-generated method stub
         super.onCreate();
         context = this;
         init();
     }
 
-    public static MainApplication getInstance()
-    {
+    public static MainApplication getInstance() {
         return context;
     }
 
-    public void init()
-    {
+    public void init() {
         YARNetUtils.setCurrentNetState(context);
         YARVolley.init(this);
+        mDefaultAvatar = BitmapFactory.decodeResource(getResources(),
+                R.drawable.default_avatar);
         String processAppName = getAppName(Process.myPid());
-        if (processAppName == null || processAppName.equals(""))
-        {
+        if (processAppName == null || processAppName.equals("")) {
             return;
         }
         // 初始化环信SDK
@@ -70,20 +84,15 @@ public class MainApplication extends Application
         // 设置语音消息播放是否设置为扬声器播放 默认为true
         options.setUseSpeaker(YARPreferenceUtils.getInstance(context).getSettingMsgSpeaker());
         // 设置notification消息点击时，跳转的intent为自定义的intent
-        options.setOnNotificationClickListener(new OnNotificationClickListener()
-        {
+        options.setOnNotificationClickListener(new OnNotificationClickListener() {
             @Override
-            public Intent onNotificationClick(EMMessage message)
-            {
+            public Intent onNotificationClick(EMMessage message) {
                 Intent intent = new Intent(context, ChatActivity.class);
                 ChatType chatType = message.getChatType();
-                if (chatType == ChatType.Chat)
-                { // 单聊信息
+                if (chatType == ChatType.Chat) { // 单聊信息
                     intent.putExtra("userId", message.getFrom());
                     intent.putExtra("chatType", ChatActivity.CHATTYPE_SINGLE);
-                }
-                else
-                { // 群聊信息
+                } else { // 群聊信息
                     // message.getTo()为群聊id
                     intent.putExtra("groupId", message.getTo());
                     intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
@@ -96,20 +105,16 @@ public class MainApplication extends Application
         EmojiUtils.init(context);
     }
 
-    private String getAppName(int pID)
-    {
+    private String getAppName(int pID) {
         String processName = null;
         ActivityManager am = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
         List<RunningAppProcessInfo> l = am.getRunningAppProcesses();
         Iterator<RunningAppProcessInfo> i = l.iterator();
         PackageManager pm = this.getPackageManager();
-        while (i.hasNext())
-        {
+        while (i.hasNext()) {
             ActivityManager.RunningAppProcessInfo info = i.next();
-            try
-            {
-                if (info.pid == pID)
-                {
+            try {
+                if (info.pid == pID) {
                     CharSequence c = pm.getApplicationLabel(pm.getApplicationInfo(info.processName,
                             PackageManager.GET_META_DATA));
                     Log.d("Process",
@@ -119,31 +124,24 @@ public class MainApplication extends Application
                     processName = info.processName;
                     return processName;
                 }
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
             }
         }
         return processName;
     }
 
-    class OnConnectionListener implements ConnectionListener
-    {
+    class OnConnectionListener implements ConnectionListener {
         @Override
-        public void onReConnecting()
-        {
+        public void onReConnecting() {
         }
 
         @Override
-        public void onReConnected()
-        {
+        public void onReConnected() {
         }
 
         @Override
-        public void onDisConnected(String errorString)
-        {
-            if (errorString != null && errorString.contains("conflict"))
-            {
+        public void onDisConnected(String errorString) {
+            if (errorString != null && errorString.contains("conflict")) {
                 Intent intent = new Intent(context, TabActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("conflict", true);
@@ -152,13 +150,11 @@ public class MainApplication extends Application
         }
 
         @Override
-        public void onConnecting(String progress)
-        {
+        public void onConnecting(String progress) {
         }
 
         @Override
-        public void onConnected()
-        {
+        public void onConnected() {
         }
     }
 
@@ -173,10 +169,8 @@ public class MainApplication extends Application
      *
      * @return
      */
-    public String getUserName()
-    {
-        if (userName == null)
-        {
+    public String getUserName() {
+        if (userName == null) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
             userName = preferences.getString(PREF_USERNAME, null);
         }
@@ -188,10 +182,8 @@ public class MainApplication extends Application
      *
      * @return
      */
-    public String getPassword()
-    {
-        if (password == null)
-        {
+    public String getPassword() {
+        if (password == null) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
             password = preferences.getString(PREF_PWD, null);
         }
@@ -200,17 +192,12 @@ public class MainApplication extends Application
 
     /**
      * 设置用户名
-     *
-     * @param user
      */
-    public void setUserName(String username)
-    {
-        if (username != null)
-        {
+    public void setUserName(String username) {
+        if (username != null) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
             SharedPreferences.Editor editor = preferences.edit();
-            if (editor.putString(PREF_USERNAME, username).commit())
-            {
+            if (editor.putString(PREF_USERNAME, username).commit()) {
                 userName = username;
             }
         }
@@ -221,12 +208,10 @@ public class MainApplication extends Application
      *
      * @param pwd
      */
-    public void setPassword(String pwd)
-    {
+    public void setPassword(String pwd) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
-        if (editor.putString(PREF_PWD, pwd).commit())
-        {
+        if (editor.putString(PREF_PWD, pwd).commit()) {
             password = pwd;
         }
     }
@@ -236,10 +221,8 @@ public class MainApplication extends Application
      *
      * @return
      */
-    public Map<String, ChatUser> getContactList()
-    {
-        if (getUserName() != null && contactList == null)
-        {
+    public Map<String, ChatUser> getContactList() {
+        if (getUserName() != null && contactList == null) {
             UserDao dao = new UserDao(context);
             // 获取本地好友user list到内存,方便以后获取好友list
             contactList = dao.getContactList();
@@ -252,8 +235,141 @@ public class MainApplication extends Application
      *
      * @param contactList
      */
-    public void setContactList(Map<String, ChatUser> contactList)
-    {
+    public void setContactList(Map<String, ChatUser> contactList) {
         this.contactList = contactList;
+    }
+
+    public Bitmap getAvatar(String imageName) {
+        if (mAvatarCache.containsKey(imageName)) {
+            Reference<Bitmap> reference = mAvatarCache.get(imageName);
+            if (reference.get() == null || reference.get().isRecycled()) {
+                mAvatarCache.remove(imageName);
+            } else {
+                return reference.get();
+            }
+        }
+        InputStream is = null;
+        Bitmap bitmap = null;
+        try {
+            is = getAssets().open(AVATAR_DIR + imageName);
+            bitmap = BitmapFactory.decodeStream(is);
+            if (bitmap == null) {
+                throw new FileNotFoundException(imageName + "is not find");
+            }
+            mAvatarCache.put(imageName, new SoftReference<Bitmap>(bitmap));
+            return bitmap;
+        } catch (Exception e) {
+            return mDefaultAvatar;
+        } finally {
+            try {
+                if (is != null) {
+                    is.close();
+                    is = null;
+                }
+            } catch (IOException e) {
+
+            }
+        }
+    }
+
+    public Bitmap getPhotoOriginal(String imageName) {
+        if (mPhotoOriginalCache.containsKey(imageName)) {
+            Reference<Bitmap> reference = mPhotoOriginalCache.get(imageName);
+            if (reference.get() == null || reference.get().isRecycled()) {
+                mPhotoOriginalCache.remove(imageName);
+            } else {
+                return reference.get();
+            }
+        }
+        InputStream is = null;
+        Bitmap bitmap = null;
+        try {
+            is = getAssets().open(PHOTO_ORIGINAL_DIR + imageName);
+            bitmap = BitmapFactory.decodeStream(is);
+            if (bitmap == null) {
+                throw new FileNotFoundException(imageName + "is not find");
+            }
+            mPhotoOriginalCache.put(imageName,
+                    new SoftReference<Bitmap>(bitmap));
+            return bitmap;
+        } catch (Exception e) {
+            return null;
+        } finally {
+            try {
+                if (is != null) {
+                    is.close();
+                    is = null;
+                }
+            } catch (IOException e) {
+
+            }
+        }
+    }
+
+    public Bitmap getPhotoThumbnail(String imageName) {
+        if (mPhotoThumbnailCache.containsKey(imageName)) {
+            Reference<Bitmap> reference = mPhotoThumbnailCache.get(imageName);
+            if (reference.get() == null || reference.get().isRecycled()) {
+                mPhotoThumbnailCache.remove(imageName);
+            } else {
+                return reference.get();
+            }
+        }
+        InputStream is = null;
+        Bitmap bitmap = null;
+        try {
+            is = getAssets().open(PHOTO_THUMBNAIL_DIR + imageName);
+            bitmap = BitmapFactory.decodeStream(is);
+            if (bitmap == null) {
+                throw new FileNotFoundException(imageName + "is not find");
+            }
+            mPhotoThumbnailCache.put(imageName, new SoftReference<Bitmap>(
+                    bitmap));
+            return bitmap;
+        } catch (Exception e) {
+            return null;
+        } finally {
+            try {
+                if (is != null) {
+                    is.close();
+                    is = null;
+                }
+            } catch (IOException e) {
+
+            }
+        }
+    }
+
+    public Bitmap getStatusPhoto(String imageName) {
+        if (mStatusPhotoCache.containsKey(imageName)) {
+            Reference<Bitmap> reference = mStatusPhotoCache.get(imageName);
+            if (reference.get() == null || reference.get().isRecycled()) {
+                mStatusPhotoCache.remove(imageName);
+            } else {
+                return reference.get();
+            }
+        }
+        InputStream is = null;
+        Bitmap bitmap = null;
+        try {
+            is = getAssets().open(STATUS_PHOTO_DIR + imageName);
+            bitmap = BitmapFactory.decodeStream(is);
+            if (bitmap == null) {
+                throw new FileNotFoundException(imageName + "is not find");
+            }
+            mStatusPhotoCache.put(imageName, new SoftReference<Bitmap>(bitmap));
+            return bitmap;
+        } catch (Exception e) {
+            return null;
+        } finally {
+            try {
+                if (is != null) {
+                    is.close();
+                    is = null;
+                }
+            } catch (IOException e) {
+
+            }
+        }
     }
 }
