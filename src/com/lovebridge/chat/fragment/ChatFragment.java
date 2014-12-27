@@ -12,7 +12,6 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
-import com.easemob.exceptions.EaseMobException;
 import com.lovebridge.R;
 import com.lovebridge.chat.adapter.MessageAdapter;
 import com.lovebridge.chat.utils.SoundUtils;

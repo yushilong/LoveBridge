@@ -9,11 +9,11 @@
               android:background="@color/ui_main_background">
 
     <com.lovebridge.widget.Navigation
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            navigation:title="@string/tabMine"
-            navigation:image_left_show="false">
-    </com.lovebridge.widget.Navigation>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        navigation:title="@string/tabMine"
+        navigation:image_left_show="false">
+</com.lovebridge.widget.Navigation>
 
     <ScrollView
             android:layout_width="match_parent"

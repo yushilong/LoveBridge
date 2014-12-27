@@ -369,5 +369,25 @@ public class MainActivity extends YARActivity implements EmojiPickerFragment.Lis
             }
 
         }
+    }	/**
+     * 刷新未读消息数
+     */
+    public void updateUnreadLabel() {
+        int count = getUnreadMsgCountTotal();
+//        if (count > 0) {
+//            unreadLabel.setText(String.valueOf(count));
+//            unreadLabel.setVisibility(View.VISIBLE);
+//        } else {
+//            unreadLabel.setVisibility(View.INVISIBLE);
+//        }
+    }	/**
+     * 获取未读消息数
+     *
+     * @return
+     */
+    public int getUnreadMsgCountTotal() {
+        int unreadMsgCountTotal = 0;
+        unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
+        return unreadMsgCountTotal;
     }
 }

@@ -33,9 +33,12 @@
                 android:id="@+id/tab_rb_b"
                 style="@style/homeradiobutton"
                 android:text="@string/tabMessage"/>
-
         <RadioButton
                 android:id="@+id/tab_rb_c"
+                style="@style/homeradiobutton"
+                android:text="@string/tabConnect"/>
+        <RadioButton
+                android:id="@+id/tab_rb_d"
                 style="@style/homeradiobutton"
                 android:text="@string/tabMine"/>
     </RadioGroup>
