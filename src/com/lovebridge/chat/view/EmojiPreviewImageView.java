@@ -33,8 +33,6 @@ public class EmojiPreviewImageView extends ImageView {
         this.setImageBitmap(bitmap);
         if (bitmap == null) {
             task = (new CancelableAsyncTask() {
-
-
                 protected Bitmap doInBackground(Void avoid[]) {
                     return EmojiUtils.getBitmap(codePoint, EmojiUtils.Size.PICKER);
                 }
